@@ -72,10 +72,15 @@ Gadgetron/
 │   │   └── feature_walkthrough.mp4
 │   ├── screenshots/
 │   └── README.md
-│
+|
+├── githooks/
+│   ├── pre-commit
+│   ├── pre-push
+|
 ├── scripts/
 │   └── README.md
 │
+|── setup-hooks.sh
 └── README.md
 ```
 
@@ -92,6 +97,10 @@ Houses all documentation files, including API documentation, user guides, and ar
 
 Includes demonstration materials such as videos and screenshots to help you understand and use Gadgetron effectively.
 
+### githooks/
+
+Includes Git hooks that help maintain high code quality and prevent accidental API key leaks.
+
 ### scripts/
 
 Contains scripts for deployment, testing, and other automation tasks.
@@ -99,6 +108,34 @@ Contains scripts for deployment, testing, and other automation tasks.
 ## License
 
 Gadgetron is released under the MIT License. See the LICENSE file for more details.
+
+## Git Hooks
+
+Git hooks are custom scripts that are triggered by various Git actions such as commits, merges, and more. They allow you to automate tasks, enforce policies, and improve the overall workflow of a project. In this repository, Git hooks are used to ensure code quality and security before changes are committed.
+
+### Hooks in This Project
+
+- **Pre-commit hook**: The hook uses Gitleaks to scan for potential API key leaks and other sensitive information in your code. This helps prevent accidental exposure of sensitive data.
+- **Pre-push hook**: The hook runs the `flutter analyze` command to check your Flutter code for potential issues. This ensures that only clean, well-formed code is committed to the repository. The hook also uses Gitleaks to scan for potential API key leaks and other sensitive information in your code. This helps prevent accidental exposure of sensitive data.
+
+### How to Set Up Git Hooks
+
+To ensure that the Git hooks are correctly set up in your local repository, follow these steps after cloning the project:
+
+1. Clone the Repository:
+
+```bash
+git clone https://github.com/Toglefritz/Gadgetron
+```
+
+2. Run the setup-hooks.sh script to install the hooks:
+
+```bash
+chmod +x setup-hooks.sh
+./setup-hooks.sh
+```
+
+This script will copy the hooks from the githooks/ directory to the .git/hooks directory, making them active in your local repository.
 
 ## Disclaimer
 

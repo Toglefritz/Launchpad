@@ -1,0 +1,20 @@
+#!/bin/sh
+# Pre-commit hook to run `flutter analyze` and Gitleaks, stopping the commit if issues are found
+
+# Run flutter analyze
+flutter analyze
+ANALYZE_EXIT_CODE=$?
+
+# Check for potential API key leaks using Gitleaks
+# Install Gitleaks with `brew install gitleaks`
+gitleaks detect --source . --exit-code 1
+GITLEAKS_EXIT_CODE=$?
+
+# If either flutter analyze or Gitleaks detect issues, stop the commit
+if [ $ANALYZE_EXIT_CODE -ne 0 ] || [ $GITLEAKS_EXIT_CODE -ne 0 ]; then
+  echo "Commit stopped: Issues found by flutter analyze or potential leaks detected by Gitleaks."
+  exit 1
+fi
+
+# If no issues were found, allow the commit
+exit 0

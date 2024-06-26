@@ -38,9 +38,17 @@ git clone https://github.com/Toglefritz/Gadgetron
 cd gadgetron/flutter_app
 ```
 
-2. Install dependencies:
+2. Run the setup-hooks.sh script to install the hooks:
 
 ```bash
+chmod +x setup-hooks.sh
+./setup-hooks.sh
+```
+
+3. Install dependencies:
+
+```bash
+cd gadgetron_app
 flutter pub get
 flutter gen-l10n
 ```
