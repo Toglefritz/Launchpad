@@ -1,5 +1,10 @@
 # Gadgetron Flutter App :robot:
 
+![Gadgetron app icon](assets/app_icon.png)
+
+[![License: MIT][license_badge]][license_badge_link]
+[![style: very good analysis][badge]][badge_link]
+
 Welcome to the Gadgetron Flutter App! This is the core component of the Gadgetron project,
 designed to help makers jumpstart their projects in electronics, robotics, IoT, 3D printing, and
 more.
@@ -78,3 +83,8 @@ Steps to Contribute
 ## License :page_facing_up:
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+[badge]: https://img.shields.io/badge/style-very_good_analysis-B22C89.svg
+[badge_link]: https://pub.dev/packages/very_good_analysis
+[license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
+[license_badge_link]: https://opensource.org/licenses/MIT
