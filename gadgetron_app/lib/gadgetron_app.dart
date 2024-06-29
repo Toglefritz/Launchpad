@@ -19,6 +19,8 @@ class GadgetronApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: GadgetronAppTheme.lightTheme,
       darkTheme: GadgetronAppTheme.darkTheme,
+      highContrastTheme: GadgetronAppTheme.highContrastLightTheme,
+      highContrastDarkTheme: GadgetronAppTheme.highContrastDarkTheme,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

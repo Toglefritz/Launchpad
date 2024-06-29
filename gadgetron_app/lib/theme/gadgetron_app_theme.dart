@@ -116,4 +116,92 @@ class GadgetronAppTheme {
           fillColor: Colors.grey.shade900,
         ),
       );
+
+  /// [ThemeData] for the app when a high contrast light theme is enabled.
+  static ThemeData get highContrastLightTheme => lightTheme.copyWith(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.black,
+        ),
+        primaryColorLight: Colors.black,
+        primaryColorDark: Colors.black,
+        scaffoldBackgroundColor: Colors.white,
+        textTheme: ThemeData.light().textTheme.copyWith(
+              displayLarge: ThemeData.light().textTheme.displayLarge?.copyWith(
+                    color: Colors.black,
+                  ),
+              displayMedium: ThemeData.light().textTheme.displayMedium?.copyWith(
+                    color: Colors.black,
+                  ),
+              displaySmall: ThemeData.light().textTheme.displaySmall?.copyWith(
+                    color: Colors.black,
+                  ),
+              headlineLarge: ThemeData.light().textTheme.headlineLarge?.copyWith(
+                    color: Colors.black,
+                  ),
+              headlineMedium: ThemeData.light().textTheme.headlineMedium?.copyWith(
+                    color: Colors.black,
+                  ),
+              headlineSmall: ThemeData.light().textTheme.headlineSmall?.copyWith(
+                    color: Colors.black,
+                  ),
+            ),
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: Colors.black,
+          selectionColor: Colors.black.withOpacity(0.5),
+          selectionHandleColor: Colors.black,
+        ),
+        inputDecorationTheme: const InputDecorationTheme(
+          border: DashedInputBorder(),
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: Insets.medium,
+            vertical: Insets.medium,
+          ),
+          filled: true,
+          fillColor: Colors.white,
+        ),
+      );
+
+  /// [ThemeData] for the app when a high contrast dark theme is enabled.
+  static ThemeData get highContrastDarkTheme => darkTheme.copyWith(
+        colorScheme: ColorScheme.fromSeed(
+          brightness: Brightness.dark,
+          seedColor: Colors.white,
+        ),
+        primaryColorLight: Colors.white,
+        primaryColorDark: Colors.white,
+        textTheme: ThemeData.light().textTheme.copyWith(
+              displayLarge: ThemeData.light().textTheme.displayLarge?.copyWith(
+                    color: Colors.white,
+                  ),
+              displayMedium: ThemeData.light().textTheme.displayMedium?.copyWith(
+                    color: Colors.white,
+                  ),
+              displaySmall: ThemeData.light().textTheme.displaySmall?.copyWith(
+                    color: Colors.white,
+                  ),
+              headlineLarge: ThemeData.light().textTheme.headlineLarge?.copyWith(
+                    color: Colors.white,
+                  ),
+              headlineMedium: ThemeData.light().textTheme.headlineMedium?.copyWith(
+                    color: Colors.white,
+                  ),
+              headlineSmall: ThemeData.light().textTheme.headlineSmall?.copyWith(
+                    color: Colors.white,
+                  ),
+            ),
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: Colors.white,
+          selectionColor: Colors.white.withOpacity(0.5),
+          selectionHandleColor: Colors.white,
+        ),
+        inputDecorationTheme: const InputDecorationTheme(
+          border: DashedInputBorder(),
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: Insets.medium,
+            vertical: Insets.medium,
+          ),
+          filled: true,
+          fillColor: Colors.black,
+        ),
+      );
 }
