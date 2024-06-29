@@ -1,7 +1,23 @@
 {
-  "onboardingTitle": "Welcome to Gadgetron",
+  "appName": "Gadgetron",
+  "@appName": {
+    "description": "Name of the app"
+  },
+  "authenticationButtonText": "Make it so",
+  "@authenticationButtonText": {
+    "description": "Text for the authentication button"
+  },
+  "onboardingDescription": "Ready to dive into your next big project?",
+  "@onboardingDescription": {
+    "description": "Description for the onboarding page"
+  },
+  "onboardingTitle": "Welcome to",
   "@onboardingTitle": {
     "description": "Title for the onboarding page"
+  },
+  "passwordLabel": "Password",
+  "@passwordLabel": {
+    "description": "Label for the password field"
   },
   "projectSearchTitle": "Describe your project",
   "@projectSearchTitle": {
@@ -10,5 +26,9 @@
   "projectSearchLabel": "Search",
   "@projectSearchLabel": {
     "description": "Label for the project search item in the bottom navigation bar"
+  },
+  "usernameLabel": "Username",
+  "@usernameLabel": {
+    "description": "Label for the username field"
   }
 }

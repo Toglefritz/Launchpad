@@ -85,4 +85,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'gadgetron-23712.appspot.com',
     measurementId: 'G-098FR6FLS2',
   );
+
 }

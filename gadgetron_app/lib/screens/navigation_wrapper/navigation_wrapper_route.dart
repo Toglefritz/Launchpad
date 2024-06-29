@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gadgetron_app/screens/navigation_wrapper/navigation_wrapper_controller.dart';
+import 'package:gadgetron_app/screens/onboarding/onboarding_route.dart';
 
 /// This widget is used for pages that have a bottom navigation bar and/or require authentication. This widget has
 /// two purposes:

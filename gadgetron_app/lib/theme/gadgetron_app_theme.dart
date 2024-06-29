@@ -56,6 +56,35 @@ class GadgetronAppTheme {
           ),
           filled: true,
           fillColor: Colors.grey.shade100,
+          labelStyle: ThemeData.light().textTheme.bodyMedium?.copyWith(
+                color: Colors.grey.shade900,
+              ),
+          floatingLabelStyle: ThemeData.light().textTheme.bodyMedium?.copyWith(
+                color: Colors.grey.shade900,
+                backgroundColor: Colors.grey.shade50,
+              ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: WidgetStateProperty.all(Colors.grey.shade900),
+            foregroundColor: WidgetStateProperty.all(Colors.grey.shade100),
+            shape: WidgetStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+            ),
+            textStyle: WidgetStateProperty.all(
+              ThemeData.light().textTheme.headlineSmall?.copyWith(
+                    color: Colors.grey.shade100,
+                    fontFamily: 'KodeMono',
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            iconColor: WidgetStateProperty.all(Colors.grey.shade100),
+            minimumSize: WidgetStateProperty.all(
+              const Size(200.0, 56.0),
+            ),
+          ),
         ),
       );
 
@@ -65,8 +94,11 @@ class GadgetronAppTheme {
           brightness: Brightness.dark,
           seedColor: Colors.grey.shade100,
         ),
+
         primaryColorLight: Colors.grey.shade900,
+
         primaryColorDark: Colors.grey.shade100,
+
         // Set "KodeMono" as the default font for heads in the app.
         textTheme: ThemeData.light().textTheme.copyWith(
               displayLarge: ThemeData.light().textTheme.displayLarge?.copyWith(
@@ -114,6 +146,13 @@ class GadgetronAppTheme {
           ),
           filled: true,
           fillColor: Colors.grey.shade900,
+          labelStyle: ThemeData.light().textTheme.bodyMedium?.copyWith(
+                color: Colors.grey.shade100,
+              ),
+          floatingLabelStyle: ThemeData.light().textTheme.bodyMedium?.copyWith(
+                color: Colors.grey.shade100,
+                backgroundColor: Colors.grey.shade900,
+              ),
         ),
       );
 
@@ -150,14 +189,21 @@ class GadgetronAppTheme {
           selectionColor: Colors.black.withOpacity(0.5),
           selectionHandleColor: Colors.black,
         ),
-        inputDecorationTheme: const InputDecorationTheme(
-          border: DashedInputBorder(),
-          contentPadding: EdgeInsets.symmetric(
+        inputDecorationTheme: InputDecorationTheme(
+          border: const DashedInputBorder(),
+          contentPadding: const EdgeInsets.symmetric(
             horizontal: Insets.medium,
             vertical: Insets.medium,
           ),
           filled: true,
           fillColor: Colors.white,
+          labelStyle: ThemeData.light().textTheme.bodyMedium?.copyWith(
+                color: Colors.black,
+              ),
+          floatingLabelStyle: ThemeData.light().textTheme.bodyMedium?.copyWith(
+                color: Colors.black,
+                backgroundColor: Colors.white,
+              ),
         ),
       );
 
@@ -194,14 +240,21 @@ class GadgetronAppTheme {
           selectionColor: Colors.white.withOpacity(0.5),
           selectionHandleColor: Colors.white,
         ),
-        inputDecorationTheme: const InputDecorationTheme(
-          border: DashedInputBorder(),
-          contentPadding: EdgeInsets.symmetric(
+        inputDecorationTheme: InputDecorationTheme(
+          border: const DashedInputBorder(),
+          contentPadding: const EdgeInsets.symmetric(
             horizontal: Insets.medium,
             vertical: Insets.medium,
           ),
           filled: true,
           fillColor: Colors.black,
+          labelStyle: ThemeData.light().textTheme.bodyMedium?.copyWith(
+                color: Colors.white,
+              ),
+          floatingLabelStyle: ThemeData.light().textTheme.bodyMedium?.copyWith(
+                color: Colors.white,
+                backgroundColor: Colors.black,
+              ),
         ),
       );
 }

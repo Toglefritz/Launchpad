@@ -24,9 +24,9 @@ class ProjectSearchView extends StatelessWidget {
       body: SafeArea(
         child: CustomScrollView(
           slivers: <Widget>[
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.all(Insets.medium),
+            SliverPadding(
+              padding: const EdgeInsets.all(Insets.medium),
+              sliver: SliverToBoxAdapter(
                 child: Text(
                   AppLocalizations.of(context)!.projectSearchTitle,
                   style: Theme.of(context).textTheme.headlineSmall,
@@ -34,10 +34,11 @@ class ProjectSearchView extends StatelessWidget {
                 ),
               ),
             ),
-            const SliverPadding(
-              padding: EdgeInsets.all(Insets.medium),
+            SliverPadding(
+              padding: const EdgeInsets.all(Insets.medium),
               sliver: SliverToBoxAdapter(
                 child: TextField(
+                  controller: state.searchController,
                   maxLines: null,
                   minLines: 4,
                 ),
