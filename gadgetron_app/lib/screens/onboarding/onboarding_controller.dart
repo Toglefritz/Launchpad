@@ -29,7 +29,7 @@ class OnboardingController extends State<OnboardingRoute> {
 
   /// Handles taps on the button used to begin authentication with a Google account.
   ///
-  /// This function will attempt to authenticate with Google using the [GoogleSignIn] plugin. The function completes
+  /// This function will attempt to authenticate with Google using the `GoogleSignIn` plugin. The function completes
   /// the following operations:
   ///   1.  The function attempts to sign in with Google.
   ///   2.  If the sign-in is successful, the function will attempt to create an account with the provided Google

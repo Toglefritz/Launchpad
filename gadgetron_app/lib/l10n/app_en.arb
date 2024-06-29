@@ -1,4 +1,8 @@
 {
+  "and": " and ",
+  "@and": {
+    "description": "Text used to separate two items in a list."
+  },
   "appName": "Gadgetron",
   "@appName": {
     "description": "Name of the app"
@@ -15,6 +19,14 @@
   "@onboardingDescription": {
     "description": "Description for the onboarding page"
   },
+  "onboardingLegalPrompt1": "Take a gander at the ",
+  "@onboardingLegalPrompt1": {
+    "description": "The first part of a prompt asking the user to review the app's legal agreements before using the app"
+  },
+  "onboardingLegalPrompt2": " before using this app.",
+  "@onboardingLegalPrompt2": {
+    "description": "The second part of a prompt asking the user to review the app's legal agreements before using the app"
+  },
   "onboardingTitle": "Welcome to",
   "@onboardingTitle": {
     "description": "Title for the onboarding page"
@@ -23,6 +35,10 @@
   "@passwordLabel": {
     "description": "Label for the password field"
   },
+  "privacyPolicy": "privacy policy",
+  "@privacyPolicy": {
+    "description": "Text for a button that allows the user to view the privacy policy."
+  },
   "projectSearchTitle": "Describe your project",
   "@projectSearchTitle": {
     "description": "Title for the project search page"
@@ -30,6 +46,10 @@
   "projectSearchLabel": "Search",
   "@projectSearchLabel": {
     "description": "Label for the project search item in the bottom navigation bar"
+  },
+  "termsOfService": "terms of service",
+  "@termsOfService": {
+    "description": "Text for a button that allows the user to view the terms of service."
   },
   "usernameLabel": "Username",
   "@usernameLabel": {

@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:gadgetron_app/components/dashed_divider.dart';
 import 'package:gadgetron_app/components/primary_cta_button.dart';
 import 'package:gadgetron_app/components/secondary_cta_button.dart';
+import 'package:gadgetron_app/screens/onboarding/components/onboarding_legal_prompt.dart';
 import 'package:gadgetron_app/screens/onboarding/onboarding_controller.dart';
 import 'package:gadgetron_app/theme/insets.dart';
 
@@ -125,6 +126,8 @@ class OnboardingView extends StatelessWidget {
                   child: DashedDivider(),
                 ),
               ),
+
+              // Google authentication button
               SliverPadding(
                 padding: const EdgeInsets.all(Insets.medium),
                 sliver: SliverToBoxAdapter(
@@ -136,6 +139,21 @@ class OnboardingView extends StatelessWidget {
                     ),
                     label: Text(
                       AppLocalizations.of(context)!.continueWithGoogle,
+                    ),
+                  ),
+                ),
+              ),
+
+              // Terms and conditions and privacy policy buttons
+              const SliverSafeArea(
+                sliver: SliverPadding(
+                  padding: EdgeInsets.symmetric(horizontal: Insets.medium),
+                  sliver: SliverFillRemaining(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        OnboardingLegalPrompt(),
+                      ],
                     ),
                   ),
                 ),

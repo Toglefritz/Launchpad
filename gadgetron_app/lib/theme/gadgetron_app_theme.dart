@@ -46,6 +46,11 @@ class GadgetronAppTheme {
           selectionColor: Colors.grey.shade900.withOpacity(0.5),
           selectionHandleColor: Colors.grey.shade900,
         ),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.grey.shade200,
+          foregroundColor: Colors.grey.shade900,
+          scrolledUnderElevation: 0.0,
+        ),
         inputDecorationTheme: InputDecorationTheme(
           border: DashedInputBorder(
             color: Colors.grey.shade900,
@@ -165,6 +170,11 @@ class GadgetronAppTheme {
           selectionColor: Colors.grey.shade100.withOpacity(0.5),
           selectionHandleColor: Colors.grey.shade100,
         ),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.grey.shade800,
+          foregroundColor: Colors.grey.shade100,
+          scrolledUnderElevation: 0.0,
+        ),
         inputDecorationTheme: InputDecorationTheme(
           border: DashedInputBorder(
             color: Colors.grey.shade100,
@@ -205,6 +215,33 @@ class GadgetronAppTheme {
             ),
           ),
         ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: WidgetStateProperty.all(Colors.grey.shade900),
+            foregroundColor: WidgetStateProperty.all(Colors.grey.shade100),
+            side: WidgetStateProperty.all(BorderSide(color: Colors.grey.shade100)),
+            shape: WidgetStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+            ),
+            // The shadow will be created in a custom button widget.
+            elevation: WidgetStateProperty.all(0),
+            padding: WidgetStateProperty.all(
+              const EdgeInsets.symmetric(vertical: Insets.medium, horizontal: Insets.large),
+            ),
+            textStyle: WidgetStateProperty.all(
+              ThemeData.light().textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey.shade100,
+                  ),
+            ),
+            minimumSize: WidgetStateProperty.all(
+              const Size(200.0, 56.0),
+            ),
+            visualDensity: VisualDensity.compact,
+          ),
+        ),
       );
 
   /// [ThemeData] for the app when a high contrast light theme is enabled.
@@ -239,6 +276,11 @@ class GadgetronAppTheme {
           cursorColor: Colors.black,
           selectionColor: Colors.black.withOpacity(0.5),
           selectionHandleColor: Colors.black,
+        ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          scrolledUnderElevation: 0.0,
         ),
         inputDecorationTheme: InputDecorationTheme(
           border: const DashedInputBorder(),
@@ -278,6 +320,33 @@ class GadgetronAppTheme {
             ),
           ),
         ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: WidgetStateProperty.all(Colors.white),
+            foregroundColor: WidgetStateProperty.all(Colors.black),
+            side: WidgetStateProperty.all(const BorderSide()),
+            shape: WidgetStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+            ),
+            // The shadow will be created in a custom button widget.
+            elevation: WidgetStateProperty.all(0),
+            padding: WidgetStateProperty.all(
+              const EdgeInsets.symmetric(vertical: Insets.medium, horizontal: Insets.large),
+            ),
+            textStyle: WidgetStateProperty.all(
+              ThemeData.light().textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+            ),
+            minimumSize: WidgetStateProperty.all(
+              const Size(200.0, 56.0),
+            ),
+            visualDensity: VisualDensity.compact,
+          ),
+        ),
       );
 
   /// [ThemeData] for the app when a high contrast dark theme is enabled.
@@ -312,6 +381,11 @@ class GadgetronAppTheme {
           cursorColor: Colors.white,
           selectionColor: Colors.white.withOpacity(0.5),
           selectionHandleColor: Colors.white,
+        ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.black,
+          foregroundColor: Colors.white,
+          scrolledUnderElevation: 0.0,
         ),
         inputDecorationTheme: InputDecorationTheme(
           border: const DashedInputBorder(),
@@ -349,6 +423,33 @@ class GadgetronAppTheme {
             minimumSize: WidgetStateProperty.all(
               const Size(200.0, 56.0),
             ),
+          ),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: WidgetStateProperty.all(Colors.black),
+            foregroundColor: WidgetStateProperty.all(Colors.white),
+            side: WidgetStateProperty.all(const BorderSide(color: Colors.white)),
+            shape: WidgetStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+            ),
+            // The shadow will be created in a custom button widget.
+            elevation: WidgetStateProperty.all(0),
+            padding: WidgetStateProperty.all(
+              const EdgeInsets.symmetric(vertical: Insets.medium, horizontal: Insets.large),
+            ),
+            textStyle: WidgetStateProperty.all(
+              ThemeData.light().textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+            ),
+            minimumSize: WidgetStateProperty.all(
+              const Size(200.0, 56.0),
+            ),
+            visualDensity: VisualDensity.compact,
           ),
         ),
       );
