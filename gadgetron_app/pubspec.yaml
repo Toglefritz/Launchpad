@@ -28,3 +28,10 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+
+  assets:
+    - assets/
+  fonts:
+    - family: KodeMono
+      fonts:
+        - asset: assets/fonts/KodeMono-VariableFont_wght.ttf

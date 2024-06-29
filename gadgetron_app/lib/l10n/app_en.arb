@@ -1,6 +1,6 @@
 {
-  "helloWorld": "Hello World!",
-  "@helloWorld": {
-    "description": "The conventional newborn programmer greeting"
+  "projectSearchTitle": "Describe your project",
+  "@projectSearchTitle": {
+    "description": "Title for the project search page"
   }
 }
