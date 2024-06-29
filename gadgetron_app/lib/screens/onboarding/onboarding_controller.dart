@@ -27,6 +27,19 @@ class OnboardingController extends State<OnboardingRoute> {
     // TODO(Toglefritz): Implement this function.
   }
 
+  /// Handles taps on the button used to begin authentication with a Google account.
+  ///
+  /// This function will attempt to authenticate with Google using the [GoogleSignIn] plugin. The function completes
+  /// the following operations:
+  ///   1.  The function attempts to sign in with Google.
+  ///   2.  If the sign-in is successful, the function will attempt to create an account with the provided Google
+  ///       credentials.
+  ///   3.  If the account creation is successful, the change in authentication state will be handled automatically.
+  ///   4.  If an error occurs during the process, an error message will be displayed to the user.
+  Future<void> onAuthenticateWithGoogle() async {
+    // TODO(Toglefritz): Implement this function.
+  }
+
   @override
   Widget build(BuildContext context) => OnboardingView(this);
 }

@@ -6,3 +6,4 @@ linter:
     sort_constructors_first: false
     omit_local_variable_types: false
     prefer_int_literals: false
+    avoid_escaping_inner_quotes: false

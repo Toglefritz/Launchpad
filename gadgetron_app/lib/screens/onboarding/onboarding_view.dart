@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:gadgetron_app/components/dashed_divider.dart';
 import 'package:gadgetron_app/components/primary_cta_button.dart';
+import 'package:gadgetron_app/components/secondary_cta_button.dart';
 import 'package:gadgetron_app/screens/onboarding/onboarding_controller.dart';
 import 'package:gadgetron_app/theme/insets.dart';
 
@@ -113,6 +115,27 @@ class OnboardingView extends StatelessWidget {
                     icon: const Icon(Icons.rocket_launch_outlined),
                     label: Text(
                       AppLocalizations.of(context)!.authenticationButtonText.toUpperCase(),
+                    ),
+                  ),
+                ),
+              ),
+              const SliverPadding(
+                padding: EdgeInsets.all(Insets.medium),
+                sliver: SliverToBoxAdapter(
+                  child: DashedDivider(),
+                ),
+              ),
+              SliverPadding(
+                padding: const EdgeInsets.all(Insets.medium),
+                sliver: SliverToBoxAdapter(
+                  child: SecondaryCTAButton(
+                    onPressed: state.onAuthenticateWithGoogle,
+                    icon: Image.asset(
+                      'assets/g-logo.png',
+                      height: 32,
+                    ),
+                    label: Text(
+                      AppLocalizations.of(context)!.continueWithGoogle,
                     ),
                   ),
                 ),

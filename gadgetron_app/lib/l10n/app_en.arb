@@ -7,6 +7,10 @@
   "@authenticationButtonText": {
     "description": "Text for the authentication button"
   },
+  "continueWithGoogle": "Continue with Google",
+  "@continueWithGoogle": {
+    "description": "Text for the Google authentication button per Google identity guidelines"
+  },
   "onboardingDescription": "Ready to dive into your next big project?",
   "@onboardingDescription": {
     "description": "Description for the onboarding page"

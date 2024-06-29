@@ -64,6 +64,7 @@ class GadgetronAppTheme {
                 backgroundColor: Colors.grey.shade50,
               ),
         ),
+        // Creates a button with a dark background a light text and icon.
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
             backgroundColor: WidgetStateProperty.all(Colors.grey.shade900),
@@ -84,6 +85,34 @@ class GadgetronAppTheme {
             minimumSize: WidgetStateProperty.all(
               const Size(200.0, 56.0),
             ),
+          ),
+        ),
+        // Creates a button with a neobrutalist design, featuring a dark, hard-edge shadow and a dark border.
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: WidgetStateProperty.all(Colors.grey.shade100),
+            foregroundColor: WidgetStateProperty.all(Colors.grey.shade900),
+            side: WidgetStateProperty.all(BorderSide(color: Colors.grey.shade900)),
+            shape: WidgetStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+            ),
+            // The shadow will be created in a custom button widget.
+            elevation: WidgetStateProperty.all(0),
+            padding: WidgetStateProperty.all(
+              const EdgeInsets.symmetric(vertical: Insets.medium, horizontal: Insets.large),
+            ),
+            textStyle: WidgetStateProperty.all(
+              ThemeData.light().textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey.shade900,
+                  ),
+            ),
+            minimumSize: WidgetStateProperty.all(
+              const Size(200.0, 56.0),
+            ),
+            visualDensity: VisualDensity.compact,
           ),
         ),
       );
@@ -154,6 +183,28 @@ class GadgetronAppTheme {
                 backgroundColor: Colors.grey.shade900,
               ),
         ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: WidgetStateProperty.all(Colors.grey.shade300),
+            foregroundColor: WidgetStateProperty.all(Colors.grey.shade900),
+            shape: WidgetStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+            ),
+            textStyle: WidgetStateProperty.all(
+              ThemeData.dark().textTheme.headlineSmall?.copyWith(
+                    color: Colors.grey.shade900,
+                    fontFamily: 'KodeMono',
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            iconColor: WidgetStateProperty.all(Colors.grey.shade300),
+            minimumSize: WidgetStateProperty.all(
+              const Size(200.0, 56.0),
+            ),
+          ),
+        ),
       );
 
   /// [ThemeData] for the app when a high contrast light theme is enabled.
@@ -205,6 +256,28 @@ class GadgetronAppTheme {
                 backgroundColor: Colors.white,
               ),
         ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: WidgetStateProperty.all(Colors.black),
+            foregroundColor: WidgetStateProperty.all(Colors.white),
+            shape: WidgetStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+            ),
+            textStyle: WidgetStateProperty.all(
+              ThemeData.light().textTheme.headlineSmall?.copyWith(
+                    color: Colors.white,
+                    fontFamily: 'KodeMono',
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            iconColor: WidgetStateProperty.all(Colors.white),
+            minimumSize: WidgetStateProperty.all(
+              const Size(200.0, 56.0),
+            ),
+          ),
+        ),
       );
 
   /// [ThemeData] for the app when a high contrast dark theme is enabled.
@@ -255,6 +328,28 @@ class GadgetronAppTheme {
                 color: Colors.white,
                 backgroundColor: Colors.black,
               ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: WidgetStateProperty.all(Colors.white),
+            foregroundColor: WidgetStateProperty.all(Colors.black),
+            shape: WidgetStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+            ),
+            textStyle: WidgetStateProperty.all(
+              ThemeData.dark().textTheme.headlineSmall?.copyWith(
+                    color: Colors.black,
+                    fontFamily: 'KodeMono',
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            iconColor: WidgetStateProperty.all(Colors.black),
+            minimumSize: WidgetStateProperty.all(
+              const Size(200.0, 56.0),
+            ),
+          ),
         ),
       );
 }
