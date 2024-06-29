@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'package:gadgetron_app/screens/search/search_route.dart';
-import 'package:gadgetron_app/screens/search/search_view.dart';
+import 'package:gadgetron_app/screens/project_search/project_search_route.dart';
+import 'package:gadgetron_app/screens/project_search/project_search_view.dart';
 
 /// A controller for the [ProjectSearchRoute] widget.
 class ProjectSearchController extends State<ProjectSearchRoute> {

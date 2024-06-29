@@ -1,6 +1,14 @@
 {
+  "onboardingTitle": "Welcome to Gadgetron",
+  "@onboardingTitle": {
+    "description": "Title for the onboarding page"
+  },
   "projectSearchTitle": "Describe your project",
   "@projectSearchTitle": {
     "description": "Title for the project search page"
+  },
+  "projectSearchLabel": "Search",
+  "@projectSearchLabel": {
+    "description": "Label for the project search item in the bottom navigation bar"
   }
 }

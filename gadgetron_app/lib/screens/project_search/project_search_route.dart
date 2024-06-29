@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gadgetron_app/screens/search/search_controller.dart';
+import 'package:gadgetron_app/screens/project_search/project_search_controller.dart';
 
 /// A route enabling the user to "search" for resources by describing a project.
 ///

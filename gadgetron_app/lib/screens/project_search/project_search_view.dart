@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'package:gadgetron_app/screens/search/search_controller.dart';
+import 'package:gadgetron_app/screens/project_search/project_search_controller.dart';
 import 'package:gadgetron_app/theme/insets.dart';
 
 /// A view for the [ProjectSearchController] widget.
