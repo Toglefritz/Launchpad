@@ -14,6 +14,11 @@ class ProjectSearchController extends State<ProjectSearchRoute> {
     await AuthenticationService.signOut();
   }
 
+  /// Handles submission of a project description to kick off the search process.
+  void onSearch() {
+    // TODO(Toglefritz): Implement search functionality
+  }
+
   @override
   Widget build(BuildContext context) => ProjectSearchView(this);
 }

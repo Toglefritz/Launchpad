@@ -99,6 +99,10 @@
   "@projectTroubleshootingLabel": {
     "description": "Label for the project troubleshooting item in the bottom navigation bar"
   },
+  "searchButton": "Build it",
+  "@searchButton": {
+    "description": "Text for the search button"
+  },
   "termsOfService": "terms of service",
   "@termsOfService": {
     "description": "Text for a button that allows the user to view the terms of service."

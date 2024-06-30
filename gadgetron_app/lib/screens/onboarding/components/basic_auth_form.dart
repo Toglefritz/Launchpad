@@ -110,7 +110,7 @@ class BasicAuthForm extends StatelessWidget {
                 width: constraints.maxWidth - Insets.medium * 2,
                 child: PrimaryCTAButton(
                   onPressed: state.onAuthenticate,
-                  icon: const Icon(Icons.rocket_launch_outlined),
+                  icon: const Icon(Icons.rocket_launch),
                   label: Text(
                     AppLocalizations.of(context)!.authenticationButtonText.toUpperCase(),
                   ),

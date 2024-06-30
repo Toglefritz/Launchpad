@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:gadgetron_app/components/primary_cta_button.dart';
 import 'package:gadgetron_app/screens/project_search/project_search_controller.dart';
 import 'package:gadgetron_app/theme/insets.dart';
 
@@ -61,6 +62,16 @@ class ProjectSearchView extends StatelessWidget {
                   controller: state.searchController,
                   maxLines: null,
                   minLines: 4,
+                ),
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.all(Insets.medium),
+              sliver: SliverToBoxAdapter(
+                child: PrimaryCTAButton(
+                  onPressed: state.onSearch,
+                  icon: const Icon(Icons.bolt),
+                  label: Text(AppLocalizations.of(context)!.searchButton.toUpperCase()),
                 ),
               ),
             ),
