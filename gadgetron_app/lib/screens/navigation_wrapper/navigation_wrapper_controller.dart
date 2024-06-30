@@ -50,6 +50,7 @@ class NavigationWrapperController extends State<NavigationWrapperRoute> {
   void _initChildren() {
     _children = <NavigationBarItem, Widget>{
       NavigationBarItem.projectSearch: const ProjectSearchRoute(),
+      NavigationBarItem.projectTroubleshooting: const Placeholder(),
     };
   }
 

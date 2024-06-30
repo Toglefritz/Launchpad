@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:gadgetron_app/gadgetron_app.dart';
 import 'package:gadgetron_app/screens/navigation_wrapper/navigation_wrapper_route.dart';
 import 'package:gadgetron_app/screens/project_search/project_search_route.dart';
 
@@ -13,20 +12,19 @@ import 'package:gadgetron_app/screens/project_search/project_search_route.dart';
 /// uses the 'Application' class and the latter uses the 'Icon' class.
 enum NavigationBarItem {
   /// The [ProjectSearchRoute] screen.
-  projectSearch;
+  projectSearch,
+
+  /// Project troubleshooting screen.
+  // TODO(Toglefritz): Implement this item. It is here for now because the NavigationBar needs at least two items.
+  projectTroubleshooting;
 
   /// Returns the label for the item.
-  String get label {
-    try {
-      switch (this) {
-        case NavigationBarItem.projectSearch:
-          return AppLocalizations.of(GadgetronApp.navigatorKey.currentContext!)!.projectSearchLabel;
-      }
-    } catch (e) {
-      // If this exception is thrown, it means that either the GadgertronApp.navigatorKey.currentContext is null or the
-      // AppLocalizations.of(GadgetronApp.navigatorKey.currentContext!) is null. In either case, we have bigger
-      // problems but this getter returns an empty string to avoid a null pointer exception.
-      return '';
+  String label(BuildContext context) {
+    switch (this) {
+      case NavigationBarItem.projectSearch:
+        return AppLocalizations.of(context)!.projectSearchLabel;
+      case NavigationBarItem.projectTroubleshooting:
+        return AppLocalizations.of(context)!.projectTroubleshootingLabel;
     }
   }
 
@@ -34,9 +32,9 @@ enum NavigationBarItem {
   Icon get icon {
     switch (this) {
       case NavigationBarItem.projectSearch:
-        return const Icon(
-          Icons.search,
-        );
+        return const Icon(Icons.search);
+      case NavigationBarItem.projectTroubleshooting:
+        return const Icon(Icons.camera_alt_outlined);
     }
   }
 }

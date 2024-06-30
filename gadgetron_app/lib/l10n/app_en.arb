@@ -52,9 +52,9 @@
     "description": "Error message for when the user enters a password that is too weak."
   },
   "errorOnboardingWrongPassword": "The password provided is incorrect.",
-    "@errorOnboardingWrongPassword": {
-        "description": "Error message for when the user enters an incorrect password."
-    },
+  "@errorOnboardingWrongPassword": {
+    "description": "Error message for when the user enters an incorrect password."
+  },
   "login": "Login",
   "@login": {
     "description": "Text for the ChoiceChip used by the user to indicate that they want to login to the app"
@@ -95,7 +95,7 @@
   "@projectSearchLabel": {
     "description": "Label for the project search item in the bottom navigation bar"
   },
-  "projectTroubleshootingLabel": "Troubleshooting",
+  "projectTroubleshootingLabel": "Troubleshoot",
   "@projectTroubleshootingLabel": {
     "description": "Label for the project troubleshooting item in the bottom navigation bar"
   },

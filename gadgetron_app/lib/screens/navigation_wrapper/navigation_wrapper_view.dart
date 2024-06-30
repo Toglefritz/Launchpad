@@ -19,14 +19,23 @@ class NavigationWrapperView extends StatelessWidget {
         index: state.currentIndex,
         children: state.children,
       ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: state.currentIndex,
-        onDestinationSelected: (int index) => state.onDestinationSelected(state.items[index]),
-        destinations: List.generate(
-          state.children.length,
-          (int index) => NavigationDestination(
-            icon: state.items[index].icon,
-            label: state.items[index].label,
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              color: Theme.of(context).dividerColor,
+            ),
+          ),
+        ),
+        child: NavigationBar(
+          selectedIndex: state.currentIndex,
+          onDestinationSelected: (int index) => state.onDestinationSelected(state.items[index]),
+          destinations: List.generate(
+            state.children.length,
+            (int index) => NavigationDestination(
+              icon: state.items[index].icon,
+              label: state.items[index].label(context),
+            ),
           ),
         ),
       ),

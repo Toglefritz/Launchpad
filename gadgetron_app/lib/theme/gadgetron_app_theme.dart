@@ -95,7 +95,7 @@ class GadgetronAppTheme {
             ),
           ),
         ),
-        // Creates a button with a neobrutalist design, featuring a dark, hard-edge shadow and a dark border.
+        // Creates a button with a neobrutalism-inspired design, featuring a dark, hard-edge shadow and a dark border.
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: ButtonStyle(
             backgroundColor: WidgetStateProperty.all(Colors.grey.shade100),
@@ -135,6 +135,31 @@ class GadgetronAppTheme {
                 color: Colors.grey.shade900,
               ),
           side: BorderSide.none,
+        ),
+        navigationBarTheme: NavigationBarThemeData(
+          backgroundColor: const Color(0xFFD6D6D6), // Scaffold background color
+          indicatorColor: Colors.grey.shade900,
+          indicatorShape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+          labelTextStyle: WidgetStateProperty.all(
+            ThemeData.light().textTheme.bodyMedium?.copyWith(
+                  color: Colors.grey.shade900,
+                ),
+          ),
+          iconTheme: WidgetStateProperty.resolveWith(
+            (states) {
+              if (states.contains(WidgetState.selected)) {
+                return IconThemeData(
+                  color: Colors.grey.shade100,
+                );
+              }
+              return IconThemeData(
+                color: Colors.grey.shade900,
+              );
+            },
+          ),
         ),
       );
 
