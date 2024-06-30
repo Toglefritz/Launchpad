@@ -120,29 +120,31 @@ class OnboardingView extends StatelessWidget {
                   ),
                 ),
               ),
-              const SliverPadding(
-                padding: EdgeInsets.all(Insets.medium),
-                sliver: SliverToBoxAdapter(
-                  child: DashedDivider(),
+              if (state.canAuthenticateWithGoogle)
+                const SliverPadding(
+                  padding: EdgeInsets.all(Insets.medium),
+                  sliver: SliverToBoxAdapter(
+                    child: DashedDivider(),
+                  ),
                 ),
-              ),
 
               // Google authentication button
-              SliverPadding(
-                padding: const EdgeInsets.all(Insets.medium),
-                sliver: SliverToBoxAdapter(
-                  child: SecondaryCTAButton(
-                    onPressed: state.onAuthenticateWithGoogle,
-                    icon: Image.asset(
-                      'assets/g-logo.png',
-                      height: 32,
-                    ),
-                    label: Text(
-                      AppLocalizations.of(context)!.continueWithGoogle,
+              if (state.canAuthenticateWithGoogle)
+                SliverPadding(
+                  padding: const EdgeInsets.all(Insets.medium),
+                  sliver: SliverToBoxAdapter(
+                    child: SecondaryCTAButton(
+                      onPressed: state.onAuthenticateWithGoogle,
+                      icon: Image.asset(
+                        'assets/g-logo.png',
+                        height: 32,
+                      ),
+                      label: Text(
+                        AppLocalizations.of(context)!.continueWithGoogle,
+                      ),
                     ),
                   ),
                 ),
-              ),
 
               // Terms and conditions and privacy policy buttons
               const SliverSafeArea(

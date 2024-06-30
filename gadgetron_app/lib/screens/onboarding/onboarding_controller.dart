@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gadgetron_app/screens/navigation_wrapper/navigation_wrapper_route.dart';
 import 'package:gadgetron_app/screens/onboarding/onboarding_route.dart';
@@ -12,6 +15,9 @@ class OnboardingController extends State<OnboardingRoute> {
   /// A controller for the [TextField] widget used to enter the user's password when using a username/password
   /// login method.
   final TextEditingController passwordController = TextEditingController();
+
+  /// A getter that determines if the current platform supports logging in with Google.
+  bool get canAuthenticateWithGoogle => Platform.isAndroid || Platform.isIOS || Platform.isMacOS || kIsWeb;
 
   /// Handles submission of username and password. This function completes the following operations:
   ///
