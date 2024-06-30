@@ -69,6 +69,24 @@ class AuthenticationService {
     }
   }
 
+  /// Logs into a Firebase account using a username and password combination.
+  ///
+  /// Various exceptions can be thrown from the [FirebaseAuth] `signInWithEmailAndPassword` method that indicate
+  /// different problems with the login. The code from these exceptions can be used to determine the specific issue
+  /// with the login attempt.
+  static Future<UserCredential?> login({required String emailAddress, required String password}) async {
+    try {
+      final UserCredential credential =
+      await FirebaseAuth.instance.signInWithEmailAndPassword(email: emailAddress, password: password);
+
+      return credential;
+    } on FirebaseAuthException catch (e) {
+      debugPrint('Login failed with exception, $e');
+
+      rethrow;
+    }
+  }
+
   /// Asynchronously signs the user in using Google authentication.
   ///
   /// If the platform is web, it uses Firebase's `signInWithPopup` method for signing in the user with Google. For other

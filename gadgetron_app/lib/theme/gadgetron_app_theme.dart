@@ -68,6 +68,9 @@ class GadgetronAppTheme {
                 color: Colors.grey.shade900,
                 backgroundColor: Colors.grey.shade50,
               ),
+          errorStyle: ThemeData.light().textTheme.bodyMedium?.copyWith(
+                color: Colors.red.shade900,
+              ),
         ),
         // Creates a button with a dark background a light text and icon.
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -119,6 +122,19 @@ class GadgetronAppTheme {
             ),
             visualDensity: VisualDensity.compact,
           ),
+        ),
+        chipTheme: ChipThemeData(
+          backgroundColor: Colors.grey.shade100,
+          disabledColor: Colors.grey.shade500,
+          selectedColor: Colors.grey.shade100,
+          secondarySelectedColor: Colors.grey.shade100,
+          labelStyle: ThemeData.light().textTheme.bodyMedium?.copyWith(
+                color: Colors.grey.shade900,
+              ),
+          secondaryLabelStyle: ThemeData.light().textTheme.bodyMedium?.copyWith(
+                color: Colors.grey.shade900,
+              ),
+          side: BorderSide.none,
         ),
       );
 
@@ -192,6 +208,9 @@ class GadgetronAppTheme {
                 color: Colors.grey.shade100,
                 backgroundColor: Colors.grey.shade900,
               ),
+          errorStyle: ThemeData.light().textTheme.bodyMedium?.copyWith(
+                color: Colors.red.shade900,
+              ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
@@ -241,6 +260,19 @@ class GadgetronAppTheme {
             ),
             visualDensity: VisualDensity.compact,
           ),
+        ),
+        chipTheme: ChipThemeData(
+          backgroundColor: Colors.grey.shade900,
+          disabledColor: Colors.grey.shade500,
+          selectedColor: Colors.grey.shade900,
+          secondarySelectedColor: Colors.grey.shade900,
+          labelStyle: ThemeData.light().textTheme.bodyMedium?.copyWith(
+                color: Colors.grey.shade100,
+              ),
+          secondaryLabelStyle: ThemeData.light().textTheme.bodyMedium?.copyWith(
+                color: Colors.grey.shade100,
+              ),
+          side: BorderSide.none,
         ),
       );
 
@@ -297,6 +329,9 @@ class GadgetronAppTheme {
                 color: Colors.black,
                 backgroundColor: Colors.white,
               ),
+          errorStyle: ThemeData.light().textTheme.bodyMedium?.copyWith(
+                color: Colors.red.shade900,
+              ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
@@ -346,6 +381,19 @@ class GadgetronAppTheme {
             ),
             visualDensity: VisualDensity.compact,
           ),
+        ),
+        chipTheme: ChipThemeData(
+          backgroundColor: Colors.black,
+          disabledColor: Colors.grey,
+          selectedColor: Colors.black,
+          secondarySelectedColor: Colors.black,
+          labelStyle: ThemeData.light().textTheme.bodyMedium?.copyWith(
+                color: Colors.white,
+              ),
+          secondaryLabelStyle: ThemeData.light().textTheme.bodyMedium?.copyWith(
+                color: Colors.white,
+              ),
+          side: BorderSide.none,
         ),
       );
 
@@ -402,6 +450,9 @@ class GadgetronAppTheme {
                 color: Colors.white,
                 backgroundColor: Colors.black,
               ),
+          errorStyle: ThemeData.light().textTheme.bodyMedium?.copyWith(
+                color: Colors.red.shade900,
+              ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
@@ -451,6 +502,19 @@ class GadgetronAppTheme {
             ),
             visualDensity: VisualDensity.compact,
           ),
+        ),
+        chipTheme: ChipThemeData(
+          backgroundColor: Colors.white,
+          disabledColor: Colors.grey,
+          selectedColor: Colors.white,
+          secondarySelectedColor: Colors.white,
+          labelStyle: ThemeData.light().textTheme.bodyMedium?.copyWith(
+                color: Colors.black,
+              ),
+          secondaryLabelStyle: ThemeData.light().textTheme.bodyMedium?.copyWith(
+                color: Colors.black,
+              ),
+          side: BorderSide.none,
         ),
       );
 }

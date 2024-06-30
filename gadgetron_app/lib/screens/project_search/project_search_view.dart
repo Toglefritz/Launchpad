@@ -20,6 +20,26 @@ class ProjectSearchView extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        actions: [
+          PopupMenuButton<String>(
+            onSelected: (value) => state.onLogout(),
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem<String>(
+                  value: AppLocalizations.of(context)!.logout,
+                  child: Text(
+                    AppLocalizations.of(context)!.logout,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ];
+            },
+            icon: Icon(
+              Icons.more_vert,
+              color: Theme.of(context).primaryColorDark,
+            ),
+          ),
+        ],
       ),
       body: SafeArea(
         child: CustomScrollView(

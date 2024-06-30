@@ -1,1 +1,50 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"gadgetron-23712","appId":"1:366186287911:android:ca9c696d999f528ecb8f02","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"gadgetron-23712","appId":"1:366186287911:ios:4740c6eaea4ab31dcb8f02","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"macos":{"default":{"projectId":"gadgetron-23712","appId":"1:366186287911:ios:4740c6eaea4ab31dcb8f02","uploadDebugSymbols":false,"fileOutput":"macos/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"gadgetron-23712","configurations":{"android":"1:366186287911:android:ca9c696d999f528ecb8f02","ios":"1:366186287911:ios:4740c6eaea4ab31dcb8f02","macos":"1:366186287911:ios:4740c6eaea4ab31dcb8f02","web":"1:366186287911:web:774aeb2fa6157454cb8f02","windows":"1:366186287911:web:9c8cc8b19484d5e1cb8f02"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "gadgetron-23712",
+          "appId": "1:366186287911:android:ca9c696d999f528ecb8f02",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "gadgetron-23712",
+          "appId": "1:366186287911:ios:4740c6eaea4ab31dcb8f02",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "macos": {
+        "default": {
+          "projectId": "gadgetron-23712",
+          "appId": "1:366186287911:ios:4740c6eaea4ab31dcb8f02",
+          "uploadDebugSymbols": false,
+          "fileOutput": "macos/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "gadgetron-23712",
+          "configurations": {
+            "android": "1:366186287911:android:ca9c696d999f528ecb8f02",
+            "ios": "1:366186287911:ios:4740c6eaea4ab31dcb8f02",
+            "macos": "1:366186287911:ios:4740c6eaea4ab31dcb8f02",
+            "web": "1:366186287911:web:774aeb2fa6157454cb8f02",
+            "windows": "1:366186287911:web:9c8cc8b19484d5e1cb8f02"
+          }
+        }
+      }
+    }
+  },
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "ui": {
+      "enabled": true
+    },
+    "singleProjectMode": true
+  }
+}
