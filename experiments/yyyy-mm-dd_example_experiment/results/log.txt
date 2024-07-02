@@ -1,0 +1,4 @@
+2024-06-30 10:00:00: Experiment started.
+2024-06-30 10:15:30: User interaction recorded.
+2024-06-30 10:17:45: User interaction recorded.
+2024-06-30 11:00:00: Experiment ended.

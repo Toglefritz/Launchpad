@@ -1,0 +1,7 @@
+{
+    "temperature": 0.8,
+    "system_instructions": "Provide detailed technical explanations...",
+    "persona": "Technical Expert",
+    "reasoning_steps": "Follow a logical sequence in responses.",
+    "recap_statements": "Summarize the key points at the end of each response."
+}

@@ -1,0 +1,3 @@
+timestamp,user_input,ai_response
+2024-06-30T10:15:30Z,"I'm building a smart home system.","To build a smart home system, you will need components such as a microcontroller (e.g., Arduino or Raspberry Pi), Wi-Fi modules (e.g., ESP8266), relays for controlling appliances, and sensors (e.g., motion sensors, light sensors)..."
+2024-06-30T10:17:45Z,"What is a relay?","A relay is an electrically operated switch that allows you to control a high-power circuit with a low-power signal..."
