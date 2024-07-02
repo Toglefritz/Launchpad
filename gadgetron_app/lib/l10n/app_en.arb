@@ -55,6 +55,10 @@
   "@errorOnboardingWrongPassword": {
     "description": "Error message for when the user enters an incorrect password."
   },
+  "loadingResults": "Loading results...",
+  "@loadingResults": {
+    "description": "Text displayed while the app is loading search results."
+  },
   "login": "Login",
   "@login": {
     "description": "Text for the ChoiceChip used by the user to indicate that they want to login to the app"
@@ -86,6 +90,10 @@
   "privacyPolicy": "privacy policy",
   "@privacyPolicy": {
     "description": "Text for a button that allows the user to view the privacy policy."
+  },
+  "projectExploreTitle": "Explore",
+  "@projectExploreTitle": {
+    "description": "Title for the project explore page"
   },
   "projectSearchTitle": "Describe your project",
   "@projectSearchTitle": {

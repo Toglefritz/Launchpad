@@ -60,19 +60,21 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyA9_82NE6a_NpOJp77FhNdqH0_8UCTEDPE',
-    appId: '1:366186287911:ios:4740c6eaea4ab31dcb8f02',
+    appId: '1:366186287911:ios:a38701978745e7dfcb8f02',
     messagingSenderId: '366186287911',
     projectId: 'gadgetron-23712',
     storageBucket: 'gadgetron-23712.appspot.com',
-    iosBundleId: 'com.splendidendeavors.gadgetron.gadgetronApp',
+    iosClientId: '366186287911-dg6bd5r15r6vro29d78cmli3jia3s209.apps.googleusercontent.com',
+    iosBundleId: 'com.splendidendeavors.gadgetron',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyA9_82NE6a_NpOJp77FhNdqH0_8UCTEDPE',
-    appId: '1:366186287911:ios:4740c6eaea4ab31dcb8f02',
+    appId: '1:366186287911:ios:83bda7377c0105b3cb8f02',
     messagingSenderId: '366186287911',
     projectId: 'gadgetron-23712',
     storageBucket: 'gadgetron-23712.appspot.com',
+    iosClientId: '366186287911-ddp7kdldhatp29kpnj49a5nm66kfddii.apps.googleusercontent.com',
     iosBundleId: 'com.splendidendeavors.gadgetron.gadgetronApp',
   );
 

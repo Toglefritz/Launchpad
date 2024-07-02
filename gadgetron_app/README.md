@@ -93,6 +93,45 @@ appealing and highly functional user experience. This thoughtful design approach
 can easily navigate and interact with the app, while also appreciating its modern and minimalist
 aesthetic.
 
+## Experimentation with Firebase Remote Config :test_tube:
+
+The Gadgetron app leverages Firebase Remote Config to enable dynamic experimentation with various 
+aspects of our AI-powered prompting strategy. AI systems, especially those involving generative 
+models, are a blend of science and art. Fine-tuning these models involves both empirical testing 
+and creative adjustments to ensure they provide the most effective and engaging user experience. 
+By using Firebase Remote Config, A/B(/C) testing can be performed with different variations of 
+system instructions, few-shot examples, personas, reasoning steps, recap statements, and other 
+parts of the prompting strategy without needing to deploy new versions of the app.
+
+### Overview
+
+Firebase Remote Config allows configuration parameters to be updated dynamically from the cloud. 
+This capability is crucial for ongoing experimentation with the AI systems powering Gadgetron. The 
+primary components of our prompting strategy that are subject to experimentation include:
+
+	•	**System Instructions**: Directives provided to the AI model to guide its responses.
+	•	**Few-Shot Examples**: Sample interactions included in the prompt to set the context for the 
+        model.
+	•	**Personas**: Specific characteristics or roles assigned to the AI to shape its responses.
+	•	**Reasoning Steps**: Instructions for the AI to follow a logical sequence in its reasoning.
+	•	**Recap Statements**: Summarizations included in the responses to enhance clarity and 
+        comprehension.
+
+### Implementation
+
+Using Firebase Remote Config, these components can be adjusted and their impact on user 
+interactions observed. Here’s how it works:
+
+  1.  **Configuration Setup**: Parameters for different parts of the prompting strategy are set up in Firebase Remote Config. For example:
+      - system_instructions
+      - few_shot_examples
+      - persona
+      - reasoning_steps
+     - recap_statements
+   2.  **Fetching Configurations**: The app fetches these parameters at runtime, ensuring it always uses the latest configuration without requiring an update. This is done using Firebase Remote Config’s SDK.
+   3.  **Experimentation**: Different configurations (A/B/C variations) are created and deployed to different user segments. Firebase’s A/B testing framework allows us to define these variations and measure their impact on user engagement and satisfaction.
+   4.  **Analysis and Optimization**: Data collected from these experiments is analyzed to determine which configurations yield the best results. Based on these insights, configurations are further refined to enhance the AI’s performance.
+
 ## Contributing :raised_hands:
 
 Contributions are welcome! If you have ideas for new features, improvements, or bug fixes, feel free

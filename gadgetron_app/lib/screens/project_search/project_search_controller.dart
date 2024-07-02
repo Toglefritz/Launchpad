@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gadgetron_app/screens/project_explore/project_explore_route.dart';
 import 'package:gadgetron_app/screens/project_search/project_search_route.dart';
 import 'package:gadgetron_app/screens/project_search/project_search_view.dart';
-
 import 'package:gadgetron_app/services/firebase_auth/authentication_service.dart';
 
 /// A controller for the [ProjectSearchRoute] widget.
@@ -15,8 +15,18 @@ class ProjectSearchController extends State<ProjectSearchRoute> {
   }
 
   /// Handles submission of a project description to kick off the search process.
-  void onSearch() {
-    // TODO(Toglefritz): Implement search functionality
+  ///
+  /// The search process itself, in terms of the submission of the user's prompt to the Gemini model, waiting for
+  /// the model to return a result, and displaying the result to the user, is handled by the [ProjectExploreRoute].
+  Future<void> onSearch() async {
+   await Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (context) => ProjectExploreRoute(
+          projectDescription: searchController.text,
+        ),
+      ),
+    );
   }
 
   @override

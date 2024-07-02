@@ -14,6 +14,7 @@ class GadgetronAppTheme {
         primaryColorLight: Colors.grey.shade100,
         primaryColorDark: Colors.grey.shade900,
         scaffoldBackgroundColor: const Color(0xFFD6D6D6),
+        dividerColor: Colors.grey.shade900.withOpacity(0.2),
         // Set "KodeMono" as the default font for heads in the app.
         textTheme: ThemeData.light().textTheme.copyWith(
               displayLarge: ThemeData.light().textTheme.displayLarge?.copyWith(
@@ -47,7 +48,7 @@ class GadgetronAppTheme {
           selectionHandleColor: Colors.grey.shade900,
         ),
         appBarTheme: AppBarTheme(
-          backgroundColor: Colors.grey.shade200,
+          backgroundColor: const Color(0xFFD6D6D6), // Scaffold background color
           foregroundColor: Colors.grey.shade900,
           scrolledUnderElevation: 0.0,
         ),
@@ -137,7 +138,8 @@ class GadgetronAppTheme {
           side: BorderSide.none,
         ),
         navigationBarTheme: NavigationBarThemeData(
-          backgroundColor: const Color(0xFFD6D6D6), // Scaffold background color
+          backgroundColor: const Color(0xFFD6D6D6),
+          // Scaffold background color
           indicatorColor: Colors.grey.shade900,
           indicatorShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0),
