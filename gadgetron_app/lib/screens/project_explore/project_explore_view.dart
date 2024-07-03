@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:gadgetron_app/components/app_bar_button.dart';
 import 'package:gadgetron_app/screens/project_explore/project_explore_controller.dart';
 import 'package:gadgetron_app/screens/project_search/project_search_controller.dart';
@@ -44,11 +45,14 @@ class ProjectExploreView extends StatelessWidget {
         child: CustomScrollView(
           slivers: <Widget>[
             SliverPadding(
-              padding: const EdgeInsets.all(Insets.medium),
+              padding: const EdgeInsets.all(Insets.small),
               sliver: SliverToBoxAdapter(
-                child: Text(
-                  state.response!.text!,
-                  style: Theme.of(context).textTheme.bodyMedium,
+                child: SelectionArea(
+                  child: Markdown(
+                    data: state.response!.text!,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                  ),
                 ),
               ),
             ),

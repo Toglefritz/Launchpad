@@ -61,7 +61,7 @@ class ProjectSearchView extends StatelessWidget {
                 child: TextField(
                   controller: state.searchController,
                   maxLines: null,
-                  minLines: 4,
+                  minLines: 6,
                 ),
               ),
             ),

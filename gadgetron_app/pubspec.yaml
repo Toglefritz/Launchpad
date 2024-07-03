@@ -24,6 +24,8 @@ dependencies:
   # Provides localization support.
   flutter_localizations:
     sdk: flutter
+  # A Markdown renderer for Flutter.
+  flutter_markdown: ^0.7.3
   # Provides infrastructure for signing in with a Google account.
   google_sign_in: ^6.2.1
   # Handles internationalized/localized messages and other data types.
