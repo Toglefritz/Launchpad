@@ -1,4 +1,4 @@
-import 'package:gadgetron_app/screens/project_explore/project_explore_view.dart';
+import 'package:gadgetron_app/screens/project_explore/components/chat_message.dart';
 
 /// An enumeration of "roles" for messages in a multi-turn conversation with a Gemini model..
 enum MessageRole {
