@@ -20,6 +20,9 @@ class ProjectExploreController extends State<ProjectExploreRoute> {
   /// A controller for the [TextField] used to submit additional queries to the Gemini model.
   final TextEditingController exploreFieldController = TextEditingController();
 
+  /// Determines if the app is currently awaiting a response from the Gemini model for a new query.
+  bool isWaitingForResponse = false;
+
   @override
   void initState() {
     super.initState();
@@ -78,7 +81,37 @@ class ProjectExploreController extends State<ProjectExploreRoute> {
   /// This query may request a variety of information, such as more details on a specific project, questions about a
   /// part of the results, a request for more results, or other requests.
   Future<void> onExplorationQuery() async {
-    // TODO(Toglefritz): Implement this method.
+    // Cache the current text field value before it is cleared.
+    final String query = exploreFieldController.text;
+
+    // Clear the text field now that the query is about to be submitted to the Gemini model.
+    exploreFieldController.clear();
+
+    // Put the input field into a loading state to indicate that the app is waiting for a response from the model.
+    setState(() {
+      isWaitingForResponse = true;
+    });
+
+    // Submit the new query to the Gemini model.
+    await GeminiService.sendChatMessage(chat: chat!, prompt: query);
+
+    // Scroll to the bottom of the chat history so the most recent message is visible. Also put the input field back
+    // into a non-loading state.
+    if (scrollController.hasClients) {
+      setState(() {
+        isWaitingForResponse = false;
+
+        scrollController.animateTo(
+          scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      });
+    } else {
+      setState(() {
+        isWaitingForResponse = false;
+      });
+    }
   }
 
   /// Returns the text content of a [Content] object to display in the chat history.

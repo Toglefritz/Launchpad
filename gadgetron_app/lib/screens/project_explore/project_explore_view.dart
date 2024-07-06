@@ -77,9 +77,26 @@ class ProjectExploreView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(Insets.medium),
+                    padding: const EdgeInsets.all(Insets.small),
                     child: TextField(
                       controller: state.exploreFieldController,
+                      maxLines: null,
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          icon: !state.isWaitingForResponse
+                              ? Icon(
+                                  Icons.send,
+                                  color: Theme.of(context).primaryColorDark,
+                                )
+                              : const SizedBox(
+                                  height: 24.0,
+                                  width: 24.0,
+                                  child: CircularProgressIndicator(),
+                                ),
+                          onPressed: state.onExplorationQuery,
+                        ),
+                      ),
+                      enabled: !state.isWaitingForResponse,
                     ),
                   ),
                 ],
