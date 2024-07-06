@@ -39,6 +39,8 @@ dependencies:
   google_sign_in: ^6.2.1
   # Handles internationalized/localized messages and other data types.
   intl: any
+  # Flutter plugin for launching a URL.
+  url_launcher: ^6.3.0
 
 dev_dependencies:
   # Lint rules for Dart and Flutter.

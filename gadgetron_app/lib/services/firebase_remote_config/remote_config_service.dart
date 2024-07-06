@@ -67,7 +67,9 @@ class RemoteConfigService {
   ///
   /// Returns a [String] containing the system instructions.
   String getSystemInstructions() {
-    return _remoteConfig.getString(RemoteConfigKey.systemInstructions.key);
+    final String systemInstructions = _remoteConfig.getString(RemoteConfigKey.systemInstructions.key);
+
+    return systemInstructions;
   }
 
 // TODO(Toglefritz): Other parameters can be added here with similar documentation.

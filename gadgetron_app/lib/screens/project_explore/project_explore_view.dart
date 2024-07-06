@@ -64,6 +64,7 @@ class ProjectExploreView extends StatelessWidget {
                         child: ChatMessage(
                           messageContents: messageContents,
                           role: MessageRole.values.firstWhere((role) => role.identifier == chatMessage.role),
+                          onLinkTap: state.onLinkTap,
                         ),
                       );
                     },

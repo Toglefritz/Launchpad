@@ -12,6 +12,7 @@ class ChatMessage extends StatelessWidget {
   const ChatMessage({
     required this.messageContents,
     required this.role,
+    required this.onLinkTap,
     super.key,
   });
 
@@ -20,6 +21,9 @@ class ChatMessage extends StatelessWidget {
 
   /// The role of the message in the conversation.
   final MessageRole role;
+
+  /// Handles taps on links within the message content.
+  final void Function(String text, String? href, String title)? onLinkTap;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +54,7 @@ class ChatMessage extends StatelessWidget {
                   ? Theme.of(context).textTheme.bodyMedium
                   : Theme.of(context).textTheme.bodySmall,
             ),
+            onTapLink: onLinkTap,
           ),
         ),
       ],

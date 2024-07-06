@@ -5,6 +5,7 @@ import 'package:gadgetron_app/screens/project_explore/project_explore_route.dart
 import 'package:gadgetron_app/screens/project_explore/project_explore_view.dart';
 import 'package:gadgetron_app/screens/project_search/project_search_route.dart';
 import 'package:gadgetron_app/services/firebase_gemini/gemini_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// A controller for the [ProjectSearchRoute] widget.
 class ProjectExploreController extends State<ProjectExploreRoute> {
@@ -126,6 +127,21 @@ class ProjectExploreController extends State<ProjectExploreRoute> {
     ) as TextPart;
 
     return textPart.text;
+  }
+
+  /// Handles taps on links within the message content. Typically, these links will be returned within the responses
+  /// from the Gemini model.
+  Future<void> onLinkTap(String text, String? href, String title) async {
+    try {
+      // If the link is a URL, attempt to open the URL in the device's default browser.
+      if (href != null) {
+        await launchUrl(Uri.parse(href));
+      }
+    } catch (e) {
+      debugPrint('Failed to open URL with exception, $e');
+
+      // TODO(Toglefritz): How should this error be handled?
+    }
   }
 
   @override
