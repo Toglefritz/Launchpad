@@ -17,7 +17,16 @@ dependencies:
   # Flutter plugin for Firebase Remote Config.
   firebase_remote_config: ^5.0.2
   # Firebase Vertex AI SDK.
-  firebase_vertexai: ^0.2.2+1
+  #firebase_vertexai: ^0.2.2+1
+  # There is currently an issue with the Firebase Vertex AI SDK related to the way multi-turn
+  # conversation history is handled. This branch contains a fix for this issue and this
+  # dependency will be updated once the fix is merged into the master branch of the Flutterfire
+  # repository.
+  firebase_vertexai:
+    git:
+      url: https://github.com/Toglefritz/flutterfire.git
+      ref: fix/update-chat-history
+      path: packages/firebase_vertexai/firebase_vertexai
   # Flutter SDK
   flutter:
     sdk: flutter

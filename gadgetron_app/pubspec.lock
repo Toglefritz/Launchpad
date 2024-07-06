@@ -164,10 +164,11 @@ packages:
   firebase_vertexai:
     dependency: "direct main"
     description:
-      name: firebase_vertexai
-      sha256: f1dedb7355e7a80bad1377019724d47a38ac7ad03057d839d0150e89fe7f44f1
-      url: "https://pub.dev"
-    source: hosted
+      path: "packages/firebase_vertexai/firebase_vertexai"
+      ref: "fix/update-chat-history"
+      resolved-ref: cd4e2b3fbfeb09853009abf5f5f882210b0358c7
+      url: "https://github.com/Toglefritz/flutterfire.git"
+    source: git
     version: "0.2.2+1"
   flutter:
     dependency: "direct main"

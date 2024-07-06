@@ -36,17 +36,43 @@ class GeminiService {
         systemInstruction: Content.system(_remoteConfigService.getSystemInstructions()),
       );
 
-  /// Uses the [_model] to generate a response to the [prompt].
+  /// Starts a chat session with the Gemini [_model].
   ///
-  /// The [prompt] is a list of [Content] objects that represent the user's input to the Gemini model. The Gemini model
-  /// is pre-configured with a system instruction and a temperature parameter. This method submits the [prompt] to the
-  /// model and returns the response.
-  static Future<GenerateContentResponse?> getResponse(String prompt) async {
+  /// A chat session is a multi-turn conversation with the Gemini model. This method starts a new chat session with the
+  /// [_model] and returns the chat session object. This object handles management of the chat history internally.
+  /// The [sendChatMessage] method is used to send messages from the user to the Gemini system to continue the chat
+  /// session.
+  static Future<ChatSession> startChat() async {
+    try {
+      final ChatSession chat = _model.startChat();
+
+      return chat;
+    } catch (e) {
+      debugPrint('Starting chat with Gemini failed with exception, $e');
+      // TODO(Toglefritz): How should this error be handled?
+
+      rethrow;
+    }
+  }
+
+  /// Uses the [_model] to generate a response to the [prompt] as part of a [ChatSession] ([chat]).
+  ///
+  /// The [prompt] is a query from the user, as a string, which is converted into a of [Content] object that represent
+  /// the user's input to the Gemini model. The Gemini model is pre-configured with a system instruction and a
+  /// temperature parameter. This method submits the [prompt] to the model as part of the provided [ChatSession] and
+  /// returns the response.
+  ///
+  /// This method does not stream responses from Gemini. Instead, the method waits for the response to be generated and
+  /// returned in full before returning the response.
+  static Future<GenerateContentResponse> sendChatMessage({
+    required ChatSession chat,
+    required String prompt,
+  }) async {
     // Convert the provided string to a list of Content objects.
-    final List<Content> promptContent = [Content.text(prompt)];
+    final Content promptContent = Content.text(prompt);
 
     try {
-      final GenerateContentResponse response = await _model.generateContent(promptContent);
+      final GenerateContentResponse response = await chat.sendMessage(promptContent);
 
       debugPrint('Received response from Gemini');
 

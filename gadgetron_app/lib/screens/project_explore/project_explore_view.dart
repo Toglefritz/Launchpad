@@ -1,9 +1,11 @@
+import 'package:firebase_vertexai/firebase_vertexai.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:gadgetron_app/components/app_bar_button.dart';
+import 'package:gadgetron_app/screens/project_explore/components/chat_message.dart';
 import 'package:gadgetron_app/screens/project_explore/project_explore_controller.dart';
 import 'package:gadgetron_app/screens/project_search/project_search_controller.dart';
+import 'package:gadgetron_app/services/firebase_gemini/models/message_role.dart';
 import 'package:gadgetron_app/theme/insets.dart';
 
 /// A view for the [ProjectSearchController] widget.
@@ -43,15 +45,28 @@ class ProjectExploreView extends StatelessWidget {
       ),
       body: SafeArea(
         child: CustomScrollView(
+          controller: state.scrollController,
           slivers: <Widget>[
             SliverPadding(
               padding: const EdgeInsets.all(Insets.small),
               sliver: SliverToBoxAdapter(
                 child: SelectionArea(
-                  child: Markdown(
-                    data: state.response!.text!,
-                    shrinkWrap: true,
+                  child: ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
+                    itemCount: state.chat!.history.length,
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      final Content chatMessage = state.chat!.history.toList()[index];
+                      final String messageContents = state.getContentText(chatMessage);
+
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: Insets.small),
+                        child: ChatMessage(
+                          messageContents: messageContents,
+                          role: MessageRole.values.firstWhere((role) => role.identifier == chatMessage.role),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),
