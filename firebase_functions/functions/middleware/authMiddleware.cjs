@@ -1,0 +1,64 @@
+/**
+ * @file authMiddleware.cjs
+ * @brief Middleware function for authenticating Firebase ID tokens.
+ *
+ * The `authMiddleware.cjs` file contains a middleware function that verifies
+ * the Firebase ID token sent in the request headers. This middleware is used
+ * to protect Firebase Functions endpoints, ensuring that only authenticated
+ * users can access them.
+ *
+ * @details
+ * This file performs the following tasks:
+ * - Imports the Firebase Admin SDK authentication module.
+ * - Defines an `authenticate` function that:
+ *   - Extracts the ID token from the request headers.
+ *   - Verifies the ID token using the Firebase Admin SDK.
+ *   - Attaches the decoded token to the request object if verification is
+ *     successful.
+ *   - Sends an unauthorized response if the token is missing or invalid.
+ * - Exports the `authenticate` function for use in other parts of the codebase.
+ *
+ * The `authenticate` function is essential for securing Firebase Functions by
+ * verifying the identity of the users making requests. It ensures that only
+ * authenticated users can access protected endpoints.
+ *
+ * @note
+ * This middleware requires the Firebase Admin SDK to be properly initialized
+ * and configured in the `firebaseConfig.cjs` file.
+ */
+
+// Import the Firebase Admin SDK authentication module
+const { auth } = require('../config/firebaseConfig.cjs');
+const { getAuth } = require('firebase-admin/auth');
+
+/**
+ * @function authenticate
+ * @brief Middleware function to authenticate Firebase ID tokens.
+ *
+ * This function extracts the ID token from the request headers, verifies it
+ * using the Firebase Admin SDK, and attaches the decoded token to the request
+ * object. If the token is missing or invalid, an unauthorized response is sent.
+ *
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ * @param {Function} next - The next middleware function in the stack.
+ *
+ * @return {void}
+ */
+const authenticate = async (req, res, next) => {
+  const idToken = req.headers.authorization?.split('Bearer ')[1];
+  if (!idToken) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  try {
+    const decodedToken = await getAuth().verifyIdToken(idToken);
+    req.user = decodedToken;
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+};
+
+// Export the authenticate function
+module.exports = authenticate;
