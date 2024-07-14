@@ -1,6 +1,6 @@
 # Firebase Functions Infrastructure
 
-This repository contains the serverless backend code that powers various functionalities of the Gadgetron application. By leveraging Firebase Functions, functions are created and deployed to respond to HTTP requests, Firebase Realtime Database events, Firestore events, and more, without managing any server infrastructure.
+This repository contains the serverless backend code that powers various functionalities of the Launchpad application. By leveraging Firebase Functions, functions are created and deployed to respond to HTTP requests, Firebase Realtime Database events, Firestore events, and more, without managing any server infrastructure.
 
 ## Introduction
 
