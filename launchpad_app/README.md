@@ -87,19 +87,19 @@ highlighting the key elements that define the app’s visual and interactive exp
 
 ### Design Elements
 
-	•	**Near-White Background**: The app employs a near-white background, which enhances brightness and provides a clean, sterile visual experience. This choice creates a neutral canvas that allows content to stand out and reduces visual clutter.
-	•	**Clean and Simple Layout**: Emphasizing simplicity, the layout incorporates clean lines and ample white space. This approach ensures an uncluttered interface, improving usability and focus on content.
-	•	**Rounded Corners**: Consistent use of rounded corners for UI elements such as buttons, cards, and containers adds to the modern aesthetic. This design choice softens the interface, making it more inviting and user-friendly.
-	•	**Neumorphism Elements**: Subtle shadows and highlights are applied to create a neumorphic effect, giving elements a slightly raised or inset appearance. This tactile feel adds depth to the design while maintaining a soft and approachable look.
-	•	**Monospace Typography**: The app utilizes a monospace font family, which introduces a distinctive, modern look. This typeface adds a tech-savvy or coding-related vibe to the design, aligning with the app’s innovative and forward-thinking ethos.
-	•	**Consistent Iconography**: Simple and consistent icons are used throughout the app, ensuring clarity and coherence. The icon design complements the overall minimalist theme, aiding in intuitive navigation and interaction.
+- **Near-White Background**: The app employs a near-white background, which enhances brightness and provides a clean, sterile visual experience. This choice creates a neutral canvas that allows content to stand out and reduces visual clutter.
+- **Clean and Simple Layout**: Emphasizing simplicity, the layout incorporates clean lines and ample white space. This approach ensures an uncluttered interface, improving usability and focus on content.
+- **Rounded Corners**: Consistent use of rounded corners for UI elements such as buttons, cards, and containers adds to the modern aesthetic. This design choice softens the interface, making it more inviting and user-friendly.
+- **Neumorphism Elements**: Subtle shadows and highlights are applied to create a neumorphic effect, giving elements a slightly raised or inset appearance. This tactile feel adds depth to the design while maintaining a soft and approachable look.
+- **Monospace Typography**: The app utilizes a monospace font family, which introduces a distinctive, modern look. This typeface adds a tech-savvy or coding-related vibe to the design, aligning with the app’s innovative and forward-thinking ethos.
+- **Consistent Iconography**: Simple and consistent icons are used throughout the app, ensuring clarity and coherence. The icon design complements the overall minimalist theme, aiding in intuitive navigation and interaction.
 
 ### Design Principles
 
-	•	Minimalist Design: Adopting a “less is more” philosophy, the app’s design minimizes unnecessary elements, focusing on essential functionality and aesthetic appeal.
-	•	Modern UI: The use of modern design techniques, such as neumorphism and rounded corners, positions the app at the forefront of current design trends.
-	•	Bright and Neutral Palette: The near-white background combined with subtle color accents enhances readability and visual comfort.
-	•	Tech-Savvy Aesthetic: The monospace typography reinforces the app’s alignment with technology and innovation, appealing to users who value modern, tech-oriented design.
+- **Minimalist Design**: Adopting a “less is more” philosophy, the app’s design minimizes unnecessary elements, focusing on essential functionality and aesthetic appeal.
+- **Modern UI**: The use of modern design techniques, such as neumorphism and rounded corners, positions the app at the forefront of current design trends.
+- **Bright and Neutral Palette**: The near-white background combined with subtle color accents enhances readability and visual comfort.
+- **Tech-Savvy Aesthetic**: The monospace typography reinforces the app’s alignment with technology and innovation, appealing to users who value modern, tech-oriented design.
 
 By incorporating these design elements and principles, the Launchpad mobile app delivers a visually
 appealing and highly functional user experience. This thoughtful design approach ensures that users
@@ -122,12 +122,11 @@ Firebase Remote Config allows configuration parameters to be updated dynamically
 This capability is crucial for ongoing experimentation with the AI systems powering Launchpad. The
 primary components of our prompting strategy that are subject to experimentation include:
 
-	•	**System Instructions**: Directives provided to the AI model to guide its responses.
-	•	**Few-Shot Examples**: Sample interactions included in the prompt to set the context for the 
-        model.
-	•	**Personas**: Specific characteristics or roles assigned to the AI to shape its responses.
-	•	**Reasoning Steps**: Instructions for the AI to follow a logical sequence in its reasoning.
-	•	**Recap Statements**: Summarizations included in the responses to enhance clarity and 
+- **System Instructions**: Directives provided to the AI model to guide its responses.
+- **Few-Shot Examples**: Sample interactions included in the prompt to set the context for the model.
+- **Personas**: Specific characteristics or roles assigned to the AI to shape its responses.
+- **Reasoning Steps**: Instructions for the AI to follow a logical sequence in its reasoning.
+- **Recap Statements**: Summarizations included in the responses to enhance clarity and 
         comprehension.
 
 ### Implementation
@@ -159,12 +158,12 @@ to submit a pull request or open an issue.
 
 Steps to Contribute
 
-	1.	Fork the repository.
-	2.	Create a new branch (git checkout -b feature-name).
-	3.	Make your changes.
-	4.	Commit your changes (git commit -m 'Add some feature').
-	5.	Push to the branch (git push origin feature-name).
-	6.	Open a pull request.
+1.	Fork the repository.
+2.	Create a new branch (git checkout -b feature-name).
+3.	Make your changes.
+4.	Commit your changes (git commit -m 'Add some feature').
+5.	Push to the branch (git push origin feature-name).
+6.	Open a pull request.
 
 ## License :page_facing_up:
 
