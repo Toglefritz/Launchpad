@@ -53,16 +53,16 @@ class ProjectExploreView extends StatelessWidget {
                 child: SelectionArea(
                   child: ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: state.chat!.history.length,
+                    itemCount: state.messages.length,
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
-                      final Content chatMessage = state.chat!.history.toList()[index];
-                      final String messageContents = state.getContentText(chatMessage);
+                      final Content chatMessage = state.messages[index];
+                      final String messageText = state.getContentText(chatMessage);
 
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: Insets.small),
                         child: ChatMessage(
-                          messageContents: messageContents,
+                          messageContents: messageText,
                           role: MessageRole.values.firstWhere((role) => role.identifier == chatMessage.role),
                           onLinkTap: state.onLinkTap,
                         ),

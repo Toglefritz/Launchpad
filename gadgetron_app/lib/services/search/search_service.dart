@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_vertexai/firebase_vertexai.dart';
 import 'package:gadgetron_app/services/firebase_core/firebase_emulators_ip.dart';
 import 'package:gadgetron_app/services/search/models/search.dart';
 import 'package:http/http.dart';
@@ -83,4 +84,30 @@ class SearchService {
       );
     }
   }
+
+  /// Returns a [FunctionDeclaration] for the [performSearch] function for use in the Gemini model for function
+  /// calling capabilities.
+  ///
+  /// > ***Important Note:***
+  /// >
+  /// > The descriptions provided for this function can greatly affect the format of the responses returned by the
+  /// > Gemini model. Therefore, testing should be performed before any adjustments are made. Some failures modes
+  /// > include the model no longer using the function or the model mixing function call annotations into the text
+  /// > parts of its responses in a way that is very difficult to parse.
+  static FunctionDeclaration performSearchTool = FunctionDeclaration(
+    'performSearch',
+    'Performs a search using the Google Programmable Search Engine via a call to a Firebase Functions REST API endpoint. This function accepts a query string and returns a URL to a website where the tool or material can be purchased.',
+    Schema(
+      SchemaType.object,
+      properties: {
+        'query': Schema(
+          SchemaType.string,
+          description:
+              'The query string for which a search will be performed using a Google Programmable Search Engine and the results returned.',
+        ),
+      },
+      requiredProperties: ['query'],
+      nullable: false,
+    ),
+  );
 }

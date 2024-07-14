@@ -2,7 +2,7 @@
 /// "pagemap" field of the search result JSON returned by the Google Custom Search API.
 class CseImage {
   /// The URL of the image.
-  final String src;
+  final String? src;
 
   /// Creates an instance of [CseImage] with the specified URL.
   CseImage({
@@ -12,7 +12,7 @@ class CseImage {
   /// Returns a [CseImage] instance from the JSON content returned by the Google Custom Search API.
   factory CseImage.fromJson(Map<String, dynamic> json) {
     return CseImage(
-      src: json['src'] as String,
+      src: json['src'] as String?,
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:firebase_vertexai/firebase_vertexai.dart';
 import 'package:flutter/material.dart';
 import 'package:gadgetron_app/services/firebase_gemini/models/gemini_models.dart';
 import 'package:gadgetron_app/services/firebase_remote_config/remote_config_service.dart';
+import 'package:gadgetron_app/services/search/search_service.dart';
 
 /// This service provides methods for interacting with Google Gemini AI systems, mainly providing prompts to Gemini
 /// models and receiving responses.
@@ -28,12 +29,19 @@ class GeminiService {
 
   /// Get a Gemini model to use for generative responses.
   ///
-  /// Initialization of the model consists of selecting a model and providing system instructions. The latter is fetched
-  /// from Firebase Remote Config.
+  /// Initialization of the model consists of selecting a model with system instructions and providing "tools" for
+  /// function calling. The system instructions are fetched from Firebase Remote Config.
   static GenerativeModel get _model => FirebaseVertexAI.instance.generativeModel(
         model: GeminiModel.gemini15Flash.modelIdentifier,
         generationConfig: _generationConfig,
         systemInstruction: Content.system(_remoteConfigService.getSystemInstructions()),
+        tools: [
+          Tool(
+            functionDeclarations: [
+              SearchService.performSearchTool,
+            ],
+          ),
+        ],
       );
 
   /// Starts a chat session with the Gemini [_model].
@@ -55,24 +63,21 @@ class GeminiService {
     }
   }
 
-  /// Uses the [_model] to generate a response to the [prompt] as part of a [ChatSession] ([chat]).
+  /// Uses the [_model] to generate a response to the prompt as part of a [ChatSession] ([chat]).
   ///
-  /// The [prompt] is a query from the user, as a string, which is converted into a of [Content] object that represent
-  /// the user's input to the Gemini model. The Gemini model is pre-configured with a system instruction and a
-  /// temperature parameter. This method submits the [prompt] to the model as part of the provided [ChatSession] and
-  /// returns the response.
+  /// The [content] argument can take several forms. The most common is a query from the user, as a string, or the
+  /// results from function calls invoked from responses received from the model. The Gemini model is pre-configured
+  /// with a system instruction and a temperature parameter. This method submits the [content] to the model as part of
+  /// the provided [ChatSession] and returns the response.
   ///
   /// This method does not stream responses from Gemini. Instead, the method waits for the response to be generated and
   /// returned in full before returning the response.
   static Future<GenerateContentResponse> sendChatMessage({
     required ChatSession chat,
-    required String prompt,
+    required Content content,
   }) async {
-    // Convert the provided string to a list of Content objects.
-    final Content promptContent = Content.text(prompt);
-
     try {
-      final GenerateContentResponse response = await chat.sendMessage(promptContent);
+      final GenerateContentResponse response = await chat.sendMessage(content);
 
       debugPrint('Received response from Gemini');
 
