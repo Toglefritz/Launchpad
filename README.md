@@ -1,52 +1,36 @@
-# Gadgetron :robot:
+# Launchpad :rocket:
 
-Gadgetron is your ultimate companion for diving into the exciting world of electronics, robotics, IoT, 3D printing, and more! Whether you’re a seasoned maker or just starting out, Gadgetron is here to streamline your project development, from the initial idea to ~~letting the blue smoke out~~ releasing a product to great commercial success.
+Welcome to Launchpad, the ultimate platform for learning new skills through immersive, real-world projects. Launchpad is designed to help you dive into the exciting world of project-based learning, where the best way to master a new skill is by tackling the challenges that come with creating a tangible project from start to finish.
 
-## What is Gadgetron?
+## What is Launchpad?
 
-Getting started on a new project can be at once exciting and intimidating. You have a great idea, but where do you start? What components do you need? How do you put it all together? How do magnets work?
+Learning a new skill effectively requires more than just reading books or watching tutorial videos. Real growth comes from immersing yourself in the challenges of building a real project. By working on a project, you encounter obstacles and solve problems for which theoretical learning alone cannot prepare you.
 
-Gadgetron is a tool for Makers who are eager to dive into their projects and start building without
-delay. It is a tool for getting over whatever the equivalent of "writer's block" is for electrical
-engineers. Simply describe the project you’re working on, and Gadgetron will:
+Building a project from start to finish enforces a kind of honesty in the learning process because it forces you to test your understanding of every part of a skill. There’s no skipping over the difficult parts or glossing over the details. You must confront and resolve every aspect, ensuring a deep and comprehensive mastery of the skill.
 
-- **Recommend Key Components**: Discover the best development boards, sensors, breakout PCBs, power sources, and other essential elements for your project.
-- **Provide Connection Guidance**: Understand how all these components connect and interact, so you can get started without getting bogged down in research.
-- **Offer Learning Resources**: Access a treasure trove of tutorials, product recommendations, and guides that make learning new skills and concepts a breeze.
+Launchpad is here to help you embrace these challenges as critical parts of the learning process. It is crafted for learners who want to gain new skills by diving headfirst into real-world projects. With Launchpad, you will:
 
-When you’re ready to build, Gadgetron’s job isn’t done! You can capture images of your breadboard,
-parts collection, or prototype build, and Gadgetron will provide feedback and troubleshooting
-assistance.
+- **Create Custom Guided Projects**: Receive personalized, step-by-step instructions tailored to your specific project, ensuring you confront every aspect of the skill you aim to master.
+- **Recommend Key Resources**: Discover the best tutorials, articles, and tools to aid you in your learning journey.
+- **Offer Real-Time Feedback**: Get instant feedback on your progress, with suggestions and troubleshooting tips to keep you on track.
+
+By completing projects with Launchpad, you not only acquire new skills but also build a portfolio of finished projects that demonstrate your mastery. Whether you’re a student, a professional looking to upskill, or a lifelong learner, Launchpad transforms your curiosity into tangible, demonstrable expertise through the power of hands-on projects.
 
 ## Features
 
-### Project Scoping and Recommendations
-
-- **Describe Your Project**: Enter details about what you’re trying to build, and let Gadgetron work its magic.
-- **Component Recommendations**: Get suggestions for development boards, sensors, power sources, and more.
-- **Connection Guidance**: Learn how to connect all the components together seamlessly.
-
-### Learning and Resources
-
-- **Learning Resources**: Access tutorials, product recommendations, and more to expand your knowledge.
-- **Community and Support**: Join our community of makers and get support from fellow enthusiasts.
-
-### Build Assistance
-
-- **Image Capture and Feedback**: Snap a photo of your setup and get instant feedback and troubleshooting tips.
-- **Step-by-Step Instructions**: Follow detailed guides to assemble and test your project.
-
-## Philosophy Behind Gemini-Powered Features
-
-The design philosophy of the Gadgetron app centers around seamlessly integrating AI-powered features to enhance user experience without making the presence of artificial intelligence overtly obvious. Many of the advanced functionalities in the app, such as search and project troubleshooting, are powered by Google Gemini services via Firebase. The intention is for users to benefit from these features naturally, without constantly being reminded that AI is at work.
-
-### Invisible Integration of AI
-
-In contrast to other applications that prominently feature chatbots and explicitly highlight their reliance on Large Language Models (LLMs) for interaction, Gadgetron takes a more subtle approach. AI should be like the technology in a smartphone or the internet itself—once considered groundbreaking, now integral and seamlessly woven into the fabric of everyday experiences.
-
-For example, when Gadgetron is asked to recommend components or troubleshoot an issue with a project, Gemini works behind the scenes to provide accurate and helpful information. This is analogous to how modern cars utilize countless sensors and microprocessors to ensure a smooth and safe ride, yet drivers are rarely conscious of these underlying systems at work.
-
-The belief is rooted in the idea that AI and LLM systems will soon be foundational elements of many applications, much like electricity or the internet. These systems will quietly power numerous features and services, providing intelligence and efficiency that users will simply expect as a given. There is no need for users to understand the complexities of the AI models or the data processing happening in the background (unless, of course, you are the type of user reading this document right now). Instead, the app should be perceived as a system that "just works," guiding users through the intricacies of electronics, robotics, IoT, and 3D printing with ease.
+- **Personalized Learning Pathways**: Tailored project recommendations based on your interests,
+  goals, and skill level.
+- **Step-by-Step Guidance**: Detailed instructions, multimedia tutorials, and real-time feedback to
+  support you throughout your learning journey.
+- **AI-Powered Assistance**: A virtual mentor available 24/7 to provide hints, answer questions, and
+  offer encouragement.
+- **Community Collaboration**: Join groups, share ideas, and get feedback from peers and experts.
+- **Progress Tracking**: Visual indicators and detailed analytics to monitor your progress and
+  achievements.
+- **Resource Library**: Access a vast collection of articles, videos, and tutorials to supplement
+  your learning.
+- **Achievements and Rewards**: Earn badges, certificates, and rewards as you complete projects and
+  reach milestones.
 
 ## Feedback and Support
 
@@ -54,10 +38,10 @@ Your feedback is invaluable! If you have any questions, suggestions, or need hel
 
 ## Repository Structure
 
-This repository contains all the resources for the Gadgetron project. Here’s a quick overview:
+This repository contains all the resources for the Launchpad project. Here’s a quick overview:
 
 ```txt
-Gadgetron/
+Launchpad/
 │
 ├── flutter_app/
 │   ├── lib/
@@ -75,6 +59,10 @@ Gadgetron/
 │   │   ├── usage.md
 │   │   └── troubleshooting.md
 │   ├── architecture.md
+│   └── README.md
+|
+├── firebase_functions/
+│   ├── functions/
 │   └── README.md
 │
 ├── demo/
@@ -98,16 +86,20 @@ Gadgetron/
 
 ### flutter_app/
 
-Contains the source code for the Gadgetron Flutter app. This is a cross platform app designed to run on a wide
+Contains the source code for the Launchpad Flutter app. This is a cross platform app designed to run on a wide
 variety of platforms.
 
 ### docs/
 
 Houses all documentation files, including API documentation, user guides, and architectural overviews.
 
+### cloud_functions/
+
+Contains code for the Firebase Functions backend infrastructed used by this project.
+
 ### demo/
 
-Includes demonstration materials such as videos and screenshots to help you understand and use Gadgetron effectively.
+Includes demonstration materials such as videos and screenshots to help you understand and use Launchpad effectively.
 
 ### githooks/
 
@@ -119,7 +111,7 @@ Contains scripts for deployment, testing, and other automation tasks.
 
 ## License
 
-Gadgetron is released under the MIT License. See the LICENSE file for more details.
+Launchpad is released under the MIT License. See the LICENSE file for more details.
 
 ## Git Hooks
 
@@ -137,7 +129,7 @@ To ensure that the Git hooks are correctly set up in your local repository, foll
 1. Clone the Repository:
 
 ```bash
-git clone https://github.com/Toglefritz/Gadgetron
+git https://github.com/Toglefritz/Launchpad
 ```
 
 2. Run the setup-hooks.sh script to install the hooks:

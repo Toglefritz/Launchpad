@@ -1,6 +1,6 @@
 # Experiment Results Directory
 
-This directory contains the results of various experiments conducted to improve the performance of the AI system used in the Gadgetron app. Each experiment tests different configurations of temperature, system instructions, personas, and other system design parameters.
+This directory contains the results of various experiments conducted to improve the performance of the AI systems used in the Launchpad app. Each experiment tests different configurations of temperature, system instructions, personas, and other system design parameters.
 
 ## Directory Structure
 
