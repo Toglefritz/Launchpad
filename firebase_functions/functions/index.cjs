@@ -18,6 +18,7 @@
 
 const functions = require('firebase-functions');
 const performSearch = require('./functions/performSearch.cjs');
+const createUserDocument = require('./functions/createUserDocument.cjs');
 
 /**
  * @brief Endpoint calling the performSearch function.
@@ -28,4 +29,18 @@ const performSearch = require('./functions/performSearch.cjs');
  */
 exports.performSearch = functions.https.onRequest(async (req, res) => {
   await performSearch(req, res);
+});
+
+/**
+ * @brief Firebase Function trigger for creating a user document.
+ *
+ * This Firebase Function is triggered automatically when a new user is created 
+ * via Firebase Authentication. It calls the createUserDocument function to 
+ * create a corresponding document in Firestore with initial user data.
+ *
+ * @param {functions.auth.UserRecord} user - The user record object containing 
+ * information about the newly created user.
+ */
+exports.createUserDocument = functions.auth.user().onCreate(async (user) => {
+  await createUserDocument(user);
 });

@@ -23,7 +23,6 @@ firebase-functions/
 │   │   ├── performSearch.cjs
 │   ├── index.cjs
 │   └── package.json
-└── .firebaserc
 └── firebase.json
 ```
 
@@ -48,21 +47,6 @@ firebase-functions/
 
 - **Purpose**: Aggregates all functions for export.
 - **Details**: Imports and exports all the individual functions, making them available for deployment.
-
-#### functions/package.json
-
-- **Purpose**: Manages dependencies and scripts for Firebase Functions.
-- **Details**: Contains information about the project and lists dependencies required for running the functions. Also includes scripts for common tasks like deployment and logging.
-
-#### .firebaserc
-
-- **Purpose**: Configuration file for Firebase CLI.
-- **Details**: Specifies the Firebase project settings, including the default project to use for CLI commands.
-
-#### firebase.json
-
-- **Purpose**: Configuration file for Firebase project.
-- **Details**: Defines settings specific to Firebase services, such as functions. Indicates the source directory for the functions code.
 
 ## Getting Started
 
