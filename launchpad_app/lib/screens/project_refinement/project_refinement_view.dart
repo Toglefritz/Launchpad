@@ -1,22 +1,19 @@
-import 'package:firebase_vertexai/firebase_vertexai.dart';
 import 'package:flutter/material.dart';
 import 'package:launchpad_app/components/app_bar_button.dart';
-import 'package:launchpad_app/screens/project_explore/components/chat_message.dart';
-import 'package:launchpad_app/screens/project_explore/project_explore_controller.dart';
-import 'package:launchpad_app/screens/project_explore/project_explore_route.dart';
-import 'package:launchpad_app/services/firebase_gemini/models/message_role.dart';
+import 'package:launchpad_app/screens/project_refinement/project_refinement_controller.dart';
+import 'package:launchpad_app/screens/project_refinement/project_refinement_route.dart';
 import 'package:launchpad_app/theme/insets.dart';
 
-/// A view for the [ProjectExploreRoute] widget.
+/// A view for the [ProjectRefinementRoute] widget.
 ///
 /// This view is displayed after the app has obtained a response from Gemini for the user's project description
 /// submission.
-class ProjectExploreView extends StatelessWidget {
+class ProjectRefinementView extends StatelessWidget {
   /// A controller for this view.
-  final ProjectExploreController state;
+  final ProjectRefinementController state;
 
-  /// Creates an instance of the [ProjectExploreView] widget.
-  const ProjectExploreView(
+  /// Creates an instance of the [ProjectRefinementView] widget.
+  const ProjectRefinementView(
     this.state, {
     super.key,
   });
@@ -40,33 +37,8 @@ class ProjectExploreView extends StatelessWidget {
       ),
       body: SafeArea(
         child: CustomScrollView(
-          controller: state.scrollController,
           slivers: <Widget>[
-            SliverPadding(
-              padding: const EdgeInsets.all(Insets.small),
-              sliver: SliverToBoxAdapter(
-                child: SelectionArea(
-                  child: ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: state.messages.length,
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int index) {
-                      final Content chatMessage = state.messages[index];
-                      final String messageText = state.getContentText(chatMessage);
-
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: Insets.small),
-                        child: ChatMessage(
-                          messageContents: messageText,
-                          role: MessageRole.values.firstWhere((role) => role.identifier == chatMessage.role),
-                          onLinkTap: state.onLinkTap,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ),
+            // TODO(Toglefritz): display project initial draft
             SliverFillRemaining(
               hasScrollBody: false,
               child: Column(
@@ -75,7 +47,7 @@ class ProjectExploreView extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(Insets.small),
                     child: TextField(
-                      controller: state.exploreFieldController,
+                      controller: state.refineFieldController,
                       maxLines: null,
                       decoration: InputDecoration(
                         suffixIcon: IconButton(
@@ -89,7 +61,7 @@ class ProjectExploreView extends StatelessWidget {
                                   width: 24.0,
                                   child: CircularProgressIndicator(),
                                 ),
-                          onPressed: state.onExplorationQuery,
+                          onPressed: state.onRefinementQuery,
                         ),
                       ),
                       enabled: !state.isWaitingForResponse,

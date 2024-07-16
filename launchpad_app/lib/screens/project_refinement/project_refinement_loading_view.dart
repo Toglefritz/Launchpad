@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:launchpad_app/components/loader/wave_loading_indicator.dart';
-import 'package:launchpad_app/screens/project_explore/project_explore_controller.dart';
-import 'package:launchpad_app/screens/project_explore/project_explore_route.dart';
+import 'package:launchpad_app/screens/project_refinement/project_refinement_controller.dart';
+import 'package:launchpad_app/screens/project_refinement/project_refinement_route.dart';
 import 'package:launchpad_app/theme/insets.dart';
 
-/// A view for the [ProjectExploreRoute] widget.
+/// A view for the [ProjectRefinementRoute] widget.
 ///
 /// This view is displayed after the app has submitted a query to Gemini but before a response has been received. It
 /// simply displays a loading indicator to the user while this asynchronous process is underway.
-class ProjectExploreLoadingView extends StatelessWidget {
+class ProjectRefinementLoadingView extends StatelessWidget {
   /// A controller for this view.
-  final ProjectExploreController state;
+  final ProjectRefinementController state;
 
-  /// Creates an instance of the [ProjectExploreLoadingView] widget.
-  const ProjectExploreLoadingView(
+  /// Creates an instance of the [ProjectRefinementLoadingView] widget.
+  const ProjectRefinementLoadingView(
     this.state, {
     super.key,
   });

@@ -1,56 +1,47 @@
+import 'dart:convert';
+
 import 'package:firebase_vertexai/firebase_vertexai.dart';
 import 'package:flutter/material.dart';
-import 'package:launchpad_app/screens/project_explore/project_explore_loading_view.dart';
-import 'package:launchpad_app/screens/project_explore/project_explore_route.dart';
-import 'package:launchpad_app/screens/project_explore/project_explore_view.dart';
+import 'package:launchpad_app/screens/project_refinement/project_refinement_loading_view.dart';
+import 'package:launchpad_app/screens/project_refinement/project_refinement_route.dart';
+import 'package:launchpad_app/screens/project_refinement/project_refinement_view.dart';
 import 'package:launchpad_app/services/firebase_gemini/gemini_service.dart';
+import 'package:launchpad_app/services/project/project.dart';
 import 'package:launchpad_app/services/search/models/search.dart';
 import 'package:launchpad_app/services/search/models/search_extensions.dart';
 import 'package:launchpad_app/services/search/models/search_result.dart';
 import 'package:launchpad_app/services/search/search_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/// A controller for the [ProjectExploreRoute] widget.
-class ProjectExploreController extends State<ProjectExploreRoute> {
-  /// A [ChatSession] representing a multi-turn conversation between the user and the Gemini model. This session
-  /// contains, among other information, this history of the conversation. This [ChatSession] history is presented to
-  /// the user in this route.
+/// A controller for the [ProjectRefinementRoute] widget.
+class ProjectRefinementController extends State<ProjectRefinementRoute> {
+  /// A [ChatSession] representing a multi-turn conversation between the user and the Gemini model. Note, however, that
+  /// the user interface does not resemble a traditional chat interface. Rather, the interface displays the current
+  /// project draft created from the initial project description provided by the user or from the user's subsequent
+  /// feedback. So, the "chat" effectively only displays the most recent message from the Gemini model.
   ChatSession? chat;
 
-  /// A list of messages in the conversation. Each message is created either by the user or by the Gemini model. In the
-  /// case of messages from Gemini, if they originate from responses that include function calls, the function calls are
-  /// performed and their results are displayed in the conversation.
-  List<Content> messages = [];
-
-  /// A controller for the [CustomScrollView] widget used in this view. This controller is used to scroll the view to
-  /// the bottom when new messages are added to the chat history.
-  final ScrollController scrollController = ScrollController();
+  /// A [Project] object representing the project draft created from the initial project description provided by the
+  /// user or from the user's subsequent feedback. This object will be modified when the user provides feedback to the
+  /// Gemini model.
+  Project? project;
 
   /// A controller for the [TextField] used to submit additional queries to the Gemini model.
-  final TextEditingController exploreFieldController = TextEditingController();
+  final TextEditingController refineFieldController = TextEditingController();
 
   /// Determines if the app is currently awaiting a response from the Gemini model for a new query.
-  bool isWaitingForResponse = false;
+  bool isWaitingForResponse = true;
 
   @override
   void initState() {
     super.initState();
-    // Start a chat session with the Gemini system.
+    // Start a "chat" session with the Gemini system.
     _startChatSession();
-
-    // Add the initial user message to the conversation.
-    messages.add(
-      Content(
-        'user',
-        [
-          TextPart(widget.projectDescription),
-        ],
-      ),
-    );
   }
 
   /// Starts a [ChatSession] with the Gemini model. This session is used to enable a multi-turn conversation with the
-  /// Gemini model about the project idea provided to this route.
+  /// Gemini model about the project idea provided to this route. This route only displays the parsed project idea
+  /// from the most recent message from Gemini and does not display a traditional chat interface.
   Future<void> _startChatSession() async {
     try {
       // Start a chat session with the Gemini model.
@@ -67,7 +58,8 @@ class ProjectExploreController extends State<ProjectExploreRoute> {
     await _submitProjectDescription();
   }
 
-  /// Submits the user's project description to the Gemini model to obtain a response.
+  /// Submits the user's project description to the Gemini model to obtain a response. This response forms the initial
+  /// draft of the project that the user can then refine.
   Future<void> _submitProjectDescription() async {
     // Obtain the project description provided by the user in the [ProjectSearchRoute].
     final String projectDescription = widget.projectDescription;
@@ -85,12 +77,9 @@ class ProjectExploreController extends State<ProjectExploreRoute> {
 
     // Parse the response before adding it to the chat history.
     await _parseResponse(response);
-
-    // Scroll to the bottom of the conversation so the most recent message is visible.
-    _scrollToBottom();
   }
 
-  /// Parses the response from the Gemini model and adds the response to the chat history.
+  /// Parses the response from the Gemini model to create a [Project] object that represents the project draft.
   ///
   /// Responses from the Gemini model may contain function calls. This method processes the response to execute any
   /// function calls and adds the results to the chat history.
@@ -106,34 +95,53 @@ class ProjectExploreController extends State<ProjectExploreRoute> {
     final List<FunctionResponse> functionCallResults;
     if (functionCalls.isNotEmpty) {
       functionCallResults = await _executeFunctionCalls(functionCalls);
-    }
-    // Otherwise, if no function calls are present, add the candidate to the chat history.
-    else {
-      setState(() {
-        messages.add(candidate);
-      });
 
-      // Since the response is only text, parsing is complete.
+      // Create a Content object from the function call results.
+      final Content functionCallResultsContent = Content.functionResponses(functionCallResults);
+
+      // Submit the function call results to the Gemini model.
+      await _submitFunctionCallResults(functionCallResultsContent);
+    }
+
+    // Get the first TextPart from the first Candidate from the response. The app assumes that this part will contain
+    // the project draft.
+    final String responseText = getContentText(candidate);
+
+    // The Gemini model may include additional information before the JSON object or may include a Markdown code block
+    // around the JSON object. This extra content or code block is removed before the JSON object is parsed.
+    final int jsonStartIndex = responseText.indexOf('{');
+    final int jsonEndIndex = responseText.lastIndexOf('}');
+    final String projectDraft = responseText.substring(jsonStartIndex, jsonEndIndex + 1);
+
+    // Try to parse the project draft as a JSON object.
+    final Map<String, dynamic> projectDraftJson;
+    try {
+      projectDraftJson = jsonDecode(projectDraft) as Map<String, dynamic>;
+    } catch(e) {
+      debugPrint('Failed to parse project draft as JSON with exception, $e');
+
+      // TODO(Toglefritz): How should this error be handled? Perhaps make another request to Gemini?
+
       return;
     }
 
-    // Create a Content object from the function call results.
-    final Content functionCallResultsContent = Content.functionResponses(functionCallResults);
-
-    // Submit the function call results to the Gemini model.
-    await _submitFunctionCallResults(functionCallResultsContent);
+    // Create a Project object from the candidate.
+    setState(() {
+      project = Project.fromJson(projectDraftJson);
+      isWaitingForResponse = false;
+    });
   }
 
   /// Handles submission of a query from the user to explore the results returned by the Gemini model.
   ///
   /// This query may request a variety of information, such as more details on a specific project, questions about a
   /// part of the results, a request for more results, or other requests.
-  Future<void> onExplorationQuery() async {
+  Future<void> onRefinementQuery() async {
     // Cache the current text field value before it is cleared.
-    final String query = exploreFieldController.text;
+    final String query = refineFieldController.text;
 
     // Clear the text field now that the query is about to be submitted to the Gemini model.
-    exploreFieldController.clear();
+    refineFieldController.clear();
 
     // Put the input field into a loading state to indicate that the app is waiting for a response from the model.
     setState(() {
@@ -141,28 +149,15 @@ class ProjectExploreController extends State<ProjectExploreRoute> {
     });
 
     // Create a Content object from the query.
+    // TODO(Toglefritz): Considering adding additional content to augment the project feedback from the user.
     final Content queryContent = Content.text(query);
 
     // Submit the new query to the Gemini model.
     await GeminiService.sendChatMessage(chat: chat!, content: queryContent);
 
-    // Scroll to the bottom of the chat history so the most recent message is visible. Also put the input field back
-    // into a non-loading state.
-    if (scrollController.hasClients) {
-      setState(() {
-        isWaitingForResponse = false;
-
-        scrollController.animateTo(
-          scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
-      });
-    } else {
-      setState(() {
-        isWaitingForResponse = false;
-      });
-    }
+    setState(() {
+      isWaitingForResponse = false;
+    });
   }
 
   /// Processes all function calls in the response from the Gemini model. This function returns a list of responses
@@ -257,8 +252,6 @@ class ProjectExploreController extends State<ProjectExploreRoute> {
 
     // Parse the response before adding it to the chat history.
     await _parseResponse(response);
-
-    _scrollToBottom();
   }
 
   /// Returns the text content of a [Content] object to display in the chat history.
@@ -273,20 +266,6 @@ class ProjectExploreController extends State<ProjectExploreRoute> {
     ) as TextPart;
 
     return textPart.text;
-  }
-
-  /// Scrolls to the bottom of the chat history. The app does this when a new message is added to the chat history
-  /// so that the most recent message is visible to the user.
-  void _scrollToBottom() {
-    // If the scroll controller has clients, which will be the case if the ProjectExploreView is being displayed,
-    // scroll to the bottom of the chat history so the most recent message is visible.
-    if (scrollController.hasClients) {
-      scrollController.animateTo(
-        scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-      );
-    }
   }
 
   /// Handles taps on links within the message content. Typically, these links will be returned within the responses
@@ -307,12 +286,12 @@ class ProjectExploreController extends State<ProjectExploreRoute> {
   @override
   Widget build(BuildContext context) {
     // If a response has not been received from the Gemini model, display a loading view.
-    if (chat?.history.isEmpty ?? true) {
-      return ProjectExploreLoadingView(this);
+    if (project == null || isWaitingForResponse) {
+      return ProjectRefinementLoadingView(this);
     }
     // Once a response is received, display the results.
     else {
-      return ProjectExploreView(this);
+      return ProjectRefinementView(this);
     }
   }
 }

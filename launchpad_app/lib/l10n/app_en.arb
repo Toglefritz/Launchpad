@@ -67,7 +67,7 @@
   "@homeTitle": {
     "description": "Title for the home page"
   },
-  "loadingResults": "Loading results...",
+  "loadingResults": "Loading project...",
   "@loadingResults": {
     "description": "Text displayed while the app is loading search results."
   },
@@ -106,6 +106,16 @@
   "privacyPolicy": "privacy policy",
   "@privacyPolicy": {
     "description": "Text for a button that allows the user to view the privacy policy."
+  },
+  "promptStep1": "Generate a comprehensive project guide for {userDescription} that follows the schema.org HowTo schema. The guide should include detailed steps, necessary tools and materials, and relevant tips and challenges to ensure the user explores every aspect of the skill.",
+  "@promptStep1": {
+    "description": "Gemini prompt for the first step in the project creation flow.",
+    "placeholders": {
+      "userDescription": {
+        "type": "String",
+        "example": "I want to learn how to weld."
+      }
+    }
   },
   "projectExploreTitle": "Explore",
   "@projectExploreTitle": {
