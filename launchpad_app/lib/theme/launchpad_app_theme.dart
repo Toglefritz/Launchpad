@@ -149,7 +149,7 @@ class LaunchpadAppTheme {
                     );
               }
               return ThemeData.light().textTheme.bodyMedium?.copyWith(
-                    color: Colors.grey.shade600,
+                    color: Colors.grey.shade700,
                   );
             },
           ),

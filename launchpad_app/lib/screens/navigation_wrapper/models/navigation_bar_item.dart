@@ -28,13 +28,23 @@ enum NavigationBarItem {
     }
   }
 
-  /// Returns the icon for the item.
+  /// Returns the icon for the item when the corresponding menu item is selected.
   Icon get icon {
     switch (this) {
       case NavigationBarItem.home:
         return const Icon(Icons.rocket);
       case NavigationBarItem.account:
         return const Icon(Icons.account_circle);
+    }
+  }
+
+  /// Returns the icon to use for item when the corresponding menu item is not selected.
+  Icon get inactiveIcon {
+    switch (this) {
+      case NavigationBarItem.home:
+        return const Icon(Icons.rocket_outlined);
+      case NavigationBarItem.account:
+        return const Icon(Icons.account_circle_outlined);
     }
   }
 }

@@ -33,7 +33,8 @@ class NavigationWrapperView extends StatelessWidget {
           destinations: List.generate(
             state.children.length,
             (int index) => NavigationDestination(
-              icon: state.items[index].icon,
+              selectedIcon: state.items[index].icon,
+              icon: state.items[index].inactiveIcon,
               label: state.items[index].label(context),
             ),
           ),
