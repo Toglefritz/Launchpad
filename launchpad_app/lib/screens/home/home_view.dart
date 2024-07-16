@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:launchpad_app/components/primary_cta_button.dart';
-import 'package:launchpad_app/screens/project_search/project_search_controller.dart';
+import 'package:launchpad_app/components/tertiary_cta_button.dart';
+import 'package:launchpad_app/screens/home/home_controller.dart';
 import 'package:launchpad_app/theme/insets.dart';
 
-/// A view for the [ProjectSearchController] widget.
-class ProjectSearchView extends StatelessWidget {
+/// A view for the [HomeController] widget.
+class HomeView extends StatelessWidget {
   /// A controller for this view.
-  final ProjectSearchController state;
+  final HomeController state;
 
-  /// Creates an instance of the [ProjectSearchView] widget.
-  const ProjectSearchView(
+  /// Creates an instance of the [HomeView] widget.
+  const HomeView(
     this.state, {
     super.key,
   });
@@ -21,6 +21,12 @@ class ProjectSearchView extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        title: Text(
+          AppLocalizations.of(context)!.homeTitle,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                fontSize: 24,
+              ),
+        ),
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) => state.onLogout(),
@@ -49,29 +55,18 @@ class ProjectSearchView extends StatelessWidget {
               padding: const EdgeInsets.all(Insets.medium),
               sliver: SliverToBoxAdapter(
                 child: Text(
-                  AppLocalizations.of(context)!.projectSearchTitle,
+                  AppLocalizations.of(context)!.yourProjectsTitle,
                   style: Theme.of(context).textTheme.headlineSmall,
-                  textAlign: TextAlign.center,
                 ),
               ),
             ),
             SliverPadding(
               padding: const EdgeInsets.all(Insets.medium),
               sliver: SliverToBoxAdapter(
-                child: TextField(
-                  controller: state.searchController,
-                  maxLines: null,
-                  minLines: 6,
-                ),
-              ),
-            ),
-            SliverPadding(
-              padding: const EdgeInsets.all(Insets.medium),
-              sliver: SliverToBoxAdapter(
-                child: PrimaryCTAButton(
-                  onPressed: state.onSearch,
-                  icon: const Icon(Icons.bolt),
-                  label: Text(AppLocalizations.of(context)!.searchButton.toUpperCase()),
+                child: TertiaryCTAButton(
+                  onPressed: state.onNewProject,
+                  icon: const Icon(Icons.add),
+                  label: Text(AppLocalizations.of(context)!.newProject),
                 ),
               ),
             ),

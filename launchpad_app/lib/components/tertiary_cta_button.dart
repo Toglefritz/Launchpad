@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:launchpad_app/components/dashed_box_border.dart';
 import 'package:launchpad_app/theme/insets.dart';
 
 /// A custom button widget that mimics the behavior of [OutlinedButton.icon] but ensures that the text style from the
@@ -6,15 +7,15 @@ import 'package:launchpad_app/theme/insets.dart';
 ///
 /// In Flutter, when using the [OutlinedButton.icon] constructor, the text style defined in the theme is not
 /// automatically applied to the label text. This can lead to inconsistencies in the appearance of button text
-/// throughout the app. The [SecondaryCTAButton] addresses this issue by explicitly applying the text style from the
+/// throughout the app. The [TertiaryCTAButton] addresses this issue by explicitly applying the text style from the
 /// theme to the label.
 ///
-/// This widget accepts the same parameters as [OutlinedButton.icon]. It creates a button with a neobrutalist design
-/// featuring a dark, hard-edged shadow and rounded corners.
+/// This widget accepts the same parameters as [OutlinedButton.icon]. The button uses a dashed border to create a
+/// call to action that is less prominent than the other buttons in the app.
 ///
-/// The [SecondaryCTAButton] can also accept a [style] parameter to customize its appearance further. If no [style] is
+/// The [TertiaryCTAButton] can also accept a [style] parameter to customize its appearance further. If no [style] is
 /// provided, it defaults to using the `OutlinedButton.styleFrom` method with the text style from the theme.
-class SecondaryCTAButton extends StatelessWidget {
+class TertiaryCTAButton extends StatelessWidget {
   /// Called when the button is tapped or otherwise activated.
   final VoidCallback? onPressed;
 
@@ -27,10 +28,10 @@ class SecondaryCTAButton extends StatelessWidget {
   /// Customizes the appearance of the [DefaultTextStyle] widget that wraps the [label].
   final TextStyle? style;
 
-  /// Creates a [SecondaryCTAButton].
+  /// Creates a [TertiaryCTAButton].
   ///
   /// The [icon] and [label] arguments must not be null.
-  const SecondaryCTAButton({
+  const TertiaryCTAButton({
     required this.onPressed,
     required this.icon,
     required this.label,
@@ -48,16 +49,14 @@ class SecondaryCTAButton extends StatelessWidget {
     return Container(
       // Create a shadow with a hard edge to create a brutalist design.
       decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).primaryColorDark,
-            offset: const Offset(Insets.tiny, Insets.tiny),
-          ),
-        ],
+        border: const DashedBoxBorder(),
         borderRadius: BorderRadius.circular(12.0),
       ),
       child: OutlinedButton.icon(
         onPressed: onPressed,
+        style: Theme.of(context).outlinedButtonTheme.style?.copyWith(
+              side: WidgetStateProperty.all(BorderSide.none),
+            ),
         icon: Padding(
           padding: const EdgeInsets.only(right: Insets.small),
           child: icon,

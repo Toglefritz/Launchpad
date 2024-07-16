@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:launchpad_app/screens/project_explore/project_explore_loading_view.dart';
 import 'package:launchpad_app/screens/project_explore/project_explore_route.dart';
 import 'package:launchpad_app/screens/project_explore/project_explore_view.dart';
-import 'package:launchpad_app/screens/project_search/project_search_route.dart';
 import 'package:launchpad_app/services/firebase_gemini/gemini_service.dart';
 import 'package:launchpad_app/services/search/models/search.dart';
 import 'package:launchpad_app/services/search/models/search_extensions.dart';
@@ -11,7 +10,7 @@ import 'package:launchpad_app/services/search/models/search_result.dart';
 import 'package:launchpad_app/services/search/search_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/// A controller for the [ProjectSearchRoute] widget.
+/// A controller for the [ProjectExploreRoute] widget.
 class ProjectExploreController extends State<ProjectExploreRoute> {
   /// A [ChatSession] representing a multi-turn conversation between the user and the Gemini model. This session
   /// contains, among other information, this history of the conversation. This [ChatSession] history is presented to

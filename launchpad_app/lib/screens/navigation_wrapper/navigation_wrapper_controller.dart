@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:launchpad_app/screens/home/home_route.dart';
 import 'package:launchpad_app/screens/navigation_wrapper/models/navigation_bar_item.dart';
 import 'package:launchpad_app/screens/navigation_wrapper/navigation_wrapper_route.dart';
 import 'package:launchpad_app/screens/navigation_wrapper/navigation_wrapper_view.dart';
 import 'package:launchpad_app/screens/onboarding/onboarding_route.dart';
-import 'package:launchpad_app/screens/project_search/project_search_route.dart';
 
 /// A controller for the [NavigationWrapperRoute] widget.
 ///
@@ -25,7 +25,7 @@ class NavigationWrapperController extends State<NavigationWrapperRoute> {
   late Map<NavigationBarItem, Widget> _children;
 
   /// The index of the screen that is currently being displayed.
-  NavigationBarItem _currentItem = NavigationBarItem.projectSearch;
+  NavigationBarItem _currentItem = NavigationBarItem.home;
 
   /// A getter that returns the positional index of the [_currentItem] in the [_children] map. In other words, this
   /// is the index of the currently active page in terms of its position in the list of keys for the [_children] map.
@@ -49,8 +49,8 @@ class NavigationWrapperController extends State<NavigationWrapperRoute> {
   /// [IndexedStack] widget where the item being displayed is determined by the index of the [IndexedStack] widget.
   void _initChildren() {
     _children = <NavigationBarItem, Widget>{
-      NavigationBarItem.projectSearch: const ProjectSearchRoute(),
-      NavigationBarItem.projectTroubleshooting: const Placeholder(),
+      NavigationBarItem.home: const HomeRoute(),
+      NavigationBarItem.account: const Placeholder(),
     };
   }
 

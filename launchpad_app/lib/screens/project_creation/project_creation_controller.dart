@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:launchpad_app/screens/project_creation/project_creation_route.dart';
+import 'package:launchpad_app/screens/project_creation/project_creation_view.dart';
 import 'package:launchpad_app/screens/project_explore/project_explore_route.dart';
-import 'package:launchpad_app/screens/project_search/project_search_route.dart';
-import 'package:launchpad_app/screens/project_search/project_search_view.dart';
 import 'package:launchpad_app/services/firebase_auth/authentication_service.dart';
 
-/// A controller for the [ProjectSearchRoute] widget.
-class ProjectSearchController extends State<ProjectSearchRoute> {
+/// A controller for the [ProjectCreationRoute] widget.
+class ProjectCreationController extends State<ProjectCreationRoute> {
   /// A controller for the text input field used by users to describe their project as a method of searching.
   final TextEditingController searchController = TextEditingController();
 
@@ -30,5 +30,5 @@ class ProjectSearchController extends State<ProjectSearchRoute> {
   }
 
   @override
-  Widget build(BuildContext context) => ProjectSearchView(this);
+  Widget build(BuildContext context) => ProjectCreationView(this);
 }

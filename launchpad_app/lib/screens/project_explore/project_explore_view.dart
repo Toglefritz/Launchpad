@@ -1,14 +1,13 @@
 import 'package:firebase_vertexai/firebase_vertexai.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:launchpad_app/components/app_bar_button.dart';
 import 'package:launchpad_app/screens/project_explore/components/chat_message.dart';
 import 'package:launchpad_app/screens/project_explore/project_explore_controller.dart';
-import 'package:launchpad_app/screens/project_search/project_search_controller.dart';
+import 'package:launchpad_app/screens/project_explore/project_explore_route.dart';
 import 'package:launchpad_app/services/firebase_gemini/models/message_role.dart';
 import 'package:launchpad_app/theme/insets.dart';
 
-/// A view for the [ProjectSearchController] widget.
+/// A view for the [ProjectExploreRoute] widget.
 ///
 /// This view is displayed after the app has obtained a response from Gemini for the user's project description
 /// submission.
@@ -29,10 +28,6 @@ class ProjectExploreView extends StatelessWidget {
         leading: AppBarButton(
           icon: const Icon(Icons.arrow_back),
           onTap: () => Navigator.pop(context),
-        ),
-        title: Text(
-          AppLocalizations.of(context)!.projectExploreTitle,
-          style: Theme.of(context).textTheme.headlineSmall,
         ),
         actions: [
           AppBarButton(

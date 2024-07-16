@@ -138,27 +138,30 @@ class LaunchpadAppTheme {
           side: BorderSide.none,
         ),
         navigationBarTheme: NavigationBarThemeData(
-          backgroundColor: const Color(0xFFD6D6D6),
-          // Scaffold background color
-          indicatorColor: Colors.grey.shade900,
-          indicatorShape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0),
-          ),
+          indicatorColor: Colors.transparent,
           labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-          labelTextStyle: WidgetStateProperty.all(
-            ThemeData.light().textTheme.bodyMedium?.copyWith(
-                  color: Colors.grey.shade900,
-                ),
+          labelTextStyle: WidgetStateProperty.resolveWith(
+            (states) {
+              if (states.contains(WidgetState.selected)) {
+                return ThemeData.light().textTheme.bodyMedium?.copyWith(
+                      color: Colors.grey.shade900,
+                      fontWeight: FontWeight.bold,
+                    );
+              }
+              return ThemeData.light().textTheme.bodyMedium?.copyWith(
+                    color: Colors.grey.shade600,
+                  );
+            },
           ),
           iconTheme: WidgetStateProperty.resolveWith(
             (states) {
               if (states.contains(WidgetState.selected)) {
                 return IconThemeData(
-                  color: Colors.grey.shade100,
+                  color: Colors.grey.shade900,
                 );
               }
               return IconThemeData(
-                color: Colors.grey.shade900,
+                color: Colors.grey.shade600,
               );
             },
           ),

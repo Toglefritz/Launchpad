@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:launchpad_app/screens/home/home_route.dart';
 import 'package:launchpad_app/screens/project_explore/project_explore_controller.dart';
-import 'package:launchpad_app/screens/project_search/project_search_route.dart';
 
 /// A route displaying the results returned by the Gemini model in response to a user's project description. This
 /// route offers a "chat" interface where the user can interact with the Gemini model to refine their project
@@ -17,7 +17,7 @@ class ProjectExploreRoute extends StatefulWidget {
     super.key,
   });
 
-  /// The project description provided by the user in the [ProjectSearchRoute].
+  /// The project description provided by the user in the [HomeRoute].
   final String projectDescription;
 
   @override
