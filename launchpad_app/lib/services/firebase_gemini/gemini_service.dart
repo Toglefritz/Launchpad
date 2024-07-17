@@ -31,7 +31,8 @@ class GeminiService {
   ///
   /// Initialization of the model consists of selecting a model with system instructions and providing "tools" for
   /// function calling. The system instructions are fetched from Firebase Remote Config.
-  static GenerativeModel get _model => FirebaseVertexAI.instance.generativeModel(
+  // TODO(Toglefritz): specify MIME type as JSON when the feature is supported
+  static GenerativeModel get _projectCreationModel => FirebaseVertexAI.instance.generativeModel(
         model: GeminiModel.gemini15Flash.modelIdentifier,
         generationConfig: _generationConfig,
         systemInstruction: Content.system(_remoteConfigService.getSystemInstructions()),
@@ -44,15 +45,15 @@ class GeminiService {
         ],
       );
 
-  /// Starts a chat session with the Gemini [_model].
+  /// Starts a chat session with the Gemini [_projectCreationModel].
   ///
   /// A chat session is a multi-turn conversation with the Gemini model. This method starts a new chat session with the
-  /// [_model] and returns the chat session object. This object handles management of the chat history internally.
+  /// [_projectCreationModel] and returns the chat session object. This object handles management of the chat history internally.
   /// The [sendChatMessage] method is used to send messages from the user to the Gemini system to continue the chat
   /// session.
   static Future<ChatSession> startChat() async {
     try {
-      final ChatSession chat = _model.startChat();
+      final ChatSession chat = _projectCreationModel.startChat();
 
       return chat;
     } catch (e) {
@@ -63,7 +64,7 @@ class GeminiService {
     }
   }
 
-  /// Uses the [_model] to generate a response to the prompt as part of a [ChatSession] ([chat]).
+  /// Uses the [_projectCreationModel] to generate a response to the prompt as part of a [ChatSession] ([chat]).
   ///
   /// The [content] argument can take several forms. The most common is a query from the user, as a string, or the
   /// results from function calls invoked from responses received from the model. The Gemini model is pre-configured
