@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:launchpad_app/components/dashed_outlines/dashed_divider.dart';
 import 'package:launchpad_app/components/buttons/secondary_cta_button.dart';
+import 'package:launchpad_app/components/dashed_outlines/dashed_divider.dart';
 import 'package:launchpad_app/screens/onboarding/components/basic_auth_form.dart';
 import 'package:launchpad_app/screens/onboarding/components/onboarding_legal_prompt.dart';
 import 'package:launchpad_app/screens/onboarding/onboarding_controller.dart';
