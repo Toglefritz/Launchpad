@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:launchpad_app/components/primary_cta_button.dart';
+import 'package:launchpad_app/components/app_bar/app_bar_button.dart';
+import 'package:launchpad_app/components/app_bar/app_bar_popup_menu.dart';
+import 'package:launchpad_app/components/buttons/primary_cta_button.dart';
 import 'package:launchpad_app/screens/project_creation/project_creation_controller.dart';
 import 'package:launchpad_app/theme/insets.dart';
 
@@ -21,33 +23,18 @@ class ProjectCreationView extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        leadingWidth: MediaQuery.textScalerOf(context).scale(Theme.of(context).textTheme.bodyMedium!.fontSize!),
-        leading: const BackButton(),
+        leading: AppBarButton(
+          icon: const Icon(Icons.arrow_back),
+          onTap: () => Navigator.pop(context),
+        ),
         title: Text(
           AppLocalizations.of(context)!.homeTitle,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 fontSize: 24,
               ),
         ),
-        actions: [
-          PopupMenuButton<String>(
-            onSelected: (value) => state.onLogout(),
-            itemBuilder: (BuildContext context) {
-              return [
-                PopupMenuItem<String>(
-                  value: AppLocalizations.of(context)!.logout,
-                  child: Text(
-                    AppLocalizations.of(context)!.logout,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ];
-            },
-            icon: Icon(
-              Icons.more_vert,
-              color: Theme.of(context).primaryColorDark,
-            ),
-          ),
+        actions: const [
+          AppBarPopupMenu(),
         ],
       ),
       body: SafeArea(

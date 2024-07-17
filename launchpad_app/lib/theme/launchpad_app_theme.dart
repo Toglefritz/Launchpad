@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:launchpad_app/components/dashed_input_border.dart';
+import 'package:launchpad_app/components/dashed_outlines/dashed_input_border.dart';
 import 'package:launchpad_app/theme/insets.dart';
 
 /// This class provides the theme for the Launchpad app based on the current brightness. Static getters are provided

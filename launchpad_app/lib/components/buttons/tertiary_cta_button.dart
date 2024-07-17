@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:launchpad_app/components/dashed_box_border.dart';
+import 'package:launchpad_app/components/dashed_outlines/dashed_box_border.dart';
 import 'package:launchpad_app/theme/insets.dart';
 
 /// A custom button widget that mimics the behavior of [OutlinedButton.icon] but ensures that the text style from the

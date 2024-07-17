@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:launchpad_app/components/dashed_line_painter.dart';
+import 'package:launchpad_app/components/dashed_outlines/dashed_line_painter.dart';
 
 /// A widget that draws a horizontal dashed divider line.
 ///

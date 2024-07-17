@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:firebase_vertexai/firebase_vertexai.dart';
 import 'package:flutter/material.dart';
+import 'package:launchpad_app/screens/project/project_route.dart';
 import 'package:launchpad_app/screens/project_refinement/project_refinement_loading_view.dart';
 import 'package:launchpad_app/screens/project_refinement/project_refinement_route.dart';
 import 'package:launchpad_app/screens/project_refinement/project_refinement_view.dart';
@@ -117,7 +118,7 @@ class ProjectRefinementController extends State<ProjectRefinementRoute> {
     final Map<String, dynamic> projectDraftJson;
     try {
       projectDraftJson = jsonDecode(projectDraft) as Map<String, dynamic>;
-    } catch(e) {
+    } catch (e) {
       debugPrint('Failed to parse project draft as JSON with exception, $e');
 
       // TODO(Toglefritz): How should this error be handled? Perhaps make another request to Gemini?
@@ -281,6 +282,19 @@ class ProjectRefinementController extends State<ProjectRefinementRoute> {
 
       // TODO(Toglefritz): How should this error be handled?
     }
+  }
+
+  /// Handles taps on the button used to finalize the project draft and navigate to the [ProjectRoute]
+  Future<void> onProjectAccepted() async {
+    // TODO(Toglefritz): Save the project to the Firebase backend, linked to the user's account.
+
+    // Navigate to the project execution view.
+    await Navigator.pushReplacement(
+      context,
+      MaterialPageRoute<void>(
+        builder: (context) => const ProjectRoute(),
+      ),
+    );
   }
 
   @override

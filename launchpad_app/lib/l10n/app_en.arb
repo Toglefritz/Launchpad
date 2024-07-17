@@ -117,10 +117,22 @@
       }
     }
   },
+  "projectApprovalButton": "Looks good!",
+    "@projectApprovalButton": {
+        "description": "Text for the button that allows the user to approve the project guide draft."
+    },
   "projectExploreTitle": "Explore",
   "@projectExploreTitle": {
     "description": "Title for the project explore page"
   },
+  "projectRefinementRequest": "Please review the initial project guide and indicate if any steps need more detail or if additional aspects should be included. Specific feedback will help improve the guide.",
+    "@projectRefinementRequest": {
+        "description": "A request to the user to provide feedback on the project guide draft."
+    },
+  "projectRefinementTitle": "Refine",
+    "@projectRefinementTitle": {
+        "description": "Title for the project refinement page"
+    },
   "projectSearchFieldTitle": "What would you like to learn?",
     "@projectSearchFieldTitle": {
         "description": "Title for the field used to start the project creation flow."
