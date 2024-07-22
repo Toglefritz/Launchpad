@@ -166,6 +166,10 @@ class LaunchpadAppTheme {
             },
           ),
         ),
+        expansionTileTheme: const ExpansionTileThemeData(
+          tilePadding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(),
+        ),
       );
 
   /// [ThemeData] for the app when a dark theme is enabled.

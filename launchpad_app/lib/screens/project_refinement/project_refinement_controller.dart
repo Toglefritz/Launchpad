@@ -33,6 +33,10 @@ class ProjectRefinementController extends State<ProjectRefinementRoute> {
   /// Determines if the app is currently awaiting a response from the Gemini model for a new query.
   bool isWaitingForResponse = true;
 
+  /// The steps within the [project] are displayed in a [Stepper] widget. This value determines which steps is
+  /// currently "active" and displayed to the user in this widget.
+  int currentStep = 0;
+
   @override
   void initState() {
     super.initState();
@@ -130,6 +134,14 @@ class ProjectRefinementController extends State<ProjectRefinementRoute> {
     setState(() {
       project = Project.fromJson(projectDraftJson);
       isWaitingForResponse = false;
+    });
+  }
+
+  /// Handles taps on steps within the [Stepper] widget that displays the project steps. Tapping on a step will
+  /// "open" that step in the [Stepper].
+  void onStepTapped(int step) {
+    setState(() {
+      currentStep = step;
     });
   }
 

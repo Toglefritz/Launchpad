@@ -59,6 +59,10 @@
   "@errorOnboardingWrongPassword": {
     "description": "Error message for when the user enters an incorrect password."
   },
+  "directions": "Directions",
+  "@directions": {
+    "description": "Text for the directions sections of the project guides"
+  },
   "homeLabel": "Home",
   "@homeLabel": {
     "description": "Label for the home item in the bottom navigation bar"
@@ -118,32 +122,48 @@
     }
   },
   "projectApprovalButton": "Looks good!",
-    "@projectApprovalButton": {
-        "description": "Text for the button that allows the user to approve the project guide draft."
-    },
+  "@projectApprovalButton": {
+    "description": "Text for the button that allows the user to approve the project guide draft."
+  },
   "projectExploreTitle": "Explore",
   "@projectExploreTitle": {
     "description": "Title for the project explore page"
   },
   "projectRefinementRequest": "Please review the initial project guide and indicate if any steps need more detail or if additional aspects should be included. Specific feedback will help improve the guide.",
-    "@projectRefinementRequest": {
-        "description": "A request to the user to provide feedback on the project guide draft."
-    },
+  "@projectRefinementRequest": {
+    "description": "A request to the user to provide feedback on the project guide draft."
+  },
   "projectRefinementTitle": "Refine",
-    "@projectRefinementTitle": {
-        "description": "Title for the project refinement page"
-    },
+  "@projectRefinementTitle": {
+    "description": "Title for the project refinement page"
+  },
   "projectSearchFieldTitle": "What would you like to learn?",
-    "@projectSearchFieldTitle": {
-        "description": "Title for the field used to start the project creation flow."
-    },
+  "@projectSearchFieldTitle": {
+    "description": "Title for the field used to start the project creation flow."
+  },
   "searchButton": "Engage",
   "@searchButton": {
     "description": "Text for the search button"
   },
+  "steps": "Steps",
+  "@steps": {
+    "description": "Text for the steps sections of the project guides"
+  },
+  "supplies": "Supplies",
+  "@supplies": {
+    "description": "Text for the supplies sections of the project guides"
+  },
   "termsOfService": "terms of service",
   "@termsOfService": {
     "description": "Text for a button that allows the user to view the terms of service."
+  },
+  "tips": "Tips",
+  "@tips": {
+    "description": "Text for the tips sections of the project guides"
+  },
+  "tools": "Tools",
+  "@tools": {
+    "description": "Text for the tools sections of the project guides"
   },
   "usernameLabel": "Username",
   "@usernameLabel": {

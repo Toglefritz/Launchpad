@@ -14,19 +14,16 @@ class Project {
 
   /// The list of steps required to complete the project.
   // TODO(Toglefritz): consider supporting HowToSection as well.
-  final List<HowToStep>? steps;
+  final List<HowToStep> steps;
 
-  /// The list of tools needed for the project.
+  /// The list of tools needed for the project. The project itself can have a list of tools as well as each step.
   final List<HowToTool>? tools;
 
-  /// The list of supplies needed for the project.
+  /// The list of supplies needed for the project. The project itself can have a list of supplies as well as each step.
   final List<HowToSupply>? supplies;
 
   /// The list of tips to help users complete the project.
   final List<HowToTip>? tips;
-
-  /// The total time required to complete the project.
-  final String? totalTime;
 
   /// Creates an instance of [Project].
   Project({
@@ -36,7 +33,6 @@ class Project {
     this.tools,
     this.supplies,
     this.tips,
-    this.totalTime,
   });
 
   /// Creates an instance of [Project] from a JSON object.
@@ -55,7 +51,6 @@ class Project {
           .toList(),
       tips:
           (json['tip'] as List<dynamic>).map((tipJson) => HowToTip.fromJson(tipJson as Map<String, dynamic>)).toList(),
-      totalTime: json['totalTime'] as String,
     );
   }
 }
