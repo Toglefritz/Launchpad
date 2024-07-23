@@ -1,2 +1,4 @@
 
 *.afdesign~lock~
+firebase_functions/.runtimeconfig.json
+firebase_functions/functions/functions/.runtimeconfig.json

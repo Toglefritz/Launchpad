@@ -21,14 +21,9 @@
  * The `authenticate` function is essential for securing Firebase Functions by
  * verifying the identity of the users making requests. It ensures that only
  * authenticated users can access protected endpoints.
- *
- * @note
- * This middleware requires the Firebase Admin SDK to be properly initialized
- * and configured in the `firebaseConfig.cjs` file.
  */
 
-// Import the Firebase Admin SDK authentication module
-const { auth } = require('../config/firebaseConfig.cjs');
+// Import the Firebase Admin SDK.
 const { getAuth } = require('firebase-admin/auth');
 
 /**
@@ -46,6 +41,12 @@ const { getAuth } = require('firebase-admin/auth');
  * @return {void}
  */
 const authenticate = async (req, res, next) => {
+  // If this function is running in the Firebase Emulator Suite, skip
+  // authentication.
+  if (process.env.FUNCTIONS_EMULATOR === 'true') {
+    return next();
+  }
+
   const idToken = req.headers.authorization?.split('Bearer ')[1];
   if (!idToken) {
     return res.status(401).json({ message: 'Unauthorized' });

@@ -64,7 +64,7 @@ async function performSearch(req, res) {
       }
     } catch (error) {
       // Handle errors in the request
-      res.status(500).send(`Search failed with exception: ${error.message}`);
+      res.status(500).send(`Search failed with exception, ${error.message}`);
     }
   });
 }
