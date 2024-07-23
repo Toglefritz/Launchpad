@@ -165,6 +165,10 @@
   "@tools": {
     "description": "Text for the tools sections of the project guides"
   },
+  "updatingProject": "Updating project...",
+  "@updatingProject": {
+    "description": "Text displayed while the app is updating a project."
+  },
   "usernameLabel": "Username",
   "@usernameLabel": {
     "description": "Label for the username field"

@@ -33,6 +33,9 @@ class ProjectRefinementController extends State<ProjectRefinementRoute> {
   /// Determines if the app is currently awaiting a response from the Gemini model for a new query.
   bool isWaitingForResponse = true;
 
+  /// Determines if a response to the initial project description has been received from the Gemini model.
+  bool get hasResponse => project != null;
+
   /// The steps within the [project] are displayed in a [Stepper] widget. This value determines which steps is
   /// currently "active" and displayed to the user in this widget.
   int currentStep = 0;
@@ -166,11 +169,12 @@ class ProjectRefinementController extends State<ProjectRefinementRoute> {
     final Content queryContent = Content.text(query);
 
     // Submit the new query to the Gemini model.
-    await GeminiService.sendChatMessage(chat: chat!, content: queryContent);
+    final GenerateContentResponse response = await GeminiService.sendChatMessage(chat: chat!, content: queryContent);
 
-    setState(() {
-      isWaitingForResponse = false;
-    });
+    debugPrint('Received response from Gemini: ${response.text}');
+
+    // Parse the response.
+    await _parseResponse(response);
   }
 
   /// Processes all function calls in the response from the Gemini model. This function returns a list of responses

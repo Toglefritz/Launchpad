@@ -134,22 +134,32 @@ class ProjectRefinementView extends StatelessWidget {
                               ),
                               if (step.tools?.isNotEmpty ?? false)
                                 ExpansionTile(
-                                  title: Text(AppLocalizations.of(context)!.tools),
+                                  title: Text(
+                                    AppLocalizations.of(context)!.tools,
+                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
                                   children: step.tools!
                                       .map(
                                         (HowToTool tool) => ListTile(
-                                          title: Text(tool.name),
+                                          title: Text('\u2022 ${tool.name}'),
                                         ),
                                       )
                                       .toList(),
                                 ),
                               if (step.supplies?.isNotEmpty ?? false)
                                 ExpansionTile(
-                                  title: Text(AppLocalizations.of(context)!.supplies),
+                                  title: Text(
+                                    AppLocalizations.of(context)!.supplies,
+                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
                                   children: step.supplies!
                                       .map(
                                         (HowToSupply supply) => ListTile(
-                                          title: Text(supply.name),
+                                          title: Text('\u2022 ${supply.name}'),
                                         ),
                                       )
                                       .toList(),

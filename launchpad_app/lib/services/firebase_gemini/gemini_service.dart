@@ -80,11 +80,11 @@ class GeminiService {
     try {
       final GenerateContentResponse response = await chat.sendMessage(content);
 
-      debugPrint('Received response from Gemini');
+      debugPrint('Received chat message from Gemini');
 
       return response;
     } catch (e) {
-      debugPrint('Receiving response from Gemini failed with exception, $e');
+      debugPrint('Receiving chat message from Gemini failed with exception, $e');
 
       rethrow;
     }
