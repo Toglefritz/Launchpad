@@ -80,6 +80,7 @@ async function generateImage(req, res) {
         }
       } catch (error) {
         // Handle errors in the request
+        console.error('Error generating image:', error);
         res.status(500).send(`Image generation failed with exception, ${error.message}`);
       }
     });

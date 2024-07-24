@@ -21,6 +21,10 @@
  * defining the endpoints.
  */
 
+// Import the Firebase configuration and initialize the Firebase Admin SDK.
+require('./config/firebaseConfig.cjs');
+
+// Import the Firebase Functions module.
 const functions = require('firebase-functions');
 
 // Import the functions that handle the business logic for each endpoint.

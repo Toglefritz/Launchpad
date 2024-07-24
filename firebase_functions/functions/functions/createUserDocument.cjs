@@ -21,7 +21,12 @@ async function createUserDocument(user) {
   const uid = user.uid;
 
   // Get the current timestamp as the joined date.
-  const joinedDate = admin.firestore.FieldValue.serverTimestamp();
+  var joinedDate = '';
+  if (process.env.FUNCTIONS_EMULATOR === 'true') {
+    joinedDate = new Date();
+  } else {
+    const joinedDate = admin.firestore.FieldValue.serverTimestamp();
+  }
 
   // Create the user document object.
   const userDoc = {

@@ -42,11 +42,11 @@ const { getAuth } = require('firebase-admin/auth');
  */
 const authenticate = async (req, res, next) => {
   // If this function is running in the Firebase Emulator Suite, skip
-    // authentication.
-    if (process.env.FUNCTIONS_EMULATOR === 'true') {
-      return next();
+  // authentication.
+  if (process.env.FUNCTIONS_EMULATOR === 'true') {
+    return next();
   }
-  
+
   const idToken = req.headers.authorization?.split('Bearer ')[1];
   if (!idToken) {
     return res.status(401).json({ message: 'Unauthorized (no ID token)' });
