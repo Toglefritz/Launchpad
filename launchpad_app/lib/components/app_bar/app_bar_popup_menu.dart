@@ -29,7 +29,11 @@ class AppBarPopupMenu extends StatelessWidget {
         ),
       ),
       child: PopupMenuButton<String>(
-        onSelected: (_) => _onLogout,
+        onSelected: (String value) {
+          if (value == AppLocalizations.of(context)!.logout) {
+            _onLogout();
+          }
+        },
         itemBuilder: (BuildContext context) {
           return [
             PopupMenuItem<String>(
