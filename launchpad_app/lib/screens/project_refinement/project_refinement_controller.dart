@@ -308,7 +308,9 @@ class ProjectRefinementController extends State<ProjectRefinementRoute> {
     await Navigator.pushReplacement(
       context,
       MaterialPageRoute<void>(
-        builder: (context) => const ProjectRoute(),
+        builder: (context) => ProjectRoute(
+          project: project!,
+        ),
       ),
     );
   }

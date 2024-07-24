@@ -107,6 +107,14 @@
   "@passwordLabel": {
     "description": "Label for the password field"
   },
+  "preparingProject": "Preparing project...",
+  "@preparingProject": {
+    "description": "Text displayed while the app is preparing a project."
+  },
+  "projectLoadingDescription": "Getting your project ready will take just a moment.",
+  "@projectLoadingDescription": {
+    "description": "Description for the project loading page"
+  },
   "privacyPolicy": "privacy policy",
   "@privacyPolicy": {
     "description": "Text for a button that allows the user to view the privacy policy."

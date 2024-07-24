@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:launchpad_app/components/app_bar/app_bar_button.dart';
 import 'package:launchpad_app/components/app_bar/app_bar_popup_menu.dart';
 import 'package:launchpad_app/screens/project/project_controller.dart';
+import 'package:launchpad_app/services/project/augmented_project.dart';
 import 'package:launchpad_app/theme/insets.dart';
 
 /// A view for the [ProjectController] widget.
@@ -17,6 +18,8 @@ class ProjectView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AugmentedProject project = state.augmentedProject!;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -25,25 +28,58 @@ class ProjectView extends StatelessWidget {
           icon: const Icon(Icons.arrow_back),
           onTap: () => Navigator.pop(context),
         ),
-        title: Text(
-          'Project Title',  // TODO(Toglefritz): Update this text
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                fontSize: 24,
-              ),
-        ),
         actions: const [
           AppBarPopupMenu(),
         ],
       ),
-      body: const SafeArea(
+      body: SafeArea(
         child: CustomScrollView(
+          physics: const ClampingScrollPhysics(),
           slivers: <Widget>[
+            // Project title
             SliverPadding(
-              padding: EdgeInsets.all(Insets.medium),
+              padding: const EdgeInsets.all(Insets.medium),
               sliver: SliverToBoxAdapter(
-                child: Placeholder(),
+                child: Text(
+                  project.name,
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
               ),
             ),
+            if (project.projectImageUrl != null)
+              SliverPadding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.125,
+                ),
+                sliver: SliverToBoxAdapter(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12.0),
+                    child: Image.network(
+                      project.projectImageUrl!,
+                      loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        } else {
+                          return CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                : null,
+                          );
+                        }
+                      },
+                      errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                        return ColoredBox(
+                          color: Theme.of(context).colorScheme.secondary,
+                          child: const Icon(
+                            Icons.no_photography_outlined,
+                            size: 42,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:launchpad_app/screens/project/project_controller.dart';
+import 'package:launchpad_app/services/project/project.dart';
 
 /// This route presents a learning guide and allows the user to progress through the guide.
 ///
@@ -10,7 +11,13 @@ import 'package:launchpad_app/screens/project/project_controller.dart';
 /// earn points and badges, and will be able to see their progress in the guide.
 class ProjectRoute extends StatefulWidget {
   /// Creates an instance of the [ProjectRoute] widget.
-  const ProjectRoute({super.key});
+  const ProjectRoute({
+    required this.project,
+    super.key,
+  });
+
+  /// The finalized project data approved by the user, potentially after refinement.
+  final Project project;
 
   @override
   State<ProjectRoute> createState() => ProjectController();

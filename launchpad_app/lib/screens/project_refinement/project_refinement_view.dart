@@ -4,11 +4,11 @@ import 'package:launchpad_app/components/app_bar/app_bar_button.dart';
 import 'package:launchpad_app/components/buttons/primary_cta_button.dart';
 import 'package:launchpad_app/screens/project_refinement/project_refinement_controller.dart';
 import 'package:launchpad_app/screens/project_refinement/project_refinement_route.dart';
-import 'package:launchpad_app/services/project/how_to_direction.dart';
-import 'package:launchpad_app/services/project/how_to_step.dart';
-import 'package:launchpad_app/services/project/how_to_supply.dart';
-import 'package:launchpad_app/services/project/how_to_tip.dart';
-import 'package:launchpad_app/services/project/how_to_tool.dart';
+import 'package:launchpad_app/services/project/models/how_to_direction.dart';
+import 'package:launchpad_app/services/project/models/how_to_step.dart';
+import 'package:launchpad_app/services/project/models/how_to_supply.dart';
+import 'package:launchpad_app/services/project/models/how_to_tip.dart';
+import 'package:launchpad_app/services/project/models/how_to_tool.dart';
 import 'package:launchpad_app/theme/insets.dart';
 
 /// A view for the [ProjectRefinementRoute] widget.
