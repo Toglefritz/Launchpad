@@ -1,6 +1,6 @@
-import 'package:launchpad_app/services/project/how_to_direction.dart';
-import 'package:launchpad_app/services/project/how_to_supply.dart';
-import 'package:launchpad_app/services/project/how_to_tool.dart';
+import 'package:launchpad_app/services/project/models/how_to_direction.dart';
+import 'package:launchpad_app/services/project/models/how_to_supply.dart';
+import 'package:launchpad_app/services/project/models/how_to_tool.dart';
 
 /// Represents a step in the HowTo schema.
 // ignore_for_file: always_put_required_named_parameters_first
