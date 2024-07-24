@@ -72,5 +72,14 @@ class RemoteConfigService {
     return systemInstructions;
   }
 
+  /// Returns a boolean value that determines whether or not cover images should be generated for projects.
+  ///
+  /// Generating cover images for projects can be a resource-intensive operation, both in terms of time and in terms
+  /// of costs for the associated API calls. This Remote Configs parameter allows image generation to be enabled or
+  /// disabled without requiring a new app release.
+  bool shouldGenerateCoverImages() {
+    return _remoteConfig.getBool(RemoteConfigKey.generateCoverImages.key);
+  }
+
 // TODO(Toglefritz): Other parameters can be added here with similar documentation.
 }

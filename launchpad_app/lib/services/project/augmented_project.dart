@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:launchpad_app/services/firebase_remote_config/remote_config_service.dart';
 import 'package:launchpad_app/services/image_generation/image_generation_service.dart';
 import 'package:launchpad_app/services/image_generation/models/generated_image.dart';
 import 'package:launchpad_app/services/project/project.dart';
@@ -34,8 +35,18 @@ class AugmentedProject extends Project {
   /// [AugmentedProject] from a [Project] object by making additional calls to services to augment the project with
   /// additional data.
   static Future<AugmentedProject> fromProject(Project project) async {
-    // Get an image for the project.
-    final GeneratedImage? projectImage = await _getProjectImage(project);
+    // The Firebase Remote Config service is used to configure various options for project augmentation.
+    final RemoteConfigService remoteConfigService = RemoteConfigService();
+
+    // Get an image for the project, as long as the capability is enabled in Firebase Remote Config.
+    final GeneratedImage? projectImage;
+    if (remoteConfigService.shouldGenerateCoverImages()) {
+      // If the capability is enabled, get an image for the project.
+      projectImage = await _getProjectImage(project);
+    } else {
+      // If the capability is disabled, set the project image to null.
+      projectImage = null;
+    }
 
     // Construct the augmented project.
     return AugmentedProject._(
@@ -60,7 +71,7 @@ class AugmentedProject extends Project {
       final GeneratedImage projectImage = await ImageGenerationService.generateImage(prompt);
 
       return projectImage;
-    } catch(e) {
+    } catch (e) {
       debugPrint('Failed to generate image for project with exception, $e');
 
       return null;

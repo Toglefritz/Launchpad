@@ -4,7 +4,11 @@ enum RemoteConfigKey {
   temperature('temperature'),
 
   /// The key used to fetch the system instructions from the remote configuration.
-  systemInstructions('system_instructions');
+  systemInstructions('system_instructions'),
+
+  /// The key used to fetch a boolean value that determines whether or not cover images should be generated for
+  /// projects.
+  generateCoverImages('generate_project_images');
 
   /// The key used to fetch the configuration parameter from the remote configuration.
   final String key;
