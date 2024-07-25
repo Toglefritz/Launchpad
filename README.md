@@ -73,6 +73,8 @@ Launchpad/
 │   ├── screenshots/
 │   └── README.md
 |
+├── experiments/
+|
 ├── githooks/
 │   ├── pre-commit
 │   ├── pre-push
@@ -101,6 +103,10 @@ Contains code for the Firebase Functions backend infrastructed used by this proj
 
 Includes demonstration materials such as videos and screenshots to help you understand and use Launchpad effectively.
 
+### experiments/
+
+Tracks investigations into experiments conducted with the goal of improving the performance of the AI systems used by Launchpad.
+
 ### githooks/
 
 Includes Git hooks that help maintain high code quality and prevent accidental API key leaks.
@@ -108,10 +114,6 @@ Includes Git hooks that help maintain high code quality and prevent accidental A
 ### scripts/
 
 Contains scripts for deployment, testing, and other automation tasks.
-
-## License
-
-Launchpad is released under the MIT License. See the LICENSE file for more details.
 
 ## Git Hooks
 
@@ -140,6 +142,10 @@ chmod +x setup-hooks.sh
 ```
 
 This script will copy the hooks from the githooks/ directory to the .git/hooks directory, making them active in your local repository.
+
+## License
+
+Launchpad is released under the MIT License. See the LICENSE file for more details.
 
 ## Disclaimer
 
