@@ -42,8 +42,17 @@ exports.getCurrentProjects = async (req, res) => {
         if (userDoc.exists) {
             const currentProjects = userDoc.data().currentProjects || [];
 
+            // If the user has no projects, send a 204 No Content response.
+            if (currentProjects.length === 0) {
+                res.status(204).send('No projects found.');
+                return;
+            } 
+            // Else, send the list of project IDs in the response.
+            else {
+
             // Send the list of project IDs in the response.
-            res.status(200).send({ currentProjects });
+            res.status(200).send(currentProjects);
+        }
         } else {
             // If the user document does not exist, send a 404 Not Found 
             // response.
