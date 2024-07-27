@@ -1,5 +1,4 @@
 const functions = require('firebase-functions');
-const authenticate = require('../middleware/authMiddleware.cjs');
 const axios = require('axios');
 
 /**
@@ -35,38 +34,35 @@ const axios = require('axios');
  * function, making it reusable and easier to maintain.
  */
 async function performSearch(req, res) {
-  // Verify the authentication token.
-  authenticate(req, res, async () => {
-    // Retrieve the search query from the request
-    const query = req.query.q;
+  // Retrieve the search query from the request
+  const query = req.query.q;
 
-    // Retrieve the cx and API key from Firebase Functions config
-    const cx = functions.config().search.cx;
-    const searchEngineKey = functions.config().search.key;
+  // Retrieve the cx and API key from Firebase Functions config
+  const cx = functions.config().search.cx;
+  const searchEngineKey = functions.config().search.key;
 
-    // The base URL for the Programmable Search Engine REST API
-    const baseUrl = 'https://www.googleapis.com/customsearch/v1';
+  // The base URL for the Programmable Search Engine REST API
+  const baseUrl = 'https://www.googleapis.com/customsearch/v1';
 
-    // Assemble the URL for the REST API request
-    const url = `${baseUrl}?q=${encodeURIComponent(query)}&cx=${cx}&key=${searchEngineKey}`;
+  // Assemble the URL for the REST API request
+  const url = `${baseUrl}?q=${encodeURIComponent(query)}&cx=${cx}&key=${searchEngineKey}`;
 
-    try {
-      // Perform the GET request to the search API
-      const response = await axios.get(url);
+  try {
+    // Perform the GET request to the search API
+    const response = await axios.get(url);
 
-      // A 200 status means the search was successful
-      if (response.status === 200) {
-        // Send the search results back to the client
-        res.status(200).json(response.data);
-      } else {
-        // Handle non-200 statuses by sending an error message
-        res.status(response.status).send(`Failed to load search results with status, ${response.status}, and message, ${response.data}`);
-      }
-    } catch (error) {
-      // Handle errors in the request
-      res.status(500).send(`Search failed with exception, ${error.message}`);
+    // A 200 status means the search was successful
+    if (response.status === 200) {
+      // Send the search results back to the client
+      res.status(200).json(response.data);
+    } else {
+      // Handle non-200 statuses by sending an error message
+      res.status(response.status).send(`Failed to load search results with status, ${response.status}, and message, ${response.data}`);
     }
-  });
+  } catch (error) {
+    // Handle errors in the request
+    res.status(500).send(`Search failed with exception, ${error.message}`);
+  }
 }
 
 module.exports = performSearch;

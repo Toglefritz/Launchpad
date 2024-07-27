@@ -31,6 +31,11 @@ const functions = require('firebase-functions');
 const performSearch = require('./functions/performSearch.cjs');
 const createUserDocument = require('./functions/createUserDocument.cjs');
 const generateImage = require('./functions/generateImage.cjs');
+const { createProject, readProject, updateProject, deleteProject } = require('./functions/projects.cjs');
+
+// Import the authentication middleware.
+const authenticate = require('./middleware/authMiddleware.cjs');
+const verifyAppCheck = require('./middleware/verifyAppCheck.cjs');
 
 /**
  * @brief Endpoint calling the performSearch function.
@@ -38,9 +43,19 @@ const generateImage = require('./functions/generateImage.cjs');
  * This endpoint handles HTTP requests for performing a search. It delegates
  * the actual search logic to the `performSearch` function defined in a separate
  * file, which encapsulates the business logic for handling search operations.
+ *
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
  */
 exports.performSearch = functions.https.onRequest(async (req, res) => {
-  await performSearch(req, res);
+  // Use verifyAppCheck for authentication.
+  verifyAppCheck(req, res, async () => {
+    // Verify the Bearer token.
+    authenticate(req, res, async () => {
+      // Call the performSearch function to handle the search request.
+      await performSearch(req, res);
+    });
+  });
 });
 
 /**
@@ -63,7 +78,88 @@ exports.createUserDocument = functions.auth.user().onCreate(async (user) => {
  * This endpoint handles HTTP requests for creating an image. It calls the 
  * `generateImage` function defined in a separate file, which encapsulates the 
  * business logic for generating images using the OpenAI API.
+ *
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
  */
 exports.generateImage = functions.https.onRequest(async (req, res) => {
-  await generateImage(req, res);
+  // Use verifyAppCheck for authentication.
+  verifyAppCheck(req, res, async () => {
+    // Verify the Bearer token.
+    authenticate(req, res, async () => {
+      await generateImage(req, res);
+    });
+  });
+});
+
+/**
+ * @brief Endpoint for creating a project.
+ *
+ * This endpoint handles HTTP requests for creating a project. It calls the 
+ * `createProject` function defined in a separate file, which encapsulates the 
+ * business logic for creating a project.
+ *
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ */
+exports.createProject = functions.https.onRequest((req, res) => {
+  verifyAppCheck(req, res, async () => {
+    authenticate(req, res, async () => {
+      await createProject(req, res);
+    });
+  });
+});
+
+/**
+ * @brief Endpoint for reading a project.
+ *
+ * This endpoint handles HTTP requests for reading a project. It calls the 
+ * `readProject` function defined in a separate file, which encapsulates the 
+ * business logic for reading a project.
+ *
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ */
+exports.readProject = functions.https.onRequest((req, res) => {
+  verifyAppCheck(req, res, async () => {
+    authenticate(req, res, async () => {
+      await readProject(req, res);
+    });
+  });
+});
+
+/**
+ * @brief Endpoint for updating a project.
+ *
+ * This endpoint handles HTTP requests for updating a project. It calls the 
+ * `updateProject` function defined in a separate file, which encapsulates the 
+ * business logic for updating a project.
+ *
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ */
+exports.updateProject = functions.https.onRequest((req, res) => {
+  verifyAppCheck(req, res, async () => {
+    authenticate(req, res, async () => {
+      await updateProject(req, res);
+    });
+  });
+});
+
+/**
+ * @brief Endpoint for deleting a project.
+ *
+ * This endpoint handles HTTP requests for deleting a project. It calls the 
+ * `deleteProject` function defined in a separate file, which encapsulates the 
+ * business logic for deleting a project.
+ *
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ */
+exports.deleteProject = functions.https.onRequest((req, res) => {
+  verifyAppCheck(req, res, async () => {
+    authenticate(req, res, async () => {
+      await deleteProject(req, res);
+    });
+  });
 });

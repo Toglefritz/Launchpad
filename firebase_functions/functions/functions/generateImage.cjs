@@ -1,6 +1,4 @@
 const functions = require('firebase-functions');
-const authenticate = require('../middleware/authMiddleware.cjs');
-const verifyAppCheck = require('../middleware/verifyAppCheck.cjs');
 const axios = require('axios');
 
 /**
@@ -37,54 +35,48 @@ const axios = require('axios');
 
 // TODO(Toglefritz): Convert this call to use Gemini when the API is available.
 async function generateImage(req, res) {
-  // Use verifyAppCheck for authentication.
-  verifyAppCheck(req, res, async () => {
-    // Verify the authentication token.
-    authenticate(req, res, async () => {
-      // Get the prompt from the request body.
-      const { prompt } = req.body;
-      if (!prompt) {
-        return res.status(400).send('Bad Request: Missing prompt');
-      }
+  // Get the prompt from the request body.
+  const { prompt } = req.body;
+  if (!prompt) {
+    return res.status(400).send('Bad Request: Missing prompt');
+  }
 
-      // Retrieve the OpenAI API key from Firebase Functions config.
-      const key = functions.config().openai.key;
+  // Retrieve the OpenAI API key from Firebase Functions config.
+  const key = functions.config().openai.key;
 
-      // The URL for the OpenAI API Generations API.
-      const url = 'https://api.openai.com/v1/images/generations';
+  // The URL for the OpenAI API Generations API.
+  const url = 'https://api.openai.com/v1/images/generations';
 
-      try {
-        // Perform the POST request to the Generations API.
-        const response = await axios.post(
-          url,
-          {
-            model: "dall-e-3",
-            prompt: prompt,
-            n: 1
-          },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${key}`
-            }
-          }
-        );
-
-        // A 200 status means the search was successful
-        if (response.status === 200) {
-          // Send the search results back to the client
-          res.status(200).json(response.data);
-        } else {
-          // Handle non-200 statuses by sending an error message
-          res.status(response.status).send(`Failed to generate image with status, ${response.status}, and message, ${response.data}`);
+  try {
+    // Perform the POST request to the Generations API.
+    const response = await axios.post(
+      url,
+      {
+        model: "dall-e-3",
+        prompt: prompt,
+        n: 1
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${key}`
         }
-      } catch (error) {
-        // Handle errors in the request
-        console.error('Error generating image:', error);
-        res.status(500).send(`Image generation failed with exception, ${error.message}`);
       }
-    });
-  });
+    );
+
+    // A 200 status means the search was successful
+    if (response.status === 200) {
+      // Send the search results back to the client
+      res.status(200).json(response.data);
+    } else {
+      // Handle non-200 statuses by sending an error message
+      res.status(response.status).send(`Failed to generate image with status, ${response.status}, and message, ${response.data}`);
+    }
+  } catch (error) {
+    // Handle errors in the request
+    console.error('Error generating image:', error);
+    res.status(500).send(`Image generation failed with exception, ${error.message}`);
+  }
 }
 
 module.exports = generateImage;
