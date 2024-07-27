@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:launchpad_app/extensions/json_typedef.dart';
 import 'package:launchpad_app/services/project/models/how_to_step.dart';
 import 'package:launchpad_app/services/project/models/how_to_supply.dart';
 import 'package:launchpad_app/services/project/models/how_to_tip.dart';
@@ -22,7 +23,7 @@ void main() {
     /// name, description, steps, tools, supplies, and tips. It verifies that each field is correctly
     /// parsed and that the resulting Project object contains the expected values.
     test('should parse JSON with all fields present', () {
-      final json = {
+      final JSONObject json = {
         '@context': 'https://schema.org',
         '@type': 'HowTo',
         'name': 'Build a Simple Mobile App',
@@ -87,7 +88,7 @@ void main() {
         ],
       };
 
-      final project = Project.fromJson(json);
+      final Project project = Project.fromJson(json);
 
       expect(project.name, 'Build a Simple Mobile App');
       expect(project.description, 'A project guide to help you build a simple mobile application from scratch.');
@@ -105,7 +106,7 @@ void main() {
     /// It verifies that the Project object is correctly instantiated with the remaining fields and
     /// that the missing optional fields are handled gracefully, without causing errors.
     test('should handle missing optional fields', () {
-      final json = {
+      final JSONObject json = {
         '@context': 'https://schema.org',
         '@type': 'HowTo',
         'name': 'Build a Simple Mobile App',
@@ -125,7 +126,7 @@ void main() {
         ],
       };
 
-      final project = Project.fromJson(json);
+      final Project project = Project.fromJson(json);
 
       expect(project.name, 'Build a Simple Mobile App');
       expect(project.description, 'A project guide to help you build a simple mobile application from scratch.');
@@ -142,7 +143,7 @@ void main() {
     /// It verifies that the constructor throws a TypeError, indicating that required fields must be
     /// present for the Project object to be instantiated correctly.
     test('should throw an error when required fields are missing', () {
-      final json = {
+      final JSONObject json = {
         '@context': 'https://schema.org',
         '@type': 'HowTo',
         'description': 'A project guide to help you build a simple mobile application from scratch.',
@@ -170,7 +171,7 @@ void main() {
     /// It verifies that the Project object is instantiated with empty lists, ensuring that the
     /// application can handle cases where no items are present without causing errors.
     test('should handle empty lists gracefully', () {
-      final json = {
+      final JSONObject json = {
         '@context': 'https://schema.org',
         '@type': 'HowTo',
         'name': 'Build a Simple Mobile App',
@@ -181,7 +182,7 @@ void main() {
         'tip': <HowToTip>[],
       };
 
-      final project = Project.fromJson(json);
+      final Project project = Project.fromJson(json);
 
       expect(project.name, 'Build a Simple Mobile App');
       expect(project.description, 'A project guide to help you build a simple mobile application from scratch.');

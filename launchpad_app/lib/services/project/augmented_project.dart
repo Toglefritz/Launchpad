@@ -1,3 +1,5 @@
+import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:launchpad_app/services/firebase_remote_config/remote_config_service.dart';
 import 'package:launchpad_app/services/image_generation/image_generation_service.dart';
@@ -67,8 +69,24 @@ class AugmentedProject extends Project {
       // Create a prompt for the image generation service based on the project contents.
       final String prompt = ImageGenerationService.buildPromptFromProject(project);
 
+      // Get the current user.
+      final User? user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        throw Exception('User is null');
+      }
+
+      // Get the App Check token.
+      final String? appCheckToken = await FirebaseAppCheck.instance.getToken();
+      if (appCheckToken == null || appCheckToken.isEmpty) {
+        throw Exception('App Check token is null');
+      }
+
       // Get an image for the project using generative AI services.
-      final GeneratedImage projectImage = await ImageGenerationService.generateImage(prompt);
+      final GeneratedImage projectImage = await ImageGenerationService.generateImage(
+        user: user,
+        appCheckToken: appCheckToken,
+        prompt: prompt,
+      );
 
       return projectImage;
     } catch (e) {

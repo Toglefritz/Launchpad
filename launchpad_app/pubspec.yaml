@@ -44,11 +44,17 @@ dependencies:
   url_launcher: ^6.3.0
 
 dev_dependencies:
+  # Build system for Dart code generation.
+  build_runner: ^2.4.11
+  # Used for mocking HTTP calls in tests.
+  fake_http_client: ^1.0.0
   # Lint rules for Dart and Flutter.
   flutter_lints: ^4.0.0
   # Provide automated testing tools.
   flutter_test:
     sdk: flutter
+    # Mocking library for Dart.
+  mockito: ^5.4.4
   # Lint rules for Dart and Flutter.
   very_good_analysis: ^6.0.0
 

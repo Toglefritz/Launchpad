@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart';
+import 'package:launchpad_app/extensions/json_typedef.dart';
 import 'package:launchpad_app/services/firebase_core/firebase_emulators_ip.dart';
 import 'package:launchpad_app/services/image_generation/models/generated_image.dart';
 import 'package:launchpad_app/services/project/project.dart';
@@ -25,7 +25,11 @@ class ImageGenerationService {
   /// Returns a [Future] that resolves to a [GeneratedImage] containing the generated image information.
   ///
   /// Throws an [Exception] if the request fails with an error message.
-  static Future<GeneratedImage> generateImage(String prompt) async {
+  static Future<GeneratedImage> generateImage({
+    required User user,
+    required String appCheckToken,
+    required String prompt,
+  }) async {
     // Get the use_emulator boolean from the `flutter run` command to determine if the Firebase Emulator Suite should
     // be used. The `fromEnvironment` method returns false by default if the argument is not passed.
     const bool useFirebaseEmulator = bool.fromEnvironment('USE_FIREBASE_EMULATOR');
@@ -36,22 +40,10 @@ class ImageGenerationService {
         ? 'http://$firebaseEmulatorsIp:5001/launchpad-d344d/us-central1/generateImage'
         : 'https://us-central1-launchpad-d344d.cloudfunctions.net/generateImage';
 
-    // Get the current user.
-    final User? user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      throw Exception('User is not authenticated');
-    }
-
     // Get the user's ID token.
     final String? idToken = await user.getIdToken();
     if (idToken == null || idToken.isEmpty) {
       throw Exception('ID token is null');
-    }
-
-    // Obtain the AppCheck token
-    final String? appCheckToken = await FirebaseAppCheck.instance.getToken();
-    if (appCheckToken == null || appCheckToken.isEmpty) {
-      throw Exception('AppCheck token is null');
     }
 
     final Response response;
@@ -74,7 +66,7 @@ class ImageGenerationService {
     // A 200 status means the image was generated successfully.
     if (response.statusCode == 200) {
       // Parse the response JSON from the response body.
-      final Map<String, dynamic> responseJson = jsonDecode(response.body) as Map<String, dynamic>;
+      final JSONObject responseJson = jsonDecode(response.body) as JSONObject;
 
       // Construct a GeneratedImage object from the response data.
       return GeneratedImage.fromJson(responseJson);
