@@ -32,6 +32,7 @@ const performSearch = require('./functions/performSearch.cjs');
 const createUserDocument = require('./functions/createUserDocument.cjs');
 const generateImage = require('./functions/generateImage.cjs');
 const { createProject, readProject, updateProject, deleteProject } = require('./functions/projects.cjs');
+const { getCurrentProjects } = require('./functions/users.cjs');
 
 // Import the authentication middleware.
 const authenticate = require('./middleware/authMiddleware.cjs');
@@ -160,6 +161,25 @@ exports.deleteProject = functions.https.onRequest((req, res) => {
   verifyAppCheck(req, res, async () => {
     authenticate(req, res, async () => {
       await deleteProject(req, res);
+    });
+  });
+});
+
+/**
+ * @brief Endpoint for retrieving a list of projects associated with the user.
+ *
+ * This endpoint handles HTTP requests for retrieving a list of projects 
+ * associated with the user. It calls the `getCurrentProjects` function defined 
+ * in a separate file, which encapsulates the business logic for retrieving 
+ * projects.
+ *
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ */
+exports.getCurrentProjects = functions.https.onRequest((req, res) => {
+  verifyAppCheck(req, res, async () => {
+    authenticate(req, res, async () => {
+      await getCurrentProjects(req, res);
     });
   });
 });

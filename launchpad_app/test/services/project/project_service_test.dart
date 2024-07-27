@@ -246,8 +246,10 @@ void main() {
         // Validate the response. Note that there is also an implicit validation test here because the test will
         // fail if an exception is thrown while parsing the response JSON.
         expect(project.name, 'How to Scientifically Measure the Airspeed Velocity of an Unladen Swallow');
-        expect(project.description,
-            'A comprehensive guide to scientifically measure the airspeed velocity of an unladen swallow in a controlled lab environment using precise instruments and methods.');
+        expect(
+          project.description,
+          'A comprehensive guide to scientifically measure the airspeed velocity of an unladen swallow in a controlled lab environment using precise instruments and methods.',
+        );
       });
     });
 
