@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:launchpad_app/extensions/json_typedef.dart';
 import 'package:launchpad_app/services/project/augmented_project.dart';
 import 'package:launchpad_app/services/project/project_service.dart';
+import 'package:mockito/mockito.dart';
 
 import '../../mocks/mock_user.mocks.dart';
 import '../../utils/mock_http_server.dart';
@@ -22,9 +23,6 @@ import '../../utils/mock_http_server.dart';
 /// flutter test test/services/project/project_service_test.dart
 /// ```
 void main() {
-  /// A [ProjectService] instance for testing the service methods.
-  final ProjectService projectService = ProjectService(MockUser());
-
   /// A JSON object representing a project with all possible fields.
   final JSONObject projectDataJson = {
     '@context': 'https://schema.org',
@@ -214,8 +212,16 @@ void main() {
 
         HttpOverrides.global = mockServer;
 
+        // Mock getting an ID token for the user
+        final MockUser mockUser = MockUser();
+        when(mockUser.getIdToken()).thenAnswer((_) async => 'mock_id_token');
+
         // Call the method under test
-        await projectService.createProject(AugmentedProject.fromJson(projectDataJson));
+        final ProjectService projectService = ProjectService(mockUser);
+        await projectService.createProject(
+          augmentedProject: AugmentedProject.fromJson(projectDataJson),
+          appCheckToken: 'mock_app_check_token',
+        );
 
         // Validate the response
         expect(mockServer.responseBuilder().statusCode, 201);
@@ -240,8 +246,16 @@ void main() {
 
         HttpOverrides.global = mockServer;
 
+        // Mock getting an ID token for the user
+        final MockUser mockUser = MockUser();
+        when(mockUser.getIdToken()).thenAnswer((_) async => 'mock_id_token');
+
         // Call the method under test
-        final AugmentedProject project = await projectService.readProject('12345');
+        final ProjectService projectService = ProjectService(mockUser);
+        final AugmentedProject project = await projectService.readProject(
+          projectId: '12345',
+          appCheckToken: 'mock_app_check_token',
+        );
 
         // Validate the response. Note that there is also an implicit validation test here because the test will
         // fail if an exception is thrown while parsing the response JSON.
@@ -269,6 +283,10 @@ void main() {
 
         HttpOverrides.global = mockServer;
 
+        // Mock getting an ID token for the user
+        final MockUser mockUser = MockUser();
+        when(mockUser.getIdToken()).thenAnswer((_) async => 'mock_id_token');
+
         // Create an AugmentedProject object representing the project to be updated.
         final AugmentedProject originalProject = AugmentedProject.fromJson(projectDataJson);
 
@@ -278,7 +296,12 @@ void main() {
         );
 
         // Call the method under test
-        await projectService.updateProject('12345', updatedProject);
+        final ProjectService projectService = ProjectService(mockUser);
+        await projectService.updateProject(
+          projectId: '12345',
+          updatedProject: updatedProject,
+          appCheckToken: 'mock_app_check_token',
+        );
 
         // Validate the response
         expect(mockServer.responseBuilder().statusCode, 200);
@@ -301,8 +324,16 @@ void main() {
 
         HttpOverrides.global = mockServer;
 
+        // Mock getting an ID token for the user
+        final MockUser mockUser = MockUser();
+        when(mockUser.getIdToken()).thenAnswer((_) async => 'mock_id_token');
+
         // Call the method under test
-        await projectService.deleteProject('12345');
+        final ProjectService projectService = ProjectService(mockUser);
+        await projectService.deleteProject(
+          projectId: '12345',
+          appCheckToken: 'mock_app_check_token',
+        );
 
         // Validate the response
         expect(mockServer.responseBuilder().statusCode, 200);

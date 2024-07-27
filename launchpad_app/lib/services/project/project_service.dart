@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:launchpad_app/extensions/json_typedef.dart';
 import 'package:launchpad_app/services/firebase_core/firebase_emulators_ip.dart';
@@ -36,11 +37,15 @@ class ProjectService {
   /// Creates a project by sending a POST request to the `createProject` endpoint of the Firebase Functions.
   ///
   /// A successful call to this endpoint will perform two operations:
+  ///
   ///   1. Create a new project document in the Firestore database with the provided project data.
   ///   2. Add the unique identifier of the newly created project to the list of project IDs in the user's file.
   ///
   /// The endpoint will return a status code of 201 if the project is created successfully.
-  Future<void> createProject(AugmentedProject augmentedProject) async {
+  Future<void> createProject({
+    required AugmentedProject augmentedProject,
+    required String appCheckToken,
+  }) async {
     // Get the use_emulator boolean from the `flutter run` command to determine if the Firebase Emulator Suite should
     // be used. The `fromEnvironment` method returns false by default if the argument is not passed.
     const bool useFirebaseEmulator = bool.fromEnvironment('USE_FIREBASE_EMULATOR');
@@ -50,6 +55,12 @@ class ProjectService {
     const String functionUrl = useFirebaseEmulator
         ? 'http://$firebaseEmulatorsIp:5001/launchpad-d344d/us-central1/createProject'
         : 'https://us-central1-launchpad-d344d.cloudfunctions.net/createProject';
+
+    // Get the user's ID token.
+    final String? idToken = await user.getIdToken();
+    if (idToken == null || idToken.isEmpty) {
+      throw Exception('ID token is null');
+    }
 
     // Build the body of the request.
     final JSONObject requestBody = {
@@ -64,9 +75,13 @@ class ProjectService {
         Uri.parse(functionUrl),
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': 'Bearer $idToken',
+          'x-appcheck-token': appCheckToken,
         },
         body: jsonEncode(requestBody),
       );
+
+      debugPrint('Successfully saved project');
     } catch (e) {
       throw Exception('Failed to create project with exception, $e');
     }
@@ -84,7 +99,10 @@ class ProjectService {
   ///
   /// The endpoint will return a 200 status code if the project data is retrieved successfully, along with the project
   /// data in the response body.
-  Future<AugmentedProject> readProject(String projectId) async {
+  Future<AugmentedProject> readProject({
+    required String projectId,
+    required String appCheckToken,
+  }) async {
     // Get the use_emulator boolean from the `flutter run` command to determine if the Firebase Emulator Suite should
     // be used. The `fromEnvironment` method returns false by default if the argument is not passed.
     const bool useFirebaseEmulator = bool.fromEnvironment('USE_FIREBASE_EMULATOR');
@@ -95,6 +113,12 @@ class ProjectService {
         ? 'http://$firebaseEmulatorsIp:5001/launchpad-d344d/us-central1/readProject'
         : 'https://us-central1-launchpad-d344d.cloudfunctions.net/readProject';
 
+    // Get the user's ID token.
+    final String? idToken = await user.getIdToken();
+    if (idToken == null || idToken.isEmpty) {
+      throw Exception('ID token is null');
+    }
+
     // Send the GET request to the Firebase Functions endpoint. The project ID is included as a query parameter.
     final Response response;
     try {
@@ -102,6 +126,8 @@ class ProjectService {
         Uri.parse('$functionUrl?projectId=$projectId'),
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': 'Bearer $idToken',
+          'x-appcheck-token': appCheckToken,
         },
       );
     } catch (e) {
@@ -127,7 +153,11 @@ class ProjectService {
   /// request body will remain unchanged.
   ///
   /// The endpoint will return a 200 status code if the project data in the Firestore backend is updated successfully.
-  Future<void> updateProject(String projectId, AugmentedProject updatedProject) async {
+  Future<void> updateProject({
+    required String projectId,
+    required AugmentedProject updatedProject,
+    required String appCheckToken,
+  }) async {
     // Get the use_emulator boolean from the `flutter run` command to determine if the Firebase Emulator Suite should
     // be used. The `fromEnvironment` method returns false by default if the argument is not passed.
     const bool useFirebaseEmulator = bool.fromEnvironment('USE_FIREBASE_EMULATOR');
@@ -137,6 +167,12 @@ class ProjectService {
     const String functionUrl = useFirebaseEmulator
         ? 'http://$firebaseEmulatorsIp:5001/launchpad-d344d/us-central1/updateProject'
         : 'https://us-central1-launchpad-d344d.cloudfunctions.net/updateProject';
+
+    // Get the user's ID token.
+    final String? idToken = await user.getIdToken();
+    if (idToken == null || idToken.isEmpty) {
+      throw Exception('ID token is null');
+    }
 
     // Build the body of the request.
     final JSONObject requestBody = {
@@ -150,9 +186,13 @@ class ProjectService {
         Uri.parse('$functionUrl?projectId=$projectId'),
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': 'Bearer $idToken',
+          'x-appcheck-token': appCheckToken,
         },
         body: jsonEncode(requestBody),
       );
+
+      debugPrint('Successfully updated project');
     } catch (e) {
       throw Exception('Failed to update project with exception, $e');
     }
@@ -170,7 +210,10 @@ class ProjectService {
   /// project ID from the list of project IDs in the user's file.
   ///
   /// The endpoint will return a 200 status code if the project is deleted successfully.
-  Future<void> deleteProject(String projectId) async {
+  Future<void> deleteProject({
+    required String projectId,
+    required String appCheckToken,
+  }) async {
     // Get the use_emulator boolean from the `flutter run` command to determine if the Firebase Emulator Suite should
     // be used. The `fromEnvironment` method returns false by default if the argument is not passed.
     const bool useFirebaseEmulator = bool.fromEnvironment('USE_FIREBASE_EMULATOR');
@@ -180,6 +223,12 @@ class ProjectService {
     const String functionUrl = useFirebaseEmulator
         ? 'http://$firebaseEmulatorsIp:5001/launchpad-d344d/us-central1/deleteProject'
         : 'https://us-central1-launchpad-d344d.cloudfunctions.net/deleteProject';
+
+    // Get the user's ID token.
+    final String? idToken = await user.getIdToken();
+    if (idToken == null || idToken.isEmpty) {
+      throw Exception('ID token is null');
+    }
 
     // Build the body of the request.
     final JSONObject requestBody = {
@@ -193,9 +242,13 @@ class ProjectService {
         Uri.parse('$functionUrl?projectId=$projectId'),
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': 'Bearer $idToken',
+          'x-appcheck-token': appCheckToken,
         },
         body: jsonEncode(requestBody),
       );
+
+      debugPrint('Successfully deleted project');
     } catch (e) {
       throw Exception('Failed to delete project with exception, $e');
     }

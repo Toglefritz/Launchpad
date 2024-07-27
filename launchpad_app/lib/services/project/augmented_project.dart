@@ -87,8 +87,8 @@ class AugmentedProject extends Project {
       }
 
       // Get an image for the project using generative AI services.
-      final GeneratedImage projectImage = await ImageGenerationService.generateImage(
-        user: user,
+      final ImageGenerationService imageGenerationService = ImageGenerationService(user);
+      final GeneratedImage projectImage = await imageGenerationService.generateImage(
         appCheckToken: appCheckToken,
         prompt: prompt,
       );

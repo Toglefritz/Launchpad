@@ -67,8 +67,8 @@ void main() {
       when(mockUser.getIdToken()).thenAnswer((_) async => 'mock_id_token');
 
       // Call the function under test
-      final GeneratedImage generatedImage = await ImageGenerationService.generateImage(
-        user: mockUser,
+      final ImageGenerationService imageGenerationService = ImageGenerationService(mockUser);
+      final GeneratedImage generatedImage = await imageGenerationService.generateImage(
         appCheckToken: 'take_token',
         prompt: 'sample prompt',
       );
@@ -111,8 +111,8 @@ void main() {
 
     // Call the function under test and expect an exception with the specific message
     try {
-      await ImageGenerationService.generateImage(
-        user: mockUser,
+      final ImageGenerationService imageGenerationService = ImageGenerationService(mockUser);
+      await imageGenerationService.generateImage(
         appCheckToken: 'mock_app_check_token',
         prompt: 'sample prompt',
       );
@@ -152,8 +152,8 @@ void main() {
 
     // Call the function under test and expect an exception with the specific message
     try {
-      await ImageGenerationService.generateImage(
-        user: mockUser,
+      final ImageGenerationService imageGenerationService = ImageGenerationService(mockUser);
+      await imageGenerationService.generateImage(
         appCheckToken: 'mock_app_check_token',
         prompt: 'sample prompt',
       );

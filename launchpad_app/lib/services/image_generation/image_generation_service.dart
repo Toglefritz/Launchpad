@@ -16,6 +16,12 @@ import 'package:launchpad_app/services/project/project.dart';
 /// if the request is successful. Assuming the request is successful, the app will construct a [GeneratedImage] object
 /// from the response data.
 class ImageGenerationService {
+  /// The Firebase Auth [User] object representing the current user.
+  final User user;
+
+  /// Creates an [ImageGenerationService] with the provided [User].
+  const ImageGenerationService(this.user);
+
   /// Generates an image based on the provided prompt by calling the `generateImage` endpoint of the Firebase Functions.
   ///
   /// This function sends a POST request to the `generateImage` endpoint, including the provided prompt and
@@ -25,8 +31,7 @@ class ImageGenerationService {
   /// Returns a [Future] that resolves to a [GeneratedImage] containing the generated image information.
   ///
   /// Throws an [Exception] if the request fails with an error message.
-  static Future<GeneratedImage> generateImage({
-    required User user,
+  Future<GeneratedImage> generateImage({
     required String appCheckToken,
     required String prompt,
   }) async {

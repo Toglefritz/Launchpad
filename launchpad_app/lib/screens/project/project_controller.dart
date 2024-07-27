@@ -1,9 +1,12 @@
+import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:launchpad_app/screens/project/project_loading_view.dart';
 import 'package:launchpad_app/screens/project/project_route.dart';
 import 'package:launchpad_app/screens/project/project_view.dart';
 import 'package:launchpad_app/services/project/augmented_project.dart';
 import 'package:launchpad_app/services/project/project.dart';
+import 'package:launchpad_app/services/project/project_service.dart';
 
 /// A controller for the [ProjectRoute] widget.
 class ProjectController extends State<ProjectRoute> {
@@ -37,6 +40,28 @@ class ProjectController extends State<ProjectRoute> {
     setState(() {
       augmentedProject = project;
     });
+
+    try {
+      // Once the project data has been assembled, save the project to the user's account. This enables the user to
+      // access the project later. At this stage, it is assumed that the user is authenticated.
+
+      // Get an App Check token to use for saving the project.
+      final String? appCheckToken = await FirebaseAppCheck.instance.getToken();
+      if (appCheckToken == null || appCheckToken.isEmpty) {
+        // TODO(Toglefritz): Handle error.
+      }
+
+      // Save the project to the user's account.
+      final ProjectService projectService = ProjectService(FirebaseAuth.instance.currentUser!);
+      await projectService.createProject(
+        augmentedProject: augmentedProject!,
+        appCheckToken: appCheckToken!,
+      );
+    } catch (e) {
+      debugPrint('Failed to save project to user account: $e');
+
+      // TODO(Toglefritz): Handle error. Perhaps show a SnackBar to the user. How does the user try to save again?
+    }
   }
 
   /// Handles submission of a query about the project.
