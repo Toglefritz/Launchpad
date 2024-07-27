@@ -1,9 +1,14 @@
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:launchpad_app/extensions/json_typedef.dart';
 import 'package:launchpad_app/services/firebase_remote_config/remote_config_service.dart';
 import 'package:launchpad_app/services/image_generation/image_generation_service.dart';
 import 'package:launchpad_app/services/image_generation/models/generated_image.dart';
+import 'package:launchpad_app/services/project/models/how_to_step.dart';
+import 'package:launchpad_app/services/project/models/how_to_supply.dart';
+import 'package:launchpad_app/services/project/models/how_to_tip.dart';
+import 'package:launchpad_app/services/project/models/how_to_tool.dart';
 import 'package:launchpad_app/services/project/project.dart';
 
 /// Represents a project, derived from a [Project] object, that is augmented with additional data.
@@ -98,4 +103,68 @@ class AugmentedProject extends Project {
 
   /// A convenience getter for the project image URL.
   String? get projectImageUrl => projectImage?.data.imageUrl;
+
+  /// Returns an [AugmentedProject] object from a JSON object.
+  ///
+  /// This factory constructor is typically used when retrieving a project from the Launchpad Firestore backend. The
+  /// JSON objects returned from the backend are in an extended format based on the HowTo schema from schema.org. The
+  /// standard schema has been augmented with additional fields, such as the project image URL.
+  factory AugmentedProject.fromJson(JSONObject json) {
+    // Create a Project object from the JSON object.
+    final Project project = Project.fromJson(json);
+
+    // Get the project image from the JSON object.
+    final JSONObject? projectImageJson = json['projectImage'] as JSONObject?;
+    final GeneratedImage? projectImage = projectImageJson != null ? GeneratedImage.fromJson(projectImageJson) : null;
+
+    // Create an AugmentedProject object from the Project object.
+    return AugmentedProject._(
+      name: project.name,
+      description: project.description,
+      steps: project.steps,
+      raw: project.raw,
+      tools: project.tools,
+      supplies: project.supplies,
+      tips: project.tips,
+      projectImage: projectImage,
+    );
+  }
+
+  /// Creates a JSON representation of the augmented project. This JSON object is an extended version of the HowTo
+  /// schema from schema.org. In addition to the fields defined for the HowTo schema, this JSON object includes the
+  /// project image URL.
+  JSONObject toJson() {
+    final JSONObject json = super.raw;
+
+    // Add the project image URL to the JSON object.
+    json['projectImage'] = projectImage?.toJson();
+
+    return json;
+  }
+
+  /// Creates a copy of this [AugmentedProject] with the given fields replaced with new values.
+  ///
+  /// This method is used to create a new [AugmentedProject] object with the same values as this object, except for the
+  /// fields that are passed as arguments. This method is useful when updating the project data in the database.
+  AugmentedProject copyWith({
+    String? name,
+    String? description,
+    List<HowToStep>? steps,
+    JSONObject? raw,
+    List<HowToTool>? tools,
+    List<HowToSupply>? supplies,
+    List<HowToTip>? tips,
+    GeneratedImage? projectImage,
+  }) {
+    return AugmentedProject._(
+      name: name ?? this.name,
+      description: description ?? this.description,
+      steps: steps ?? this.steps,
+      raw: raw ?? this.raw,
+      tools: tools ?? this.tools,
+      supplies: supplies ?? this.supplies,
+      tips: tips ?? this.tips,
+      projectImage: projectImage ?? this.projectImage,
+    );
+  }
 }

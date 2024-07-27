@@ -60,7 +60,7 @@ class ImageGenerationService {
         }),
       );
     } catch (e) {
-      throw Exception('Image generation failed with exception: $e');
+      throw Exception('Image generation failed with exception, $e');
     }
 
     // A 200 status means the image was generated successfully.
@@ -71,7 +71,7 @@ class ImageGenerationService {
       // Construct a GeneratedImage object from the response data.
       return GeneratedImage.fromJson(responseJson);
     } else {
-      throw Exception('Failed to generate image: ${response.body}');
+      throw Exception('Failed to generate image with error message ${response.body}');
     }
   }
 

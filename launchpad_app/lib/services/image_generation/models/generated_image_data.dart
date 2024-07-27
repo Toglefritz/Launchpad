@@ -33,4 +33,12 @@ class GeneratedImageData {
       imageUrl: firstData['url'] as String,
     );
   }
+
+  /// Converts the [GeneratedImageData] to a JSON object.
+  JSONObject toJson() {
+    return {
+      'revised_prompt': revisedPrompt,
+      'url': imageUrl,
+    };
+  }
 }

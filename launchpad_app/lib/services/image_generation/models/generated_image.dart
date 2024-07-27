@@ -27,4 +27,12 @@ class GeneratedImage {
       GeneratedImageData.fromJson(json['data'] as JSONArray),
     );
   }
+
+  /// Converts the [GeneratedImage] to a JSON object.
+  JSONObject toJson() {
+    return {
+      'created': timestamp,
+      'data': data.toJson(),
+    };
+  }
 }
