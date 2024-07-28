@@ -51,6 +51,13 @@ class ProjectCard extends StatelessWidget {
                         project.projectImage!.data.imageUrl,
                         height: 115.0,
                         fit: BoxFit.cover,
+                        errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) => ClipRRect(
+                          borderRadius: BorderRadius.circular(12.0),
+                          child: const SizedBox(
+                            height: 115.0,
+                            child: DecorativeBackground(),
+                          ),
+                        ),
                       ),
                     ),
                   ),
