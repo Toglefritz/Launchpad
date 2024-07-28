@@ -1,6 +1,8 @@
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:launchpad_app/screens/home/home_route.dart';
+import 'package:launchpad_app/screens/navigation_wrapper/navigation_wrapper_route.dart';
 import 'package:launchpad_app/screens/project/project_loading_view.dart';
 import 'package:launchpad_app/screens/project/project_route.dart';
 import 'package:launchpad_app/screens/project/project_view.dart';
@@ -77,8 +79,16 @@ class ProjectController extends State<ProjectRoute> {
   }
 
   /// Handles taps on the "back" button in the app bar.
+  ///
+  /// Because a new project may have been saved to the user's account by this route, or the contents of an existing
+  /// project may have been updated, the list of projects displayed to the user will need to be updated. This is
+  /// accomplished by navigating back to the [NavigationWrapperRoute], which will display the [HomeRoute] initially,
+  /// and removing all other routes from the navigation stack, including the original version of the [HomeRoute].
   void onBack() {
-    Navigator.pop(context);
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute<void>(builder: (context) => const NavigationWrapperRoute()),
+      (route) => false,
+    );
   }
 
   /// Handles submission of a query about the project.
