@@ -30,7 +30,7 @@ const functions = require('firebase-functions');
 // Import the functions that handle the business logic for each endpoint.
 const performSearch = require('./functions/performSearch.cjs');
 const createUserDocument = require('./functions/createUserDocument.cjs');
-const generateImage = require('./functions/generateImage.cjs');
+const { generateImage, getImage } = require('./functions/generateImage.cjs');
 const { createProject, readProject, updateProject, deleteProject } = require('./functions/projects.cjs');
 const { getCurrentProjects } = require('./functions/users.cjs');
 
@@ -78,7 +78,8 @@ exports.createUserDocument = functions.auth.user().onCreate(async (user) => {
  *
  * This endpoint handles HTTP requests for creating an image. It calls the 
  * `generateImage` function defined in a separate file, which encapsulates the 
- * business logic for generating images using the OpenAI API.
+ * business logic for generating images using the OpenAI API. The endpoint will
+ * return the name of the file stored in Firebase Storage.
  *
  * @param {Object} req - The HTTP request object.
  * @param {Object} res - The HTTP response object.
@@ -89,6 +90,28 @@ exports.generateImage = functions.https.onRequest(async (req, res) => {
     // Verify the Bearer token.
     authenticate(req, res, async () => {
       await generateImage(req, res);
+    });
+  });
+});
+
+/**
+ * @brief Endpoint for retrieving an image from Firebase Storage.
+ * 
+ * This endpoint handles HTTP requests for retrieving an image from Firebase
+ * Storage. It calls the `getImage` function defined in a separate file, which
+ * encapsulates the business logic for retrieving images. The endpoint accepts
+ * a query parameter `fileName` that specifies the name of the image file to
+ * retrieve.
+ * 
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ */
+exports.getImage = functions.https.onRequest(async (req, res) => {
+  // Use verifyAppCheck for authentication.
+  verifyAppCheck(req, res, async () => {
+    // Verify the Bearer token.
+    authenticate(req, res, async () => {
+      await getImage(req, res);
     });
   });
 });
