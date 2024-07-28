@@ -27,13 +27,25 @@ class ProjectController extends State<ProjectRoute> {
 
   /// Assembles the project data.
   ///
-  /// The [Project] instance delivered to this route contains text content for the project. This function augments
-  /// this data with the following additional information that is, broadly speaking, stitched together from a variety
-  /// of sources:
+  /// If the project data is not already augmented, this method augments the project data with additional information.
+  ///
+  /// When this route is accessed for a new project, the [Project] instance delivered to this route contains text
+  /// content for the project. This function augments this data with the following additional information that is,
+  /// broadly speaking, stitched together from a variety of sources:
+  ///
   ///   - An image for the project.
   ///   - Links to online sources where project tools and materials can be purchased.
   Future<void> _assembleProjectData() async {
-    // Augment the project data with additional information.
+    // If the project data is already augmented, there is no need to augment it again.
+    if (widget.project is AugmentedProject) {
+      setState(() {
+        augmentedProject = widget.project as AugmentedProject;
+      });
+
+      return;
+    }
+
+    // The project is not already augmented the project data with additional information.
     final AugmentedProject project = await AugmentedProject.fromProject(widget.project);
 
     // Notify the route that the project data has been assembled.
@@ -62,6 +74,11 @@ class ProjectController extends State<ProjectRoute> {
 
       // TODO(Toglefritz): Handle error. Perhaps show a SnackBar to the user. How does the user try to save again?
     }
+  }
+
+  /// Handles taps on the "back" button in the app bar.
+  void onBack() {
+    Navigator.pop(context);
   }
 
   /// Handles submission of a query about the project.

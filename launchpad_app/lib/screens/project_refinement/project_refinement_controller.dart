@@ -310,6 +310,7 @@ class ProjectRefinementController extends State<ProjectRefinementRoute> {
       MaterialPageRoute<void>(
         builder: (context) => ProjectRoute(
           project: project!,
+          isNewProject: true,
         ),
       ),
     );

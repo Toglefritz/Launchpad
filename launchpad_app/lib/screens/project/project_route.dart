@@ -13,11 +13,16 @@ class ProjectRoute extends StatefulWidget {
   /// Creates an instance of the [ProjectRoute] widget.
   const ProjectRoute({
     required this.project,
+    required this.isNewProject,
     super.key,
   });
 
   /// The finalized project data approved by the user, potentially after refinement.
   final Project project;
+
+  /// Determines if the project is a new project versus one that has already been saved and that the user is
+  /// continuing to work on.
+  final bool isNewProject;
 
   @override
   State<ProjectRoute> createState() => ProjectController();

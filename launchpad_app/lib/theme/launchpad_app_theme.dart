@@ -166,6 +166,17 @@ class LaunchpadAppTheme {
             },
           ),
         ),
+        cardTheme: CardTheme(
+          color: Colors.grey.shade100,
+          elevation: 0.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+            side: BorderSide(
+              color: Colors.grey.shade900,
+              width: 2.0,
+            ),
+          ),
+        ),
         expansionTileTheme: const ExpansionTileThemeData(
           tilePadding: EdgeInsets.zero,
           shape: RoundedRectangleBorder(),

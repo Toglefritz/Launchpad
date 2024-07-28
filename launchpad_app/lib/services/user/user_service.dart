@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:launchpad_app/extensions/json_typedef.dart';
 import 'package:launchpad_app/services/firebase_core/firebase_emulators_ip.dart';
@@ -40,7 +41,7 @@ class UserService {
     final Response response;
     try {
       response = await get(
-        Uri.parse(functionUrl),
+        Uri.parse('$functionUrl?userId=${user.uid}'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $idToken',
@@ -48,11 +49,15 @@ class UserService {
         },
       );
     } catch (e) {
+      debugPrint('Failed to get current projects with exception, $e');
+
       throw Exception('Failed to read project with exception, $e');
     }
 
     // A 204 status code indicates that the user has no projects.
     if (response.statusCode == 204) {
+      debugPrint('User has no projects');
+
       return [];
     }
     // A 200 status code indicates that the user has projects.
@@ -67,6 +72,10 @@ class UserService {
     }
     // Any other status code indicates an error.
     else {
+      debugPrint(
+        'Failed to read project with status code, ${response.statusCode}, and error message, ${response.body}',
+      );
+
       throw Exception('Failed to read project with status code, ${response.statusCode}');
     }
   }

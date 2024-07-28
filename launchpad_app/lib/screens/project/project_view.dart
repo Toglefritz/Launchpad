@@ -21,12 +21,11 @@ class ProjectView extends StatelessWidget {
     final AugmentedProject project = state.augmentedProject!;
 
     return Scaffold(
-      extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         leading: AppBarButton(
           icon: const Icon(Icons.arrow_back),
-          onTap: () => Navigator.pop(context),
+          onTap: state.onBack,
         ),
         actions: const [
           AppBarPopupMenu(),
