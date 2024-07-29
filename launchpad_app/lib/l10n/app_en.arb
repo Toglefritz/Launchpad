@@ -135,6 +135,10 @@
   "@preparingProject": {
     "description": "Text displayed while the app is preparing a project."
   },
+  "projectDraftLoadingDescription": "Building your project draft will take just a moment.",
+    "@projectDraftLoadingDescription": {
+        "description": "Description for the project draft loading page"
+    },
   "projectLoadingDescription": "Getting your project ready will take just a moment.",
   "@projectLoadingDescription": {
     "description": "Description for the project loading page"

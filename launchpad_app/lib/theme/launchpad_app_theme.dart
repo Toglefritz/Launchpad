@@ -189,11 +189,9 @@ class LaunchpadAppTheme {
           brightness: Brightness.dark,
           seedColor: Colors.grey.shade100,
         ),
-
         primaryColorLight: Colors.grey.shade900,
-
         primaryColorDark: Colors.grey.shade100,
-
+        scaffoldBackgroundColor: Colors.grey.shade900,
         // Set "KodeMono" as the default font for heads in the app.
         textTheme: ThemeData.light().textTheme.copyWith(
               displayLarge: ThemeData.light().textTheme.displayLarge?.copyWith(
@@ -225,6 +223,15 @@ class LaunchpadAppTheme {
                     color: Colors.grey.shade100,
                     fontWeight: FontWeight.bold,
                   ),
+              bodySmall: ThemeData.light().textTheme.bodySmall?.copyWith(
+                    color: Colors.grey.shade100,
+                  ),
+              bodyMedium: ThemeData.light().textTheme.bodyMedium?.copyWith(
+                    color: Colors.grey.shade100,
+                  ),
+              bodyLarge: ThemeData.light().textTheme.bodyLarge?.copyWith(
+                    color: Colors.grey.shade100,
+                  ),
             ),
         textSelectionTheme: TextSelectionThemeData(
           cursorColor: Colors.grey.shade100,
@@ -232,7 +239,7 @@ class LaunchpadAppTheme {
           selectionHandleColor: Colors.grey.shade100,
         ),
         appBarTheme: AppBarTheme(
-          backgroundColor: Colors.grey.shade800,
+          backgroundColor: Colors.grey.shade900,
           foregroundColor: Colors.grey.shade100,
           scrolledUnderElevation: 0.0,
         ),
@@ -306,6 +313,35 @@ class LaunchpadAppTheme {
             visualDensity: VisualDensity.compact,
           ),
         ),
+        navigationBarTheme: NavigationBarThemeData(
+          indicatorColor: Colors.transparent,
+          labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+          labelTextStyle: WidgetStateProperty.resolveWith(
+            (states) {
+              if (states.contains(WidgetState.selected)) {
+                return ThemeData.light().textTheme.bodyMedium?.copyWith(
+                      color: Colors.grey.shade100,
+                      fontWeight: FontWeight.bold,
+                    );
+              }
+              return ThemeData.light().textTheme.bodyMedium?.copyWith(
+                    color: Colors.grey.shade200,
+                  );
+            },
+          ),
+          iconTheme: WidgetStateProperty.resolveWith(
+            (states) {
+              if (states.contains(WidgetState.selected)) {
+                return IconThemeData(
+                  color: Colors.grey.shade100,
+                );
+              }
+              return IconThemeData(
+                color: Colors.grey.shade200,
+              );
+            },
+          ),
+        ),
         chipTheme: ChipThemeData(
           backgroundColor: Colors.grey.shade900,
           disabledColor: Colors.grey.shade500,
@@ -318,6 +354,20 @@ class LaunchpadAppTheme {
                 color: Colors.grey.shade100,
               ),
           side: BorderSide.none,
+        ),
+        cardTheme: CardTheme(
+          color: Colors.grey.shade800,
+          elevation: 0.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+            side: const BorderSide(
+              width: 2.0,
+            ),
+          ),
+        ),
+        expansionTileTheme: const ExpansionTileThemeData(
+          tilePadding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(),
         ),
       );
 

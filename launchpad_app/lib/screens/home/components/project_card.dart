@@ -25,12 +25,14 @@ class ProjectCard extends StatelessWidget {
       children: [
         // Create a shadow with a hard edge to create a brutalist design.
         Container(
-          width: 130.0 - Insets.small,
+          width: 150.0 - Insets.small,
           height: (130.0 + MediaQuery.textScalerOf(context).scale(16) * 4 + Insets.small * 5) - Insets.large,
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
-                color: Theme.of(context).primaryColorDark,
+                color: Theme.of(context).brightness == Brightness.light
+                    ? Theme.of(context).primaryColorDark
+                    : Colors.black,
               ),
             ],
             borderRadius: BorderRadius.circular(12.0),
@@ -38,7 +40,7 @@ class ProjectCard extends StatelessWidget {
         ),
         Card(
           child: SizedBox(
-            width: 130.0,
+            width: 150.0,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -50,20 +52,19 @@ class ProjectCard extends StatelessWidget {
                       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                         Widget child;
                         if (snapshot.connectionState == ConnectionState.waiting) {
-                          child = ClipRRect(
-                            borderRadius: BorderRadius.circular(12.0),
-                            child: const WaveLoadingIndicator(),
-                          );
+                          child = const WaveLoadingIndicator();
                         } else if (snapshot.data != null) {
-                          child = Image.network(
-                            snapshot.data!,
-                            height: 115.0,
-                            fit: BoxFit.cover,
-                            errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) => ClipRRect(
-                              borderRadius: BorderRadius.circular(12.0),
-                              child: const SizedBox(
-                                height: 115.0,
-                                child: DecorativeBackground(),
+                          child = ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.network(
+                              snapshot.data!,
+                              fit: BoxFit.cover,
+                              errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) => ClipRRect(
+                                borderRadius: BorderRadius.circular(12.0),
+                                child: const SizedBox(
+                                  height: 115.0,
+                                  child: DecorativeBackground(),
+                                ),
                               ),
                             ),
                           );

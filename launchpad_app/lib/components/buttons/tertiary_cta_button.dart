@@ -49,7 +49,9 @@ class TertiaryCTAButton extends StatelessWidget {
     return Container(
       // Create a shadow with a hard edge to create a brutalist design.
       decoration: BoxDecoration(
-        border: const DashedBoxBorder(),
+        border: DashedBoxBorder(
+          color: Theme.of(context).primaryColorDark,
+        ),
         borderRadius: BorderRadius.circular(12.0),
       ),
       child: OutlinedButton.icon(

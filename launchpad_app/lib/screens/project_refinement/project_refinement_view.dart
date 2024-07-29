@@ -84,6 +84,15 @@ class ProjectRefinementView extends StatelessWidget {
                   currentStep: state.currentStep,
                   onStepTapped: state.onStepTapped,
                   connectorThickness: 2.0,
+                  stepIconBuilder: (int index, StepState state) {
+                    return Text(
+                      '${index + 1}',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: Theme.of(context).primaryColorLight,
+                            fontWeight: FontWeight.bold,
+                          ),
+                    );
+                  },
                   steps: state.project!.steps
                       .map(
                         (HowToStep step) => Step(
@@ -309,7 +318,10 @@ class ProjectRefinementView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: Insets.small),
                   child: PrimaryCTAButton(
                     onPressed: state.onProjectAccepted,
-                    icon: const Icon(Icons.thumb_up),
+                    icon: Icon(
+                      Icons.thumb_up,
+                      color: Theme.of(context).primaryColorLight,
+                    ),
                     label: Text(AppLocalizations.of(context)!.projectApprovalButton.toUpperCase()),
                   ),
                 ),

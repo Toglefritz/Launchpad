@@ -45,13 +45,10 @@ class HomeView extends StatelessWidget {
 
             // Show a loading indicator while the app is working on getting the projects list
             if (state.projects == null && !state.hasError)
-              SliverPadding(
-                padding: const EdgeInsets.all(Insets.small),
+              const SliverPadding(
+                padding: EdgeInsets.all(Insets.small),
                 sliver: SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: 131.0 + MediaQuery.textScalerOf(context).scale(16) * 4 + Insets.small * 5,
-                    child: const WaveLoadingIndicator(),
-                  ),
+                  child: WaveLoadingIndicator(),
                 ),
               ),
 

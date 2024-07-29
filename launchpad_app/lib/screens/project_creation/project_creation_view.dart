@@ -60,7 +60,10 @@ class ProjectCreationView extends StatelessWidget {
               sliver: SliverToBoxAdapter(
                 child: PrimaryCTAButton(
                   onPressed: state.onSearch,
-                  icon: const Icon(Icons.bolt),
+                  icon: Icon(
+                    Icons.bolt,
+                    color: Theme.of(context).primaryColorLight,
+                  ),
                   label: Text(AppLocalizations.of(context)!.searchButton.toUpperCase()),
                 ),
               ),

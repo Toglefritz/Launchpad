@@ -31,12 +31,15 @@ class ProjectRefinementLoadingView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(Insets.medium),
                 child: Text(
-                  // TODO(Toglefritz): depending upon typical loading time, consider changing this text periodically
                   state.hasResponse
                       ? AppLocalizations.of(context)!.updatingProject
                       : AppLocalizations.of(context)!.loadingResults,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
+              ),
+              Text(
+                AppLocalizations.of(context)!.projectDraftLoadingDescription,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             ],
           ),
