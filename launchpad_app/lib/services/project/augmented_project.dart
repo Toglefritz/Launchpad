@@ -18,13 +18,22 @@ import 'package:launchpad_app/services/project/project.dart';
 /// schema. This class is used to represent projects that have been augmented with additional data, such as images
 /// and links to sites from which tools and materials can be purchased. This additional data is used to enhance the
 /// user experience when viewing the project by providing a richer project description.
+///
+/// The augmentations this class provides are:
+/// - An image representing the project, generated using generative AI services.
+/// - A list of achievements that can be unlocked after completing particularly important or challenging steps in the
+///   project.
 // ignore_for_file: always_put_required_named_parameters_first
 class AugmentedProject extends Project {
+  /// A unique identifier for the project.
+  final String? id;
+
   /// The URL of an image representing the project. This image is created using generative AI services.
   final GeneratedImage? projectImage;
 
   /// Creates an instance of [AugmentedProject].
   AugmentedProject._({
+    this.id,
     required super.name,
     required super.description,
     required super.steps,
@@ -111,6 +120,9 @@ class AugmentedProject extends Project {
   /// returned from the backend are in an extended format based on the HowTo schema from schema.org. The standard schema
   /// has been augmented with additional fields, such as the project image URL.
   static Future<AugmentedProject> fromJson(JSONObject json) async {
+    // Get the project ID.
+    final String? id = json['projectId'] as String?;
+
     // Create a Project object from the JSON object.
     final Project project = Project.fromJson(json);
 
@@ -120,6 +132,7 @@ class AugmentedProject extends Project {
 
     // Create an AugmentedProject object from the Project object.
     return AugmentedProject._(
+      id: id,
       name: project.name,
       description: project.description,
       steps: project.steps,

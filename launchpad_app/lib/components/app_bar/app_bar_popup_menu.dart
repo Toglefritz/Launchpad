@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:launchpad_app/services/firebase_auth/authentication_service.dart';
 import 'package:launchpad_app/theme/insets.dart';
 
 /// A menu button displayed in the [AppBar].
@@ -10,13 +8,12 @@ import 'package:launchpad_app/theme/insets.dart';
 class AppBarPopupMenu extends StatelessWidget {
   /// Creates an instance of the [AppBarPopupMenu] widget.
   const AppBarPopupMenu({
+    required this.items,
     super.key,
   });
 
-  /// Handles the user's request to log out of the app.
-  Future<void> _onLogout() async {
-    await AuthenticationService.signOut();
-  }
+  /// A list of items to display in the popup menu.
+  final List<PopupMenuItem<void Function()>> items;
 
   @override
   Widget build(BuildContext context) {
@@ -28,22 +25,10 @@ class AppBarPopupMenu extends StatelessWidget {
           color: Theme.of(context).dividerColor,
         ),
       ),
-      child: PopupMenuButton<String>(
-        onSelected: (String value) {
-          if (value == AppLocalizations.of(context)!.logout) {
-            _onLogout();
-          }
-        },
+      child: PopupMenuButton<void Function()>(
+        onSelected: (void Function() callback) => callback(),
         itemBuilder: (BuildContext context) {
-          return [
-            PopupMenuItem<String>(
-              value: AppLocalizations.of(context)!.logout,
-              child: Text(
-                AppLocalizations.of(context)!.logout,
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ];
+          return items;
         },
         icon: Icon(
           Icons.more_vert,

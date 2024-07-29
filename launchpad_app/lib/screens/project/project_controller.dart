@@ -1,6 +1,8 @@
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:launchpad_app/components/custom_barrier/custom_modal_barrier.dart';
 import 'package:launchpad_app/screens/home/home_route.dart';
 import 'package:launchpad_app/screens/navigation_wrapper/navigation_wrapper_route.dart';
 import 'package:launchpad_app/screens/project/project_loading_view.dart';
@@ -95,6 +97,61 @@ class ProjectController extends State<ProjectRoute> {
   ///
   // TODO(Toglefritz): Implement this method and expand documentation.
   Future<void> onQuery() async {}
+
+  /// Handles requests by the user to delete the current project.
+  ///
+  /// When the user selects the option to delete the project from the menu in the app bar, a dialog is displayed to
+  /// confirm the user's intent to delete the project. If the user confirms the deletion, the project is deleted from
+  /// the user's account and the user is navigated back to the [HomeRoute].
+  ///
+  /// It is assumed that the project has an ID when this method is called.
+  Future<void> onDeleteProject() async {
+    // Display a dialog to confirm the user's intent to delete the project.
+    final bool? deleteConfirmed = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomModalBarrier(
+          child: AlertDialog(
+            title: Text(AppLocalizations.of(context)!.deleteProjectDialogTitle),
+            content: Text(AppLocalizations.of(context)!.deleteProjectDialogConfirmation),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text(AppLocalizations.of(context)!.cancel),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: Text(AppLocalizations.of(context)!.delete),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    // If the user confirms the deletion, delete the project from the user's account.
+    if (deleteConfirmed ?? false) {
+      try {
+        // Get an App Check token to use for deleting the project.
+        final String? appCheckToken = await FirebaseAppCheck.instance.getToken();
+        if (appCheckToken == null || appCheckToken.isEmpty) {
+          // TODO(Toglefritz): Handle error.
+        }
+
+        // Delete the project from the user's account.
+        final ProjectService projectService = ProjectService(FirebaseAuth.instance.currentUser!);
+        await projectService.deleteProject(
+          projectId: augmentedProject!.id!,
+          appCheckToken: appCheckToken!,
+        );
+
+        // Navigate back to the home route.
+        onBack();
+      } catch (e) {
+        debugPrint('Failed to delete project from user account: $e');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) => augmentedProject == null ? ProjectLoadingView(this) : ProjectView(this);

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:launchpad_app/components/decorative_background.dart';
+import 'package:launchpad_app/components/image_placeholders/decorative_background.dart';
 import 'package:launchpad_app/components/loader/wave_loading_indicator.dart';
 import 'package:launchpad_app/services/project/augmented_project.dart';
 import 'package:launchpad_app/theme/insets.dart';
