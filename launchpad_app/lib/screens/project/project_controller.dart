@@ -18,6 +18,12 @@ class ProjectController extends State<ProjectRoute> {
   /// user and additional information from other sources.
   AugmentedProject? augmentedProject;
 
+  /// A controller for the [PageView] widget used to display the project steps.
+  final PageController pageController = PageController();
+
+  /// The index of the currently active page.
+  int currentPage = 0;
+
   /// A controller for the text input field used by users to describe their project as a method of searching.
   final TextEditingController queryController = TextEditingController();
 
@@ -91,6 +97,26 @@ class ProjectController extends State<ProjectRoute> {
       MaterialPageRoute<void>(builder: (context) => const NavigationWrapperRoute()),
       (route) => false,
     );
+  }
+
+  /// Handles taps on interface elements that move the user to the next step in the project. Several elements in the
+  /// interface can trigger this action.
+  void onNextPage() {
+    pageController.nextPage(
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeInOut,
+    );
+
+    setState(() {
+      currentPage = pageController.page!.round();
+    });
+  }
+
+  /// Handles changes in the active page of the [PageView] widget.
+  void onPageChanged(int page) {
+    setState(() {
+      currentPage = page;
+    });
   }
 
   /// Handles submission of a query about the project.

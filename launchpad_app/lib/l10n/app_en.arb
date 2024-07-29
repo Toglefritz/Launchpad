@@ -83,6 +83,10 @@
   "@directions": {
     "description": "Text for the directions sections of the project guides"
   },
+  "getStarted": "Get Started",
+  "@getStarted": {
+    "description": "Text for the get started button"
+  },
   "homeLabel": "Home",
   "@homeLabel": {
     "description": "Label for the home item in the bottom navigation bar"
@@ -136,9 +140,9 @@
     "description": "Text displayed while the app is preparing a project."
   },
   "projectDraftLoadingDescription": "Building your project draft will take just a moment.",
-    "@projectDraftLoadingDescription": {
-        "description": "Description for the project draft loading page"
-    },
+  "@projectDraftLoadingDescription": {
+    "description": "Description for the project draft loading page"
+  },
   "projectLoadingDescription": "Getting your project ready will take just a moment.",
   "@projectLoadingDescription": {
     "description": "Description for the project loading page"
