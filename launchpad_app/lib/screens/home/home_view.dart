@@ -62,7 +62,7 @@ class HomeView extends StatelessWidget {
             // If an error occurred while fetching the projects list, show an error message.
             if (state.hasError)
               SliverPadding(
-                padding: const EdgeInsets.all(Insets.small),
+                padding: const EdgeInsets.all(Insets.medium),
                 sliver: SliverToBoxAdapter(
                   child: Text(
                     AppLocalizations.of(context)!.projectsRetrievalError,
@@ -74,11 +74,13 @@ class HomeView extends StatelessWidget {
             // If the projects list is empty, show a message indicating that the user has no projects
             if (state.projects != null && state.projects!.isEmpty)
               SliverPadding(
-                padding: const EdgeInsets.all(Insets.small),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: Insets.medium,
+                  vertical: Insets.small,
+                ),
                 sliver: SliverToBoxAdapter(
                   child: Text(
                     AppLocalizations.of(context)!.noProjectsFound,
-                    style: TextStyle(color: Colors.grey[600]),
                   ),
                 ),
               ),

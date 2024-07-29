@@ -55,7 +55,7 @@ const { getStorage } = require('firebase-admin/storage');
  * 
  * @code
  * {
- *  "imageUrl": "https://firebasestorage.googleapis.com/v0/b/launchpad-demo.appspot.com/o/12345678%2Fb1b2c3d4-5678-90ab-cdef-0123456789ab.png?alt=media&token=12345678
+ *  "fileName": "e4b3b3b3-4b3b-4b3b-4b3b-4b3b4b3b4b3b.png"
  * }
  * 
  */
@@ -195,24 +195,16 @@ exports.getImage = async (req, res) => {
     if (process.env.FUNCTIONS_EMULATOR === 'true') {
       // If running in the emulator, construct a local emulator URL
       url = `http://127.0.0.1:9199/v0/b/launchpad-d344d.appspot.com/o/${userId}%2f${fileName}?alt=media`;
-    } 
+    }
     // Otherwise, generate a signed URL for the image
     else {
-      // Initialize Firebase Storage and create a reference
-      const bucket = getStorage().bucket();
-
-      // Create a reference to the file in the bucket
-      const file = bucket.file(`${userId}/${fileName}`);
-
-      // Generate a signed URL for the file
-      [url] = await file.getSignedUrl({
-        action: 'read',
-        expires: Date.now() + 60 * 60 * 1000, // 1 hour
-      });
+      // Generate the public URL to the file
+      // TODO(Toglefritz): Generate a signed URL for the image
+      url = `https://firebasestorage.googleapis.com/v0/b/launchpad-d344d.appspot.com/o/${encodeURIComponent(userId + '/' + fileName)}?alt=media`;
     }
 
     // Redirect the client to the appropriate URL
-    res.redirect(url);
+    res.status(200).send({ imageUrl: url });
   } catch (error) {
     console.error('Error getting image from Firebase Storage:', error);
     res.status(500).send('Internal Server Error');

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:launchpad_app/components/app_bar/app_bar_button.dart';
 import 'package:launchpad_app/components/app_bar/app_bar_popup_menu.dart';
+import 'package:launchpad_app/components/decorative_background.dart';
 import 'package:launchpad_app/screens/project/project_controller.dart';
 import 'package:launchpad_app/services/project/augmented_project.dart';
 import 'package:launchpad_app/theme/insets.dart';
@@ -45,37 +46,38 @@ class ProjectView extends StatelessWidget {
                 ),
               ),
             ),
-            if (project.projectImageUrl != null)
+            if (project.projectImage != null)
               SliverPadding(
                 padding: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width * 0.125,
                 ),
                 sliver: SliverToBoxAdapter(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12.0),
-                    child: Image.network(
-                      project.projectImageUrl!,
-                      loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                        if (loadingProgress == null) {
-                          return child;
-                        } else {
-                          return CircularProgressIndicator(
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                                : null,
-                          );
-                        }
-                      },
-                      errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-                        return ColoredBox(
-                          color: Theme.of(context).colorScheme.secondary,
-                          child: const Icon(
-                            Icons.no_photography_outlined,
-                            size: 42,
-                          ),
-                        );
-                      },
-                    ),
+                  child: FutureBuilder(
+                    future: project.projectImage?.getImageUrl(),
+                    builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                      return AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 250),
+                        child: snapshot.connectionState == ConnectionState.waiting
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(12.0),
+                                child: const AspectRatio(
+                                  aspectRatio: 1.0,
+                                  child: DecorativeBackground(),
+                                ),
+                              )
+                            : Image.network(
+                                snapshot.data!,
+                                fit: BoxFit.cover,
+                                errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) => ClipRRect(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                  child: const AspectRatio(
+                                    aspectRatio: 1.0,
+                                    child: DecorativeBackground(),
+                                  ),
+                                ),
+                              ),
+                      );
+                    },
                   ),
                 ),
               ),

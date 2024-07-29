@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:launchpad_app/components/decorative_background.dart';
+import 'package:launchpad_app/components/loader/wave_loading_indicator.dart';
 import 'package:launchpad_app/services/project/augmented_project.dart';
 import 'package:launchpad_app/theme/insets.dart';
 
@@ -41,29 +42,51 @@ class ProjectCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                // Show the cover image if one is available
-                if (project.projectImage?.data.imageUrl != null)
+                if (project.projectImage != null)
                   Padding(
                     padding: const EdgeInsets.all(Insets.small),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12.0),
-                      child: Image.network(
-                        project.projectImage!.data.imageUrl,
-                        height: 115.0,
-                        fit: BoxFit.cover,
-                        errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) => ClipRRect(
-                          borderRadius: BorderRadius.circular(12.0),
-                          child: const SizedBox(
+                    child: FutureBuilder(
+                      future: project.projectImage?.getImageUrl(),
+                      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                        Widget child;
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          child = ClipRRect(
+                            borderRadius: BorderRadius.circular(12.0),
+                            child: const WaveLoadingIndicator(),
+                          );
+                        } else if (snapshot.data != null) {
+                          child = Image.network(
+                            snapshot.data!,
                             height: 115.0,
-                            child: DecorativeBackground(),
-                          ),
-                        ),
-                      ),
+                            fit: BoxFit.cover,
+                            errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) => ClipRRect(
+                              borderRadius: BorderRadius.circular(12.0),
+                              child: const SizedBox(
+                                height: 115.0,
+                                child: DecorativeBackground(),
+                              ),
+                            ),
+                          );
+                        } else {
+                          child = ClipRRect(
+                            borderRadius: BorderRadius.circular(12.0),
+                            child: const SizedBox(
+                              height: 115.0,
+                              child: DecorativeBackground(),
+                            ),
+                          );
+                        }
+
+                        return AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 250),
+                          child: child,
+                        );
+                      },
                     ),
                   ),
 
                 // Show a decorative background element if no background image is available.
-                if (project.projectImage?.data.imageUrl == null)
+                if (project.projectImage == null)
                   Padding(
                     padding: const EdgeInsets.all(Insets.small),
                     child: ClipRRect(

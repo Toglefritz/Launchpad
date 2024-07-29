@@ -101,15 +101,16 @@ class AugmentedProject extends Project {
     }
   }
 
-  /// A convenience getter for the project image URL.
-  String? get projectImageUrl => projectImage?.data.imageUrl;
-
   /// Returns an [AugmentedProject] object from a JSON object.
   ///
-  /// This factory constructor is typically used when retrieving a project from the Launchpad Firestore backend. The
-  /// JSON objects returned from the backend are in an extended format based on the HowTo schema from schema.org. The
-  /// standard schema has been augmented with additional fields, such as the project image URL.
-  factory AugmentedProject.fromJson(JSONObject json) {
+  /// This function works in a similar way to a factory constructor. However, because getting the image URL from the
+  /// Firebase backend is an asynchronous operation, which is not allowed in a factory constructor, this function is
+  /// used instead.
+  ///
+  /// This function is typically used when retrieving a project from the Launchpad Firestore backend. The JSON objects
+  /// returned from the backend are in an extended format based on the HowTo schema from schema.org. The standard schema
+  /// has been augmented with additional fields, such as the project image URL.
+  static Future<AugmentedProject> fromJson(JSONObject json) async {
     // Create a Project object from the JSON object.
     final Project project = Project.fromJson(json);
 

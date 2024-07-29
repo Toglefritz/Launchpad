@@ -12,9 +12,10 @@ import 'package:launchpad_app/services/project/project.dart';
 /// used purely for decorative purposes and are not intended to be instructive in themselves.
 ///
 /// The image generation service sends a POST request to the `generateImage` endpoint of the Firebase Functions,
-/// including the provided prompt and authentication token in the request. It returns the generated image data as a map
-/// if the request is successful. Assuming the request is successful, the app will construct a [GeneratedImage] object
-/// from the response data.
+/// including the provided prompt and authentication token in the request. The generated image is stored in a Firebase
+/// Storage bucket and the file name is returned in the response. To retrieve the image, the `getImage` endpoint of the
+/// Firebase Functions is called with the file name. This endpoint returns a signed URL to the image that is valid for
+/// a limited time.
 class ImageGenerationService {
   /// The Firebase Auth [User] object representing the current user.
   final User user;
@@ -90,5 +91,60 @@ class ImageGenerationService {
         'Create a cover image for a project titled "${project.name}," with the description, "${project.description}."';
 
     return prompt;
+  }
+
+  /// Gets a signed URL for the image from the Firebase Functions endpoint.
+  ///
+  /// This function sends a GET request to the `getImage` endpoint of the Firebase Functions, including the file name of
+  /// the image in the request. The endpoint returns a signed URL to the image that is valid for a limited time.
+  ///
+  /// Note that the image URL is returned as a String, rather than a [Uri] object, because the image will typically be
+  /// displayed using an `Image.network` widget, which requires a String URL.
+  Future<String> getImageUrl({
+    required String appCheckToken,
+    required String fileName,
+  }) async {
+    // Get the use_emulator boolean from the `flutter run` command to determine if the Firebase Emulator Suite should
+    // be used. The `fromEnvironment` method returns false by default if the argument is not passed.
+    const bool useFirebaseEmulator = bool.fromEnvironment('USE_FIREBASE_EMULATOR');
+
+    // Define the URL for the Firebase Functions endpoint, depending upon whether or not the Firebase Emulator Suite
+    // should be used.
+    const String functionUrl = useFirebaseEmulator
+        ? 'http://$firebaseEmulatorsIp:5001/launchpad-d344d/us-central1/getImage'
+        : 'https://us-central1-launchpad-d344d.cloudfunctions.net/getImage';
+
+    // Get the user's ID token.
+    final String? idToken = await user.getIdToken();
+    if (idToken == null || idToken.isEmpty) {
+      throw Exception('ID token is null');
+    }
+
+    final Response response;
+    try {
+      response = await get(
+        Uri.parse('$functionUrl?fileName=$fileName'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $idToken',
+          'x-appcheck-token': appCheckToken,
+        },
+      );
+    } catch (e) {
+      throw Exception('Failed to get image with exception, $e');
+    }
+
+    // A 200 status means the image URL was retrieved successfully.
+    if (response.statusCode == 200) {
+      // Parse the response JSON from the response body.
+      final JSONObject responseJson = jsonDecode(response.body) as JSONObject;
+
+      // Get the image URL from the response JSON.
+      final String imageUrl = responseJson['imageUrl'] as String;
+
+      return imageUrl;
+    } else {
+      throw Exception('Failed to get image with error message ${response.body}');
+    }
   }
 }

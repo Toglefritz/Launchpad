@@ -52,7 +52,7 @@ void main() {
         // Call the method under test
         final ProjectService projectService = ProjectService(mockUser);
         await projectService.createProject(
-          augmentedProject: AugmentedProject.fromJson(projectDataJson),
+          augmentedProject: await AugmentedProject.fromJson(projectDataJson),
           appCheckToken: 'mock_app_check_token',
         );
 
@@ -121,7 +121,7 @@ void main() {
         when(mockUser.getIdToken()).thenAnswer((_) async => 'mock_id_token');
 
         // Create an AugmentedProject object representing the project to be updated.
-        final AugmentedProject originalProject = AugmentedProject.fromJson(projectDataJson);
+        final AugmentedProject originalProject = await AugmentedProject.fromJson(projectDataJson);
 
         // Update the project name.
         final AugmentedProject updatedProject = originalProject.copyWith(
