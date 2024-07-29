@@ -99,7 +99,10 @@ exports.readProject = async (req, res) => {
         if (!projectDoc.exists) {
             res.status(404).send('Project not found');
         } else {
-            res.status(200).send(projectDoc.data());
+            // Send the project data in the response. The project ID is included
+            // in the response for convenience.
+            const projectData = projectDoc.data();
+            res.status(200).send({ projectId, ...projectData });
         }
     } catch (error) {
         console.error('Error reading project:', error);
