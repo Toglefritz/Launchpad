@@ -2,9 +2,11 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:launchpad_app/extensions/json_typedef.dart';
+import 'package:launchpad_app/services/firebase_gemini/gemini_service.dart';
 import 'package:launchpad_app/services/firebase_remote_config/remote_config_service.dart';
 import 'package:launchpad_app/services/image_generation/image_generation_service.dart';
 import 'package:launchpad_app/services/image_generation/models/generated_image.dart';
+import 'package:launchpad_app/services/project/models/achievement.dart';
 import 'package:launchpad_app/services/project/models/how_to_step.dart';
 import 'package:launchpad_app/services/project/models/how_to_supply.dart';
 import 'package:launchpad_app/services/project/models/how_to_tip.dart';
@@ -31,6 +33,10 @@ class AugmentedProject extends Project {
   /// The URL of an image representing the project. This image is created using generative AI services.
   final GeneratedImage? projectImage;
 
+  /// A list of [Achievement]s that can be unlocked after completing particularly important or challenging steps in the
+  /// project.
+  final List<Achievement> achievements;
+
   /// Creates an instance of [AugmentedProject].
   AugmentedProject._({
     this.id,
@@ -42,6 +48,7 @@ class AugmentedProject extends Project {
     super.supplies,
     super.tips,
     required this.projectImage,
+    required this.achievements,
   });
 
   /// Returns an instance of [AugmentedProject] from a [Project] by making additional calls to asynchronous services.
@@ -64,6 +71,9 @@ class AugmentedProject extends Project {
       projectImage = null;
     }
 
+    // Generate a list of achievements for the project.
+    final List<Achievement> achievements = await _getAchievements(project.steps);
+
     // Construct the augmented project.
     return AugmentedProject._(
       name: project.name,
@@ -74,10 +84,14 @@ class AugmentedProject extends Project {
       supplies: project.supplies,
       tips: project.tips,
       projectImage: projectImage,
+      achievements: achievements,
     );
   }
 
   /// Gets an image representing the project using generative AI services.
+  ///
+  /// This image is intended to be used as a cover image for the project. The image is generated based on the project
+  /// description. If the image generation fails, the function returns null.
   static Future<GeneratedImage?> _getProjectImage(Project project) async {
     try {
       // Create a prompt for the image generation service based on the project contents.
@@ -110,6 +124,36 @@ class AugmentedProject extends Project {
     }
   }
 
+  /// Gets a list of achievements that can be unlocked after completing particularly important or challenging steps in
+  /// the project.
+  ///
+  /// To generate achievements for a project, Gemini is used to analyze the project steps and determine which steps are
+  /// particularly important or challenging. It then creates a list of achievements based on these steps.
+  ///
+  /// The achievements themselves are represented as a JSON array, where each element in the array is a JSON object
+  /// containing information about an individual achievement. These JSON objects include the following fields:
+  /// - `name` - The name of the achievement.
+  /// - `description` - A description of the achievement.
+  /// - `stepId` - The ID of the step that must be completed to unlock the achievement.
+  ///
+  /// So, for example, an achievement might look like this:
+  ///
+  /// ```json
+  /// {
+  ///  "name": "Master Craftsman",
+  ///  "description": "Complete the final step in the project.",
+  ///  "stepId": "abc123"
+  ///  }
+  ///  ```
+  static Future<List<Achievement>> _getAchievements(List<HowToStep> steps) async {
+    // Generate a list of achievements for the project.
+    final List<Achievement> achievements = await GeminiService.generateAchievements(
+      steps: steps,
+    );
+
+    return achievements;
+  }
+
   /// Returns an [AugmentedProject] object from a JSON object.
   ///
   /// This function works in a similar way to a factory constructor. However, because getting the image URL from the
@@ -130,6 +174,11 @@ class AugmentedProject extends Project {
     final JSONObject? projectImageJson = json['projectImage'] as JSONObject?;
     final GeneratedImage? projectImage = projectImageJson != null ? GeneratedImage.fromJson(projectImageJson) : null;
 
+    // Get the list of achievements from the JSON object.
+    final JSONArray achievementsJson = json['achievements'] as JSONArray;
+    final List<Achievement> achievements =
+        achievementsJson.map((achievementJson) => Achievement.fromJson(achievementJson as JSONObject)).toList();
+
     // Create an AugmentedProject object from the Project object.
     return AugmentedProject._(
       id: id,
@@ -141,6 +190,7 @@ class AugmentedProject extends Project {
       supplies: project.supplies,
       tips: project.tips,
       projectImage: projectImage,
+      achievements: achievements,
     );
   }
 
@@ -152,6 +202,8 @@ class AugmentedProject extends Project {
 
     // Add the project image URL to the JSON object.
     json['projectImage'] = projectImage?.toJson();
+
+    json['achievements'] = achievements.map((Achievement achievement) => achievement.toJson()).toList();
 
     return json;
   }
@@ -179,6 +231,7 @@ class AugmentedProject extends Project {
       supplies: supplies ?? this.supplies,
       tips: tips ?? this.tips,
       projectImage: projectImage ?? this.projectImage,
+      achievements: achievements,
     );
   }
 }

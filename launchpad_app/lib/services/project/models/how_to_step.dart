@@ -1,3 +1,4 @@
+import 'package:launchpad_app/extensions/json_typedef.dart';
 import 'package:launchpad_app/services/project/models/how_to_direction.dart';
 import 'package:launchpad_app/services/project/models/how_to_supply.dart';
 import 'package:launchpad_app/services/project/models/how_to_tool.dart';
@@ -26,6 +27,9 @@ class HowToStep {
   /// A list of supplies required for the step.
   final List<HowToSupply>? supplies;
 
+  /// The raw JSON data for the step.
+  final JSONObject raw;
+
   /// Creates an instance of [HowToStep].
   HowToStep({
     required this.id,
@@ -34,6 +38,7 @@ class HowToStep {
     required this.directions,
     this.tools,
     this.supplies,
+    required this.raw,
   });
 
   /// Creates an instance of [HowToStep] from a JSON object.
@@ -59,6 +64,9 @@ class HowToStep {
               .map((supplyJson) => HowToSupply.fromJson(supplyJson as Map<String, dynamic>))
               .toList()
           : null,
+      raw: {
+        'id': id,
+      }..addAll(json),
     );
   }
 }

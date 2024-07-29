@@ -302,8 +302,6 @@ class ProjectRefinementController extends State<ProjectRefinementRoute> {
 
   /// Handles taps on the button used to finalize the project draft and navigate to the [ProjectRoute]
   Future<void> onProjectAccepted() async {
-    // TODO(Toglefritz): Save the project to the Firebase backend, linked to the user's account.
-
     // Navigate to the project execution view.
     await Navigator.pushReplacement(
       context,

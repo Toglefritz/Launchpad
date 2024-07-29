@@ -66,10 +66,23 @@ class RemoteConfigService {
   /// fetched from the remote configuration under the key `system_instructions`.
   ///
   /// Returns a [String] containing the system instructions.
-  String getSystemInstructions() {
-    final String systemInstructions = _remoteConfig.getString(RemoteConfigKey.systemInstructions.key);
+  String getProjectCreationSystemInstructions() {
+    final String systemInstructions = _remoteConfig.getString(RemoteConfigKey.projectCreationSystemInstructions.key);
 
     return systemInstructions;
+  }
+
+  /// Returns the beginning portion of a prompt used to generate achievements for a project.
+  ///
+  /// The prompt preamble is the initial part of the prompt that is displayed to the user when generating an achievement
+  /// for a project. This value is fetched from the remote configuration under the key `achievement_prompt_preamble`.
+  /// Content from the project is appended to this preamble to create the full prompt.
+  ///
+  /// Returns a [String] containing the prompt preamble.
+  String getAchievementPromptPreamble() {
+    final String promptPreamble = _remoteConfig.getString(RemoteConfigKey.achievementPromptPreamble.key);
+
+    return promptPreamble;
   }
 
   /// Returns a boolean value that determines whether or not cover images should be generated for projects.
@@ -80,6 +93,4 @@ class RemoteConfigService {
   bool shouldGenerateCoverImages() {
     return _remoteConfig.getBool(RemoteConfigKey.generateCoverImages.key);
   }
-
-// TODO(Toglefritz): Other parameters can be added here with similar documentation.
 }

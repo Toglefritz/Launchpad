@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:firebase_vertexai/firebase_vertexai.dart';
 import 'package:flutter/material.dart';
+import 'package:launchpad_app/extensions/json_typedef.dart';
 import 'package:launchpad_app/services/firebase_gemini/models/gemini_models.dart';
 import 'package:launchpad_app/services/firebase_remote_config/remote_config_service.dart';
+import 'package:launchpad_app/services/project/models/achievement.dart';
+import 'package:launchpad_app/services/project/models/how_to_step.dart';
 import 'package:launchpad_app/services/search/search_service.dart';
 
 /// This service provides methods for interacting with Google Gemini AI systems, mainly providing prompts to Gemini
@@ -27,7 +32,7 @@ class GeminiService {
     temperature: _remoteConfigService.getTemperature(),
   );
 
-  /// Get a Gemini model to use for generative responses.
+  /// Get a Gemini model to use for generative responses used when creating a project.
   ///
   /// Initialization of the model consists of selecting a model with system instructions and providing "tools" for
   /// function calling. The system instructions are fetched from Firebase Remote Config.
@@ -35,7 +40,7 @@ class GeminiService {
   static GenerativeModel get _projectCreationModel => FirebaseVertexAI.instance.generativeModel(
         model: GeminiModel.gemini15Flash.modelIdentifier,
         generationConfig: _generationConfig,
-        systemInstruction: Content.system(_remoteConfigService.getSystemInstructions()),
+        systemInstruction: Content.system(_remoteConfigService.getProjectCreationSystemInstructions()),
         tools: [
           Tool(
             functionDeclarations: [
@@ -43,6 +48,17 @@ class GeminiService {
             ],
           ),
         ],
+      );
+
+  /// Get a Gemini model to use for building achievements for a project.
+  ///
+  /// Projects in the Launchpad app can have achievements that are generated using a Gemini model. This method returns
+  /// a Gemini model that is configured to generate achievements for a project.
+  // TODO(Toglefritz): specify MIME type as JSON when the feature is supported
+  static GenerativeModel get _achievementModel => FirebaseVertexAI.instance.generativeModel(
+        model: GeminiModel.gemini15Flash.modelIdentifier,
+        generationConfig: _generationConfig,
+        // TODO(Toglefritz): determine if system instructions are needed for achievements
       );
 
   /// Starts a chat session with the Gemini [_projectCreationModel].
@@ -85,6 +101,62 @@ class GeminiService {
       return response;
     } catch (e) {
       debugPrint('Receiving chat message from Gemini failed with exception, $e');
+
+      rethrow;
+    }
+  }
+
+  /// Uses the [_achievementModel] to generate an achievement for a project.
+  ///
+  /// This function accepts a list of project steps that the Gemini model will use to generate an achievement. This
+  /// function starts by constructing a prompt for the Gemini model using two pieces of information: the preamble for
+  /// the prompt, which is fetched from Firebase Remote Config, and the list of project steps. The project steps are
+  /// serialized as a JSON array and appended to the preamble.
+  ///
+  /// The prompt is then sent to the Gemini model, which generates a response containing a list of achievements. The
+  /// response is parsed and converted into a list of [Achievement] objects, which are then returned.
+  static Future<List<Achievement>> generateAchievements({
+    required List<HowToStep> steps,
+  }) async {
+    // Get the preamble for the achievement prompt.
+    final String promptPreamble = _remoteConfigService.getAchievementPromptPreamble();
+
+    // Add the list of project steps to the content as a serialized JSON array.
+    final List<Map<String, dynamic>> stepsJson = steps.map((HowToStep step) => step.raw).toList();
+
+    // Build the content object to send to the Gemini model.
+    final Content content = Content.text(
+      '$promptPreamble $stepsJson',
+    );
+
+    try {
+      final GenerateContentResponse response = await _achievementModel.generateContent([content]);
+
+      debugPrint('Received achievement from Gemini: ${response.text}');
+
+      // Convert the response to a list of achievements.
+      final String? responseText = response.text;
+      // Get the JSON content itself from the response, by extracting the substring between the first and last square
+      // brackets.
+      final String? jsonContent = responseText?.substring(responseText.indexOf('['), responseText.lastIndexOf(']') + 1);
+
+      if (jsonContent == null) {
+        throw Exception('Received null response from Gemini');
+      }
+
+      // Remove all newlines from the JSON content.
+      jsonContent.replaceAll('\n', '');
+
+      // Parse the JSON response from the Gemini model.
+      final JSONArray responseJson = json.decode(jsonContent) as JSONArray;
+
+      // Convert the JSON response to a list of achievements.
+      final List<Achievement> achievements =
+          responseJson.map((item) => Achievement.fromJson(item as JSONObject)).toList();
+
+      return achievements;
+    } catch (e) {
+      debugPrint('Receiving achievement from Gemini failed with exception, $e');
 
       rethrow;
     }
