@@ -8,10 +8,6 @@ import 'package:launchpad_app/screens/project_refinement/project_refinement_rout
 import 'package:launchpad_app/screens/project_refinement/project_refinement_view.dart';
 import 'package:launchpad_app/services/firebase_gemini/gemini_service.dart';
 import 'package:launchpad_app/services/project/project.dart';
-import 'package:launchpad_app/services/search/models/search.dart';
-import 'package:launchpad_app/services/search/models/search_extensions.dart';
-import 'package:launchpad_app/services/search/models/search_result.dart';
-import 'package:launchpad_app/services/search/search_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// A controller for the [ProjectRefinementRoute] widget.
@@ -160,86 +156,6 @@ class ProjectRefinementController extends State<ProjectRefinementRoute> {
 
     // Parse the response.
     await _parseResponse(response);
-  }
-
-  /// Processes all function calls in the response from the Gemini model. This function returns a list of responses
-  /// that include the results of the function calls.
-  ///
-  /// A Gemini model can include function calls in its responses. This method processes the function calls and sends
-  /// the results back to the Gemini model. This enables the Gemini model to incorporate the results of the function
-  /// calls into its responses. However, to guard against the Gemini model returning function calls in its responses
-  /// that cannot be executed due to issues like the function not existing, the arguments being incorrect, or other
-  /// issues, this method verifies the validity of each function call before executing it.
-  Future<List<FunctionResponse>> _executeFunctionCalls(List<FunctionCall> functionCalls) async {
-    // A list of Content objects representing the responses to the function calls.
-    final List<FunctionResponse> functionResponses = [];
-
-    // Process each function call in the list.
-    for (final FunctionCall functionCall in functionCalls) {
-      // Check if the function call is valid for use in the SearchService class.
-      if (_isValidSearchFunctionCall(functionCall)) {
-        // If the function call is valid, execute the function call and add the result to the chat history.
-        final FunctionResponse response = await _executeSearchFunctionCall(functionCall);
-
-        // Add the response to the list of function responses.
-        functionResponses.add(response);
-      }
-    }
-
-    // Return the function call results.
-    return functionResponses;
-  }
-
-  /// Executes an individual function call from the Gemini model.
-  ///
-  /// When a function call is valid for use in the [SearchService] class, this method executes the function call uses
-  /// the result to create a [Content] object. This [Content] object will be included in a list of responses for all
-  /// function calls in the response from the Gemini model. This list will then be sent back to the Gemini model so
-  /// the information can be incorporated into the conversation.
-  Future<FunctionResponse> _executeSearchFunctionCall(FunctionCall functionCall) async {
-    // Get the query string from the arguments. A null check is used here because the app previously verified that
-    // the 'query' argument is present and is a string.
-    final String query = functionCall.args['query']! as String;
-
-    // Perform a search using the query string via a Google Programmable Search Engine.
-    final Search search = await SearchService.performSearch(query);
-
-    // The app assumes that the first result will be the most relevant result.
-    final SearchResult firstResult = search.firstResult;
-
-    // Create a FunctionResponse object to send back to the Gemini model.
-    final FunctionResponse functionResponse = FunctionResponse(
-      functionCall.name,
-      {
-        'title': firstResult.title,
-        'link': firstResult.link.toString(),
-      },
-    );
-
-    // Return the Content object.
-    return functionResponse;
-  }
-
-  /// Returns a boolean that determines if the function call and its arguments are valid for use in the [SearchService]
-  /// class. To perform this check, the following steps are taken:
-  ///
-  ///   1. Check if the function name is 'performSearch'.
-  ///   2. Check if the arguments contain a 'query' key. Any other arguments are ignored.
-  ///   3. Check if the 'query' argument is a string.
-  bool _isValidSearchFunctionCall(FunctionCall functionCall) {
-    // Check if the function name is 'performSearch'.
-    if (functionCall.name == 'performSearch') {
-      // Check if the arguments contain a 'query' key. The app will ignore any other arguments that may erroneously
-      // be included in the function call.
-      if (functionCall.args.containsKey('query')) {
-        // Check if the 'query' argument is a string.
-        if (functionCall.args['query'] is String) {
-          return true;
-        }
-      }
-    }
-
-    return false;
   }
 
   /// Returns the text content of a [Content] object to display in the chat history.
