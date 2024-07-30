@@ -1,3 +1,5 @@
+import 'package:launchpad_app/extensions/json_typedef.dart';
+
 /// Represents a tip in the HowTo schema.
 class HowToTip {
   /// The tip content.
@@ -11,5 +13,12 @@ class HowToTip {
     return HowToTip(
       text: json['text'] as String,
     );
+  }
+
+  /// Converts the tip to a JSON object.
+  JSONObject toJson() {
+    return {
+      'text': text,
+    };
   }
 }

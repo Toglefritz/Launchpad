@@ -12,6 +12,7 @@ import 'package:launchpad_app/services/project/models/how_to_supply.dart';
 import 'package:launchpad_app/services/project/models/how_to_tip.dart';
 import 'package:launchpad_app/services/project/models/how_to_tool.dart';
 import 'package:launchpad_app/services/project/project.dart';
+import 'package:launchpad_app/services/uuid/uuid_generator.dart';
 
 /// Represents a project, derived from a [Project] object, that is augmented with additional data.
 ///
@@ -43,7 +44,6 @@ class AugmentedProject extends Project {
     required super.name,
     required super.description,
     required super.steps,
-    required super.raw,
     super.tools,
     super.supplies,
     super.tips,
@@ -58,6 +58,9 @@ class AugmentedProject extends Project {
   /// [AugmentedProject] from a [Project] object by making additional calls to services to augment the project with
   /// additional data.
   static Future<AugmentedProject> fromProject(Project project) async {
+    // Create a unique identifier for the project, which is random UUID.
+    final String id = UuidGenerator.generateUuid();
+
     // The Firebase Remote Config service is used to configure various options for project augmentation.
     final RemoteConfigService remoteConfigService = RemoteConfigService();
 
@@ -76,10 +79,10 @@ class AugmentedProject extends Project {
 
     // Construct the augmented project.
     return AugmentedProject._(
+      id: id,
       name: project.name,
       description: project.description,
       steps: project.steps,
-      raw: project.raw,
       tools: project.tools,
       supplies: project.supplies,
       tips: project.tips,
@@ -185,7 +188,6 @@ class AugmentedProject extends Project {
       name: project.name,
       description: project.description,
       steps: project.steps,
-      raw: project.raw,
       tools: project.tools,
       supplies: project.supplies,
       tips: project.tips,
@@ -198,14 +200,17 @@ class AugmentedProject extends Project {
   /// schema from schema.org. In addition to the fields defined for the HowTo schema, this JSON object includes the
   /// project image URL.
   JSONObject toJson() {
-    final JSONObject json = super.raw;
-
-    // Add the project image URL to the JSON object.
-    json['projectImage'] = projectImage?.toJson();
-
-    json['achievements'] = achievements.map((Achievement achievement) => achievement.toJson()).toList();
-
-    return json;
+    return {
+      'projectId': id,
+      'name': name,
+      'description': description,
+      'projectImage': projectImage?.toJson(),
+      'steps': steps.map((HowToStep step) => step.toJson()).toList(),
+      'tools': tools?.map((HowToTool tool) => tool.toJson()).toList(),
+      'supplies': supplies?.map((HowToSupply supply) => supply.toJson()).toList(),
+      'tips': tips?.map((HowToTip tip) => tip.toJson()).toList(),
+      'achievements': achievements.map((Achievement achievement) => achievement.toJson()).toList(),
+    };
   }
 
   /// Creates a copy of this [AugmentedProject] with the given fields replaced with new values.
@@ -216,17 +221,16 @@ class AugmentedProject extends Project {
     String? name,
     String? description,
     List<HowToStep>? steps,
-    JSONObject? raw,
     List<HowToTool>? tools,
     List<HowToSupply>? supplies,
     List<HowToTip>? tips,
     GeneratedImage? projectImage,
   }) {
     return AugmentedProject._(
+      id: id,
       name: name ?? this.name,
       description: description ?? this.description,
       steps: steps ?? this.steps,
-      raw: raw ?? this.raw,
       tools: tools ?? this.tools,
       supplies: supplies ?? this.supplies,
       tips: tips ?? this.tips,

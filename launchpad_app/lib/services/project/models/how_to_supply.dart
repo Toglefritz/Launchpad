@@ -1,3 +1,5 @@
+import 'package:launchpad_app/extensions/json_typedef.dart';
+
 /// Represents a supply in the HowTo schema.
 class HowToSupply {
   /// The name of the supply.
@@ -11,5 +13,12 @@ class HowToSupply {
     return HowToSupply(
       name: json['name'] as String,
     );
+  }
+
+  /// Converts the supply to a JSON object.
+  JSONObject toJson() {
+    return {
+      'name': name,
+    };
   }
 }

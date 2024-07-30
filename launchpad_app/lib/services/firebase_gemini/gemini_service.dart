@@ -122,7 +122,7 @@ class GeminiService {
     final String promptPreamble = _remoteConfigService.getAchievementPromptPreamble();
 
     // Add the list of project steps to the content as a serialized JSON array.
-    final List<Map<String, dynamic>> stepsJson = steps.map((HowToStep step) => step.raw).toList();
+    final List<Map<String, dynamic>> stepsJson = steps.map((HowToStep step) => step.toJson()).toList();
 
     // Build the content object to send to the Gemini model.
     final Content content = Content.text(

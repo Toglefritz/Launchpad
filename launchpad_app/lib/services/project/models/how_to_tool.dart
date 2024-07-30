@@ -1,3 +1,5 @@
+import 'package:launchpad_app/extensions/json_typedef.dart';
+
 /// Represents a tool in the HowTo schema.
 class HowToTool {
   /// The name of the tool.
@@ -11,5 +13,12 @@ class HowToTool {
     return HowToTool(
       name: json['name'] as String,
     );
+  }
+
+  /// Converts the tool to a JSON object.
+  JSONObject toJson() {
+    return {
+      'name': name,
+    };
   }
 }

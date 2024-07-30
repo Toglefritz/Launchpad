@@ -9,6 +9,7 @@ import 'package:launchpad_app/screens/project/project_loading_view.dart';
 import 'package:launchpad_app/screens/project/project_route.dart';
 import 'package:launchpad_app/screens/project/project_view.dart';
 import 'package:launchpad_app/services/project/augmented_project.dart';
+import 'package:launchpad_app/services/project/models/how_to_direction.dart';
 import 'package:launchpad_app/services/project/project.dart';
 import 'package:launchpad_app/services/project/project_service.dart';
 
@@ -123,6 +124,15 @@ class ProjectController extends State<ProjectRoute> {
   ///
   // TODO(Toglefritz): Implement this method and expand documentation.
   Future<void> onQuery() async {}
+
+  /// Handles taps on the individual checkboxes for directions within the project steps.
+  void onStepCompleted(HowToDirection direction) {
+    setState(() {
+      direction.isComplete = !direction.isComplete;
+    });
+
+    // TODO(Toglefritz): Send command to update Firestore
+  }
 
   /// Handles requests by the user to delete the current project.
   ///

@@ -42,9 +42,10 @@ class ProjectRefinementController extends State<ProjectRefinementRoute> {
 
   @override
   void initState() {
-    super.initState();
     // Start a "chat" session with the Gemini system.
     _startChatSession();
+
+    super.initState();
   }
 
   /// Starts a [ChatSession] with the Gemini model. This session is used to enable a multi-turn conversation with the
@@ -94,22 +95,6 @@ class ProjectRefinementController extends State<ProjectRefinementRoute> {
   Future<void> _parseResponse(GenerateContentResponse response) async {
     // Get the first candidate from the response. The app always uses the first candidate.
     final Content candidate = response.candidates.first.content;
-
-    // Get a list of function call parts from the candidate.
-    final List<FunctionCall> functionCalls = candidate.parts.whereType<FunctionCall>().toList();
-
-    // If the candidate contains function calls, execute the function calls and send the responses back to the
-    // Gemini model.
-    final List<FunctionResponse> functionCallResults;
-    if (functionCalls.isNotEmpty) {
-      functionCallResults = await _executeFunctionCalls(functionCalls);
-
-      // Create a Content object from the function call results.
-      final Content functionCallResultsContent = Content.functionResponses(functionCallResults);
-
-      // Submit the function call results to the Gemini model.
-      await _submitFunctionCallResults(functionCallResultsContent);
-    }
 
     // Get the first TextPart from the first Candidate from the response. The app assumes that this part will contain
     // the project draft.
@@ -255,20 +240,6 @@ class ProjectRefinementController extends State<ProjectRefinementRoute> {
     }
 
     return false;
-  }
-
-  /// Submits the results from a list of function calls back to the Gemini model.
-  Future<void> _submitFunctionCallResults(Content functionCallResults) async {
-    // Submit the function call results to the Gemini model.
-    final GenerateContentResponse response = await GeminiService.sendChatMessage(
-      chat: chat!,
-      content: functionCallResults,
-    );
-
-    debugPrint('Received response from Gemini function call result submission: ${response.text}');
-
-    // Parse the response before adding it to the chat history.
-    await _parseResponse(response);
   }
 
   /// Returns the text content of a [Content] object to display in the chat history.

@@ -7,9 +7,6 @@ import 'package:launchpad_app/services/project/models/how_to_tool.dart';
 /// Represents a project following the schema.org HowTo schema. This class includes all the major fields from the
 /// schema.org HowTo schema and provides a factory constructor to create instances from JSON content.
 class Project {
-  /// The raw JSON content of the project.
-  final JSONObject raw;
-
   /// The name of the project.
   final String name;
 
@@ -31,7 +28,6 @@ class Project {
 
   /// Creates an instance of [Project].
   Project({
-    required this.raw,
     required this.name,
     required this.description,
     required this.steps,
@@ -43,7 +39,6 @@ class Project {
   /// Creates an instance of [Project] from a JSON object.
   factory Project.fromJson(JSONObject json) {
     return Project(
-      raw: json,
       name: json['name'] as String,
       description: json['description'] as String,
       steps: (json['step'] as JSONArray).map((stepJson) => HowToStep.fromJson(stepJson as JSONObject)).toList(),

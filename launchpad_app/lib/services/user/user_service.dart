@@ -55,7 +55,7 @@ class UserService {
     }
 
     // A 204 status code indicates that the user has no projects.
-    if (response.statusCode == 204) {
+    if (response.statusCode == 204 || response.body.isEmpty) {
       debugPrint('User has no projects');
 
       return [];
