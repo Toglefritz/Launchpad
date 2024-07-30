@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:launchpad_app/extensions/json_typedef.dart';
 import 'package:launchpad_app/services/project/models/how_to_step.dart';
 import 'package:launchpad_app/services/project/models/how_to_supply.dart';
@@ -38,14 +39,21 @@ class Project {
 
   /// Creates an instance of [Project] from a JSON object.
   factory Project.fromJson(JSONObject json) {
-    return Project(
-      name: json['name'] as String,
-      description: json['description'] as String,
-      steps: (json['step'] as JSONArray).map((stepJson) => HowToStep.fromJson(stepJson as JSONObject)).toList(),
-      tools: (json['tool'] as JSONArray?)?.map((toolJson) => HowToTool.fromJson(toolJson as JSONObject)).toList(),
-      supplies:
-          (json['supply'] as JSONArray?)?.map((supplyJson) => HowToSupply.fromJson(supplyJson as JSONObject)).toList(),
-      tips: (json['tip'] as JSONArray?)?.map((tipJson) => HowToTip.fromJson(tipJson as JSONObject)).toList(),
-    );
+    try {
+      return Project(
+        name: json['name'] as String,
+        description: json['description'] as String,
+        steps: (json['step'] as JSONArray).map((stepJson) => HowToStep.fromJson(stepJson as JSONObject)).toList(),
+        tools: (json['tool'] as JSONArray?)?.map((toolJson) => HowToTool.fromJson(toolJson as JSONObject)).toList(),
+        supplies: (json['supply'] as JSONArray?)
+            ?.map((supplyJson) => HowToSupply.fromJson(supplyJson as JSONObject))
+            .toList(),
+        tips: (json['tip'] as JSONArray?)?.map((tipJson) => HowToTip.fromJson(tipJson as JSONObject)).toList(),
+      );
+    } catch (e) {
+      debugPrint('Failed to parse project from JSON with exception, $e');
+
+      rethrow;
+    }
   }
 }

@@ -33,6 +33,7 @@ const createUserDocument = require('./functions/createUserDocument.cjs');
 const { generateImage, getImage } = require('./functions/generateImage.cjs');
 const { createProject, readProject, updateProject, deleteProject } = require('./functions/projects.cjs');
 const { getCurrentProjects } = require('./functions/users.cjs');
+const { toggleDirectionComplete } = require('./functions/toggleDirectionComplete.cjs');
 
 // Import the authentication middleware.
 const authenticate = require('./middleware/authMiddleware.cjs');
@@ -203,6 +204,25 @@ exports.getCurrentProjects = functions.https.onRequest((req, res) => {
   verifyAppCheck(req, res, async () => {
     authenticate(req, res, async () => {
       await getCurrentProjects(req, res);
+    });
+  });
+});
+
+/**
+ * @brief Endpoint for toggling the "complete" status of a direction in a project.
+ * 
+ * This endpoint handles HTTP requests for toggling the "complete" status of a
+ * direction in a project. It calls the `toggleDirectionComplete` function defined
+ * in a separate file, which encapsulates the business logic for toggling the
+ * "complete" status of a direction in a project.
+ * 
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ */
+exports.toggleDirectionComplete = functions.https.onRequest((req, res) => {
+  verifyAppCheck(req, res, async () => {
+    authenticate(req, res, async () => {
+      await toggleDirectionComplete(req, res);
     });
   });
 });

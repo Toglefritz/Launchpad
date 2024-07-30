@@ -167,33 +167,39 @@ class AugmentedProject extends Project {
   /// returned from the backend are in an extended format based on the HowTo schema from schema.org. The standard schema
   /// has been augmented with additional fields, such as the project image URL.
   static Future<AugmentedProject> fromJson(JSONObject json) async {
-    // Get the project ID.
-    final String? id = json['projectId'] as String?;
+    try {
+      // Get the project ID.
+      final String? id = json['projectId'] as String?;
 
-    // Create a Project object from the JSON object.
-    final Project project = Project.fromJson(json);
+      // Create a Project object from the JSON object.
+      final Project project = Project.fromJson(json);
 
-    // Get the project image from the JSON object.
-    final JSONObject? projectImageJson = json['projectImage'] as JSONObject?;
-    final GeneratedImage? projectImage = projectImageJson != null ? GeneratedImage.fromJson(projectImageJson) : null;
+      // Get the project image from the JSON object.
+      final JSONObject? projectImageJson = json['projectImage'] as JSONObject?;
+      final GeneratedImage? projectImage = projectImageJson != null ? GeneratedImage.fromJson(projectImageJson) : null;
 
-    // Get the list of achievements from the JSON object.
-    final JSONArray achievementsJson = json['achievements'] as JSONArray;
-    final List<Achievement> achievements =
-        achievementsJson.map((achievementJson) => Achievement.fromJson(achievementJson as JSONObject)).toList();
+      // Get the list of achievements from the JSON object.
+      final JSONArray achievementsJson = json['achievements'] as JSONArray;
+      final List<Achievement> achievements =
+          achievementsJson.map((achievementJson) => Achievement.fromJson(achievementJson as JSONObject)).toList();
 
-    // Create an AugmentedProject object from the Project object.
-    return AugmentedProject._(
-      id: id,
-      name: project.name,
-      description: project.description,
-      steps: project.steps,
-      tools: project.tools,
-      supplies: project.supplies,
-      tips: project.tips,
-      projectImage: projectImage,
-      achievements: achievements,
-    );
+      // Create an AugmentedProject object from the Project object.
+      return AugmentedProject._(
+        id: id,
+        name: project.name,
+        description: project.description,
+        steps: project.steps,
+        tools: project.tools,
+        supplies: project.supplies,
+        tips: project.tips,
+        projectImage: projectImage,
+        achievements: achievements,
+      );
+    } catch (e) {
+      debugPrint('Failed to create AugmentedProject from JSON with exception, $e');
+
+      rethrow;
+    }
   }
 
   /// Creates a JSON representation of the augmented project. This JSON object is an extended version of the HowTo
@@ -205,10 +211,10 @@ class AugmentedProject extends Project {
       'name': name,
       'description': description,
       'projectImage': projectImage?.toJson(),
-      'steps': steps.map((HowToStep step) => step.toJson()).toList(),
-      'tools': tools?.map((HowToTool tool) => tool.toJson()).toList(),
-      'supplies': supplies?.map((HowToSupply supply) => supply.toJson()).toList(),
-      'tips': tips?.map((HowToTip tip) => tip.toJson()).toList(),
+      'step': steps.map((HowToStep step) => step.toJson()).toList(),
+      'tool': tools?.map((HowToTool tool) => tool.toJson()).toList(),
+      'supply': supplies?.map((HowToSupply supply) => supply.toJson()).toList(),
+      'tip': tips?.map((HowToTip tip) => tip.toJson()).toList(),
       'achievements': achievements.map((Achievement achievement) => achievement.toJson()).toList(),
     };
   }

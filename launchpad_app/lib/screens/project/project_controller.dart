@@ -126,12 +126,22 @@ class ProjectController extends State<ProjectRoute> {
   Future<void> onQuery() async {}
 
   /// Handles taps on the individual checkboxes for directions within the project steps.
-  void onStepCompleted(HowToDirection direction) {
+  Future<void> onStepCompleted(HowToDirection direction) async {
     setState(() {
       direction.isComplete = !direction.isComplete;
     });
 
-    // TODO(Toglefritz): Send command to update Firestore
+    // Get an App Check token to use for marking the direction as complete.
+    final String? appCheckToken = await FirebaseAppCheck.instance.getToken();
+    if (appCheckToken == null || appCheckToken.isEmpty) {
+      // TODO(Toglefritz): How should this error be handled? The user can keep going with the project but this completed step will not be saved.
+    } else {
+      await direction.markAsComplete(
+        user: FirebaseAuth.instance.currentUser!,
+        appCheckToken: appCheckToken,
+        projectId: augmentedProject!.id!,
+      );
+    }
   }
 
   /// Handles requests by the user to delete the current project.

@@ -37,9 +37,12 @@ exports.createProject = async (req, res) => {
             return;
         }
 
-        // Add the project to the 'projects' collection and get the project ID.
-        const projectRef = await db.collection('projects').add(projectData);
-        const projectId = projectRef.id;
+        // Extract projectId from projectData.
+        const projectId = projectData.projectId;
+
+        // Add the project to the 'projects' collection using the projectId as
+        // the document ID.
+        await db.collection('projects').doc(projectId).set(projectData);
 
         // Get the user document.
         const userDocRef = db.collection('users').doc(userId);
