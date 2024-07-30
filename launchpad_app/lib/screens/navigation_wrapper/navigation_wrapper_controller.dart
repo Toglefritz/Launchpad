@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:launchpad_app/screens/account/account_route.dart';
 import 'package:launchpad_app/screens/home/home_route.dart';
 import 'package:launchpad_app/screens/navigation_wrapper/models/navigation_bar_item.dart';
 import 'package:launchpad_app/screens/navigation_wrapper/navigation_wrapper_route.dart';
@@ -50,7 +51,7 @@ class NavigationWrapperController extends State<NavigationWrapperRoute> {
   void _initChildren() {
     _children = <NavigationBarItem, Widget>{
       NavigationBarItem.home: const HomeRoute(),
-      NavigationBarItem.account: const Placeholder(),
+      NavigationBarItem.account: const AccountRoute(),
     };
   }
 
