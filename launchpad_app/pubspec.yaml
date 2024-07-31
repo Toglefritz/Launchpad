@@ -64,6 +64,8 @@ flutter:
 
   assets:
     - assets/
+    - assets/profile_pictures/
+
   fonts:
     - family: KodeMono
       fonts:

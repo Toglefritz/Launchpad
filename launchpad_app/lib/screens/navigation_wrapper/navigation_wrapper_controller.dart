@@ -1,3 +1,4 @@
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:launchpad_app/screens/account/account_route.dart';
@@ -6,6 +7,7 @@ import 'package:launchpad_app/screens/navigation_wrapper/models/navigation_bar_i
 import 'package:launchpad_app/screens/navigation_wrapper/navigation_wrapper_route.dart';
 import 'package:launchpad_app/screens/navigation_wrapper/navigation_wrapper_view.dart';
 import 'package:launchpad_app/screens/onboarding/onboarding_route.dart';
+import 'package:launchpad_app/services/firebase_auth/user_profile_service.dart';
 
 /// A controller for the [NavigationWrapperRoute] widget.
 ///
@@ -43,6 +45,9 @@ class NavigationWrapperController extends State<NavigationWrapperRoute> {
     // Initialize the map of screens that use the bottom navigation bar.
     _initChildren();
 
+    // Initialize the user profile service.
+    _initializeUserProfileService();
+
     super.initState();
   }
 
@@ -53,6 +58,21 @@ class NavigationWrapperController extends State<NavigationWrapperRoute> {
       NavigationBarItem.home: const HomeRoute(),
       NavigationBarItem.account: const AccountRoute(),
     };
+  }
+
+  /// Initializes the user profile service.
+  Future<void> _initializeUserProfileService() async {
+    // Initialize the user's profile picture.
+    final User user = FirebaseAuth.instance.currentUser!;
+    final String? appCheckToken = await FirebaseAppCheck.instance.getToken();
+    if (appCheckToken == null) {
+      return;
+    }
+
+    await UserProfileService.fetchAndCacheProfilePicture(
+      user: user,
+      appCheckToken: appCheckToken,
+    );
   }
 
   /// Handles taps on items in the bottom navigation bar by updating the [_currentItem] to the index of the selected

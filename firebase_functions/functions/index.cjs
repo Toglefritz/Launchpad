@@ -34,6 +34,7 @@ const { generateImage, getImage } = require('./functions/generateImage.cjs');
 const { createProject, readProject, updateProject, deleteProject } = require('./functions/projects.cjs');
 const { getCurrentProjects } = require('./functions/users.cjs');
 const { toggleDirectionComplete } = require('./functions/toggleDirectionComplete.cjs');
+const { getProfilePicture, setProfilePicture } = require('./functions/profilePicture.cjs');
 
 // Import the authentication middleware.
 const authenticate = require('./middleware/authMiddleware.cjs');
@@ -223,6 +224,44 @@ exports.toggleDirectionComplete = functions.https.onRequest((req, res) => {
   verifyAppCheck(req, res, async () => {
     authenticate(req, res, async () => {
       await toggleDirectionComplete(req, res);
+    });
+  });
+});
+
+/**
+ * @brief Endpoint for getting the user's profile picture value.
+ * 
+ * This endpoint handles HTTP requests for getting the user's profile picture
+ * value. It calls the `getProfilePicture` function defined in a separate file,
+ * which encapsulates the business logic for getting the user's profile picture
+ * value.
+ * 
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ */
+exports.getProfilePicture = functions.https.onRequest((req, res) => {
+  verifyAppCheck(req, res, async () => {
+    authenticate(req, res, async () => {
+      await getProfilePicture(req, res);
+    });
+  });
+});
+
+/**
+ * @brief Endpoint for setting the user's profile picture value.
+ * 
+ * This endpoint handles HTTP requests for setting the user's profile picture
+ * value. It calls the `setProfilePicture` function defined in a separate file,
+ * which encapsulates the business logic for setting the user's profile picture
+ * value.
+ * 
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ */
+exports.setProfilePicture = functions.https.onRequest((req, res) => {
+  verifyAppCheck(req, res, async () => {
+    authenticate(req, res, async () => {
+      await setProfilePicture(req, res);
     });
   });
 });

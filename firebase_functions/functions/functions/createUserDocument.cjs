@@ -6,7 +6,7 @@ const admin = require('firebase-admin');
  *
  * This function is triggered when a new user is created via Firebase 
  * Authentication. It creates a corresponding document in the Firestore 'users' 
- * collection with initial user data such as email, profile picture file name, 
+ * collection with initial user data such as a rofile picture file name, 
  * joined date, and empty arrays for achievements, current projects, and 
  * completed projects.
  *
@@ -17,7 +17,6 @@ const admin = require('firebase-admin');
  */
 async function createUserDocument(user) {
   // Extract user information from the user record.
-  const userEmail = user.email;
   const uid = user.uid;
 
   // Get the current timestamp as the joined date.
@@ -28,16 +27,17 @@ async function createUserDocument(user) {
     const joinedDate = admin.firestore.FieldValue.serverTimestamp();
   }
 
+      // Generate a random number betweeen 1 and 9 (inclusive) to assign a profile 
+    // picture to the user.
+    const imageId = Math.floor(Math.random() * 9) + 1;
+
   // Create the user document object.
   const userDoc = {
     // Use the user ID as the document ID.
     userId: uid,
 
-    // The email address with which the user signed up.
-    email: userEmail,
-
     // The filename of the user's profile picture.
-    profilePicture: "default",
+    profilePicture: `profile_picture_${imageId}.png`,
 
     // The date and time when the user joined (the timestamp of when this 
     // function is called).
