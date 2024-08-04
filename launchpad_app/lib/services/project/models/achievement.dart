@@ -8,7 +8,7 @@ import 'package:launchpad_app/extensions/json_typedef.dart';
 /// has a step ID that corresponds to the ID of the step that must be completed to unlock the achievement.
 class Achievement {
   /// The unique ID of the step that must be completed to unlock the achievement.
-  final String stepId;
+  final String id;
 
   /// The name of the achievement.
   final String title;
@@ -18,7 +18,7 @@ class Achievement {
 
   /// Creates an [Achievement] object.
   Achievement({
-    required this.stepId,
+    required this.id,
     required this.title,
     required this.description,
   });
@@ -26,7 +26,7 @@ class Achievement {
   /// Creates an [Achievement] object from a JSON object.
   factory Achievement.fromJson(JSONObject json) {
     return Achievement(
-      stepId: json['id'] as String,
+      id: json['id'] as String,
       title: json['name'] as String,
       description: json['description'] as String,
     );
@@ -35,7 +35,7 @@ class Achievement {
   /// Converts the achievement to a JSON object.
   JSONObject toJson() {
     return <String, dynamic>{
-      'id': stepId,
+      'id': id,
       'name': title,
       'description': description,
     };

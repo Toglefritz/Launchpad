@@ -2,6 +2,7 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:launchpad_app/components/buttons/secondary_cta_button.dart';
 import 'package:launchpad_app/components/custom_barrier/custom_modal_barrier.dart';
 import 'package:launchpad_app/screens/home/home_route.dart';
 import 'package:launchpad_app/screens/navigation_wrapper/navigation_wrapper_route.dart';
@@ -9,9 +10,13 @@ import 'package:launchpad_app/screens/project/project_loading_view.dart';
 import 'package:launchpad_app/screens/project/project_route.dart';
 import 'package:launchpad_app/screens/project/project_view.dart';
 import 'package:launchpad_app/services/project/augmented_project.dart';
+import 'package:launchpad_app/services/project/models/achievement.dart';
 import 'package:launchpad_app/services/project/models/how_to_direction.dart';
+import 'package:launchpad_app/services/project/models/how_to_step.dart';
 import 'package:launchpad_app/services/project/project.dart';
 import 'package:launchpad_app/services/project/project_service.dart';
+
+import '../../theme/insets.dart';
 
 /// A controller for the [ProjectRoute] widget.
 class ProjectController extends State<ProjectRoute> {
@@ -126,7 +131,7 @@ class ProjectController extends State<ProjectRoute> {
   Future<void> onQuery() async {}
 
   /// Handles taps on the individual checkboxes for directions within the project steps.
-  Future<void> onStepCompleted(HowToDirection direction) async {
+  Future<void> onDirectionCompleted(HowToDirection direction) async {
     setState(() {
       direction.isComplete = !direction.isComplete;
     });
@@ -141,6 +146,54 @@ class ProjectController extends State<ProjectRoute> {
         appCheckToken: appCheckToken,
         projectId: augmentedProject!.id!,
       );
+    }
+
+    // Check if all directions are now complete.
+    final HowToStep currentStep = augmentedProject!.steps[currentPage - 1];
+    final bool allStepsComplete = currentStep.directions.every((direction) => direction.isComplete);
+
+    // Get the achievement for completing the step. If there is no achievement, the value will be null.
+    final Achievement? achievement =
+        augmentedProject?.achievements.where((achievement) => achievement.id == currentStep.id).firstOrNull;
+
+    // If no achievement is available, there is nothing left to do in this method.
+    if (achievement == null) {
+      return;
+    } else {
+      // If an achievement is available, show a dialog to the user.
+      if (allStepsComplete && mounted) {
+        await showDialog<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(
+                achievement.title,
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(achievement.description),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: Insets.medium,
+                    ),
+                    child: SecondaryCTAButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      icon: const Icon(Icons.celebration),
+                      label: Text(
+                        AppLocalizations.of(context)!.achievementCloseButton.toUpperCase(),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+
+        // After the dialog is closed, navigate to the next step in the project.
+        onNextPage();
+      }
     }
   }
 

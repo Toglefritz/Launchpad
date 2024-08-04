@@ -41,7 +41,7 @@ class HowToStep {
   /// Creates an instance of [HowToStep] from a JSON object.
   factory HowToStep.fromJson(JSONObject json) {
     // Generate a unique identifier for the step, which is a random UUID.
-    final String id = UuidGenerator.generateUuid();
+    final String id = json['id'] as String? ?? UuidGenerator.generateUuid();
 
     return HowToStep._(
       id: id,

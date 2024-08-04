@@ -110,7 +110,7 @@ class ProjectView extends StatelessWidget {
                         ),
                       ),
                       value: step.directions[index].isComplete,
-                      onChanged: (_) => state.onStepCompleted(step.directions[index]),
+                      onChanged: (_) => state.onDirectionCompleted(step.directions[index]),
                     ),
                   ),
                 ),

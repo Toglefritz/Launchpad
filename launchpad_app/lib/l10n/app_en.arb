@@ -3,6 +3,10 @@
   "@account": {
     "description": "Text for the account item in the bottom navigation bar"
   },
+  "achievementCloseButton": "Carry on",
+  "@achievementCloseButton": {
+    "description": "Text for the button that allows the user to close the achievement dialog"
+  },
   "and": " and ",
   "@and": {
     "description": "Text used to separate two items in a list."
