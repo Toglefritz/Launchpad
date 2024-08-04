@@ -15,8 +15,7 @@ import 'package:launchpad_app/services/project/models/how_to_direction.dart';
 import 'package:launchpad_app/services/project/models/how_to_step.dart';
 import 'package:launchpad_app/services/project/project.dart';
 import 'package:launchpad_app/services/project/project_service.dart';
-
-import '../../theme/insets.dart';
+import 'package:launchpad_app/theme/insets.dart';
 
 /// A controller for the [ProjectRoute] widget.
 class ProjectController extends State<ProjectRoute> {
