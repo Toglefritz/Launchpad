@@ -62,17 +62,22 @@ class NavigationWrapperController extends State<NavigationWrapperRoute> {
 
   /// Initializes the user profile service.
   Future<void> _initializeUserProfileService() async {
-    // Initialize the user's profile picture.
-    final User user = FirebaseAuth.instance.currentUser!;
-    final String? appCheckToken = await FirebaseAppCheck.instance.getToken();
-    if (appCheckToken == null) {
-      return;
-    }
+    final User? user = FirebaseAuth.instance.currentUser;
 
-    await UserProfileService.fetchAndCacheProfilePicture(
-      user: user,
-      appCheckToken: appCheckToken,
-    );
+    if (user == null) {
+      return;
+    } else {
+      // Initialize the user's profile picture.
+      final String? appCheckToken = await FirebaseAppCheck.instance.getToken();
+      if (appCheckToken == null) {
+        return;
+      }
+
+      await UserProfileService.fetchAndCacheProfilePicture(
+        user: user,
+        appCheckToken: appCheckToken,
+      );
+    }
   }
 
   /// Handles taps on items in the bottom navigation bar by updating the [_currentItem] to the index of the selected

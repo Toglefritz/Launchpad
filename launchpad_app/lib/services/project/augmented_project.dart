@@ -179,7 +179,7 @@ class AugmentedProject extends Project {
       final GeneratedImage? projectImage = projectImageJson != null ? GeneratedImage.fromJson(projectImageJson) : null;
 
       // Get the list of achievements from the JSON object.
-      final JSONArray achievementsJson = json['achievements'] as JSONArray;
+      final JSONArray achievementsJson = json['achievement'] as JSONArray;
       final List<Achievement> achievements =
           achievementsJson.map((achievementJson) => Achievement.fromJson(achievementJson as JSONObject)).toList();
 
@@ -215,7 +215,7 @@ class AugmentedProject extends Project {
       'tool': tools?.map((HowToTool tool) => tool.toJson()).toList(),
       'supply': supplies?.map((HowToSupply supply) => supply.toJson()).toList(),
       'tip': tips?.map((HowToTip tip) => tip.toJson()).toList(),
-      'achievements': achievements.map((Achievement achievement) => achievement.toJson()).toList(),
+      'achievement': achievements.map((Achievement achievement) => achievement.toJson()).toList(),
     };
   }
 

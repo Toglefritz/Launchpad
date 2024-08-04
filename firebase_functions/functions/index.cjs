@@ -33,7 +33,7 @@ const createUserDocument = require('./functions/createUserDocument.cjs');
 const { generateImage, getImage } = require('./functions/generateImage.cjs');
 const { createProject, readProject, updateProject, deleteProject } = require('./functions/projects.cjs');
 const { getCurrentProjects } = require('./functions/users.cjs');
-const { toggleDirectionComplete } = require('./functions/toggleDirectionComplete.cjs');
+const { toggleDirectionComplete, toggleAchievementComplete } = require('./functions/toggleCompletion.cjs');
 const { getProfilePicture, setProfilePicture } = require('./functions/profilePicture.cjs');
 
 // Import the authentication middleware.
@@ -262,6 +262,25 @@ exports.setProfilePicture = functions.https.onRequest((req, res) => {
   verifyAppCheck(req, res, async () => {
     authenticate(req, res, async () => {
       await setProfilePicture(req, res);
+    });
+  });
+});
+
+/**
+ * @brief Endpoint for toggling the "complete" status of an achievement.
+ * 
+ * This endpoint handles HTTP requests for toggling the "complete" status of an
+ * achievement in a project. It calls the `toggleAchievementComplete` function
+ * defined in a separate file, which encapsulates the business logic for toggling
+ * the "complete" status of an achievement in a project.
+ * 
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ */
+exports.toggleAchievementComplete = functions.https.onRequest((req, res) => {
+  verifyAppCheck(req, res, async () => {
+    authenticate(req, res, async () => {
+      await toggleAchievementComplete(req, res);
     });
   });
 });

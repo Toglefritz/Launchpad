@@ -148,7 +148,9 @@ class ProjectController extends State<ProjectRoute> {
     final String? appCheckToken = await FirebaseAppCheck.instance.getToken();
     if (appCheckToken == null || appCheckToken.isEmpty) {
       // TODO(Toglefritz): How should this error be handled? The user can keep going with the project but this completed step will not be saved.
+      return;
     } else {
+      // Mark the direction as complete in the project data.
       await direction.markAsComplete(
         user: FirebaseAuth.instance.currentUser!,
         appCheckToken: appCheckToken,
@@ -164,12 +166,15 @@ class ProjectController extends State<ProjectRoute> {
     final Achievement? achievement =
         augmentedProject?.achievements.where((achievement) => achievement.id == currentStep.id).firstOrNull;
 
-    // If no achievement is available, there is nothing left to do in this method.
-    if (achievement == null) {
+    // If no achievement is available, of if the achievement is already completed there is nothing left to do in this
+    // method.
+    if (achievement == null || achievement.isComplete) {
       return;
     } else {
       // If an achievement is available, show a dialog to the user.
       if (allStepsComplete && mounted) {
+        achievement.isComplete = true;
+
         await showDialog<void>(
           context: context,
           builder: (BuildContext context) {
@@ -177,6 +182,13 @@ class ProjectController extends State<ProjectRoute> {
               achievement: achievement,
             );
           },
+        );
+
+        // Mark the achievement as complete in the project data.
+        await achievement.markAsComplete(
+          user: FirebaseAuth.instance.currentUser!,
+          appCheckToken: appCheckToken,
+          projectId: augmentedProject!.id!,
         );
 
         // After the dialog is closed, navigate to the next step in the project.
