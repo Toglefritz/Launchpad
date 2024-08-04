@@ -42,6 +42,8 @@ dependencies:
   intl: any
   # Flutter plugin for launching a URL.
   url_launcher: ^6.3.0
+  # A vector math library.
+  vector_math: ^2.1.4
 
 dev_dependencies:
   # Build system for Dart code generation.

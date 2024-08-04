@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:launchpad_app/components/buttons/secondary_cta_button.dart';
+import 'package:launchpad_app/components/confetti/confetti_cannon.dart';
 import 'package:launchpad_app/components/custom_barrier/custom_modal_barrier.dart';
 import 'package:launchpad_app/screens/home/home_route.dart';
 import 'package:launchpad_app/screens/navigation_wrapper/navigation_wrapper_route.dart';
@@ -16,6 +19,7 @@ import 'package:launchpad_app/services/project/models/how_to_step.dart';
 import 'package:launchpad_app/services/project/project.dart';
 import 'package:launchpad_app/services/project/project_service.dart';
 import 'package:launchpad_app/theme/insets.dart';
+import 'package:vector_math/vector_math_64.dart';
 
 /// A controller for the [ProjectRoute] widget.
 class ProjectController extends State<ProjectRoute> {
@@ -130,6 +134,16 @@ class ProjectController extends State<ProjectRoute> {
   Future<void> onQuery() async {}
 
   /// Handles taps on the individual checkboxes for directions within the project steps.
+  ///
+  /// When the user taps on a checkbox, the direction is marked as complete or incomplete. When an individual direction
+  /// is marked as complete, several actions are taken:
+  /// 1. The direction is visually marked as complete.
+  /// 2. The direction is marked as complete in the project data.
+  /// 3. An API call is made to the Firebase backend to mark the direction as complete.
+  /// 4. If all directions in the current step are now complete, the step itself is considered to be complete. WHen a
+  ///    step is completed for which there is a linked achievement, a dialog is displayed to the user to inform them of
+  ///    the achievement.
+  /// 5. When an achievement is awarded, an API call is made to the Firebase backend to mark the achievement as awarded.
   Future<void> onDirectionCompleted(HowToDirection direction) async {
     setState(() {
       direction.isComplete = !direction.isComplete;
@@ -164,28 +178,52 @@ class ProjectController extends State<ProjectRoute> {
         await showDialog<void>(
           context: context,
           builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text(
-                achievement.title,
-              ),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(achievement.description),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: Insets.medium,
-                    ),
-                    child: SecondaryCTAButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      icon: const Icon(Icons.celebration),
-                      label: Text(
-                        AppLocalizations.of(context)!.achievementCloseButton.toUpperCase(),
-                      ),
-                    ),
+            return Stack(
+              children: [
+                AlertDialog(
+                  title: Text(
+                    achievement.title,
                   ),
-                ],
-              ),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(achievement.description),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: Insets.medium,
+                        ),
+                        child: SecondaryCTAButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          icon: const Icon(Icons.celebration),
+                          label: Text(
+                            AppLocalizations.of(context)!.achievementCloseButton.toUpperCase(),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: ConfettiCannon(
+                    duration: const Duration(seconds: 8),
+                    direction: Vector2(-sqrt(2) / 2, sqrt(2) / 2),
+                    randomness: 0.8,
+                    spread: pi / 3,
+                  ),
+                ),
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  child: ConfettiCannon(
+                    duration: const Duration(seconds: 8),
+                    direction: Vector2(sqrt(2) / 2, sqrt(2) / 2),
+                    randomness: 0.8,
+                    spread: pi / 3,
+                  ),
+                ),
+              ],
             );
           },
         );
