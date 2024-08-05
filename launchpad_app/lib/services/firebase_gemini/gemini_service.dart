@@ -7,7 +7,6 @@ import 'package:launchpad_app/services/firebase_gemini/models/gemini_models.dart
 import 'package:launchpad_app/services/firebase_remote_config/remote_config_service.dart';
 import 'package:launchpad_app/services/project/models/achievement.dart';
 import 'package:launchpad_app/services/project/models/how_to_step.dart';
-import 'package:launchpad_app/services/search/search_service.dart';
 
 /// This service provides methods for interacting with Google Gemini AI systems, mainly providing prompts to Gemini
 /// models and receiving responses.
@@ -41,13 +40,6 @@ class GeminiService {
         model: GeminiModel.gemini15Flash.modelIdentifier,
         generationConfig: _generationConfig,
         systemInstruction: Content.system(_remoteConfigService.getProjectCreationSystemInstructions()),
-        tools: [
-          Tool(
-            functionDeclarations: [
-              SearchService.performSearchTool,
-            ],
-          ),
-        ],
       );
 
   /// Get a Gemini model to use for building achievements for a project.
