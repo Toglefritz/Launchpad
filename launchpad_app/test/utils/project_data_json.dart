@@ -7,8 +7,7 @@ final JSONObject projectDataJson = {
   '@context': 'https://schema.org',
   '@type': 'HowTo',
   'name': 'How to Scientifically Measure the Airspeed Velocity of an Unladen Swallow',
-  'description':
-  'A comprehensive guide to scientifically measure the airspeed velocity of an unladen swallow in a controlled lab environment using precise instruments and methods.',
+  'description': 'A comprehensive guide to scientifically measure the airspeed velocity of an unladen swallow in a controlled lab environment using precise instruments and methods.',
   'step': [
     {
       '@type': 'HowToStep',
@@ -32,6 +31,16 @@ final JSONObject projectDataJson = {
         {
           '@type': 'HowToTool',
           'name': 'Safety Barriers',
+        }
+      ],
+      'supply': [
+        {
+          '@type': 'HowToSupply',
+          'name': 'Adequate Lighting',
+        },
+        {
+          '@type': 'HowToSupply',
+          'name': 'Safety Equipment',
         }
       ],
     },
@@ -59,6 +68,16 @@ final JSONObject projectDataJson = {
           'name': 'Wind Tunnel',
         }
       ],
+      'supply': [
+        {
+          '@type': 'HowToSupply',
+          'name': 'Camera Batteries',
+        },
+        {
+          '@type': 'HowToSupply',
+          'name': 'Memory Cards',
+        }
+      ],
     },
     {
       '@type': 'HowToStep',
@@ -78,6 +97,16 @@ final JSONObject projectDataJson = {
         {
           '@type': 'HowToTool',
           'name': 'Calibration Equipment',
+        }
+      ],
+      'supply': [
+        {
+          '@type': 'HowToSupply',
+          'name': 'Calibration Manual',
+        },
+        {
+          '@type': 'HowToSupply',
+          'name': 'Reference Objects',
         }
       ],
     },
@@ -101,6 +130,16 @@ final JSONObject projectDataJson = {
           'name': 'Data Recording Software',
         }
       ],
+      'supply': [
+        {
+          '@type': 'HowToSupply',
+          'name': 'Swallow',
+        },
+        {
+          '@type': 'HowToSupply',
+          'name': 'Data Sheets',
+        }
+      ],
     },
     {
       '@type': 'HowToStep',
@@ -120,6 +159,16 @@ final JSONObject projectDataJson = {
         {
           '@type': 'HowToTool',
           'name': 'Motion Analysis Software',
+        }
+      ],
+      'supply': [
+        {
+          '@type': 'HowToSupply',
+          'name': 'Computer',
+        },
+        {
+          '@type': 'HowToSupply',
+          'name': 'Data Analysis Report Templates',
         }
       ],
     }
@@ -162,10 +211,12 @@ final JSONObject projectDataJson = {
       'text': 'Review footage multiple times to ensure consistency in data analysis.',
     }
   ],
-  'totalTime': 'PT4H',
-  'estimatedCost': {
-    '@type': 'MonetaryAmount',
-    'currency': 'USD',
-    'value': 500,
-  },
+  'achievement': [
+    {
+      'id': '123456',
+      'name': 'Airspeed Velocity Expert',
+      'description': 'Congratulations! You have successfully measured the airspeed velocity of an unladen swallow.',
+      'complete': false,
+    }
+  ],
 };

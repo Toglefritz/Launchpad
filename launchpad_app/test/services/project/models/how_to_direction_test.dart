@@ -69,6 +69,30 @@ void main() {
       });
     });
 
+    /// Test group for the `toJson` method of [HowToDirection].
+    ///
+    /// This group contains tests that verify the behavior of the `toJson` method, ensuring it correctly converts a
+    /// direction object to a JSON object.
+    group('toJson', () {
+      /// Test that verifies the `toJson` method correctly converts a direction object to a JSON object.
+      test('should convert the direction to a JSON object', () {
+        // Create a direction object with the `complete` field set to `true`.
+        final HowToDirection direction = HowToDirection.fromJson({
+          'id': 'mock_direction_id',
+          'text': 'Convert the direction to JSON',
+          'complete': true,
+        });
+
+        // Convert the direction object to a JSON object.
+        final JSONObject json = direction.toJson();
+
+        // Verify that the JSON object contains the correct values.
+        expect(json['id'], 'mock_direction_id');
+        expect(json['text'], 'Convert the direction to JSON');
+        expect(json['complete'], isTrue);
+      });
+    });
+
     /// Test group for the `markAsComplete` method of [HowToDirection].
     ///
     /// This group contains tests that verify the behavior of the `markAsComplete` method, ensuring it correctly marks

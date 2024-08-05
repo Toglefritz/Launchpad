@@ -9,7 +9,7 @@ import 'package:mockito/mockito.dart';
 import '../../mocks/mock_user.mocks.dart';
 import '../../utils/mock_http_server.dart';
 
-/// Tests for the [ImageGenerationService] class, specifically the `generateImage` function.
+/// Test suite for the [ImageGenerationService] class.
 ///
 /// The `generateImage` function is responsible for making a POST request to a Firebase Functions endpoint to generate
 /// an image based on the provided prompt. These tests use [MockHttpServer] to mock HTTP responses and validate the
