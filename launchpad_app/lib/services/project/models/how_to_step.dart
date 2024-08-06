@@ -1,4 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:launchpad_app/extensions/json_typedef.dart';
+import 'package:launchpad_app/services/firebase_core/firebase_emulators_ip.dart';
 import 'package:launchpad_app/services/project/models/how_to_direction.dart';
 import 'package:launchpad_app/services/project/models/how_to_supply.dart';
 import 'package:launchpad_app/services/project/models/how_to_tool.dart';
@@ -19,6 +23,10 @@ class HowToStep {
   /// A brief description of the step. This field is optional.
   final String? description;
 
+  /// Determines if the step is active. It is assumed at only one step in the project is active at a time, otherwise
+  /// the first active step is considered the active step.
+  bool? active;
+
   /// The list of directions or sub-steps within the step.
   final List<HowToDirection> directions;
 
@@ -33,6 +41,7 @@ class HowToStep {
     required this.id,
     required this.name,
     this.description,
+    this.active,
     required this.directions,
     this.tools,
     this.supplies,
@@ -50,6 +59,7 @@ class HowToStep {
       directions: (json['itemListElement'] as List<dynamic>)
           .map((directionJson) => HowToDirection.fromJson(directionJson as JSONObject))
           .toList(),
+      active: json['active'] as bool?,
       tools: json['tool'] != null
           ? (json['tool'] as List<dynamic>).map((toolJson) => HowToTool.fromJson(toolJson as JSONObject)).toList()
           : null,
@@ -67,6 +77,7 @@ class HowToStep {
       'id': id,
       'name': name,
       'description': description,
+      'active': active,
       'itemListElement': directions.map((HowToDirection direction) => direction.toJson()).toList(),
     };
 
@@ -84,4 +95,58 @@ class HowToStep {
   /// Returns a boolean that indicates if the step is completed. A step is completed when all of its directions are
   /// completed.
   bool get isCompleted => directions.every((direction) => direction.isComplete);
+
+  /// Sets this step as active, which automatically sets all other steps as inactive.
+  ///
+  /// By setting the currently active step, the app is able to resume the user's progress in the project from where they
+  /// left off. This is useful for when the user navigates away from the project and then returns to it later.
+  Future<void> setActive({
+    required User user,
+    required String appCheckToken,
+    required String projectId,
+  }) async {
+    // Get the use_emulator boolean from the `flutter run` command to determine if the Firebase Emulator Suite should
+    // be used. The `fromEnvironment` method returns false by default if the argument is not passed.
+    const bool useFirebaseEmulator = bool.fromEnvironment('USE_FIREBASE_EMULATOR');
+
+    // Define the URL for the Firebase Functions endpoint, depending upon whether or not the Firebase Emulator Suite
+    // should be used.
+    const String functionUrl = useFirebaseEmulator
+        ? 'http://$firebaseEmulatorsIp:5001/launchpad-d344d/us-central1/setCurrentStep'
+        : 'https://us-central1-launchpad-d344d.cloudfunctions.net/setCurrentStep';
+
+    // Get the user's ID token.
+    final String? idToken = await user.getIdToken();
+    if (idToken == null || idToken.isEmpty) {
+      throw Exception('ID token is null');
+    }
+
+    // Send the POST request to the Firebase Functions endpoint. The project ID and step ID are included as
+    // query parameters in the URL.
+    final Response response;
+    try {
+      response = await post(
+        Uri.parse('$functionUrl?projectId=$projectId&stepId=$id'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $idToken',
+          'x-appcheck-token': appCheckToken,
+        },
+      );
+
+      debugPrint('Successfully activated step, $id');
+    } catch (e) {
+      throw Exception('Failed to set active step with exception, $e');
+    }
+
+    // Check the response status code.
+    if (response.statusCode != 200) {
+      throw Exception('Failed to set active step with error message, ${response.body}');
+    } else {
+      debugPrint('Successfully set active step, $id');
+
+      // Set the active field to true for the current step.
+      active = true;
+    }
+  }
 }

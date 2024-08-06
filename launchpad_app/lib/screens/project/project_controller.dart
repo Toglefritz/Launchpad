@@ -52,15 +52,19 @@ class ProjectController extends State<ProjectRoute> {
   Future<void> _assembleProjectData() async {
     // If the project data is already augmented, there is no need to augment it again.
     if (widget.project is AugmentedProject) {
-      setState(() {
-        augmentedProject = widget.project as AugmentedProject;
-      });
+      augmentedProject = widget.project as AugmentedProject;
+
+      // Set the currently active step to the first step that is active.
+      await _setCurrentStep();
 
       return;
     }
 
     // The project is not already augmented the project data with additional information.
     final AugmentedProject project = await AugmentedProject.fromProject(widget.project);
+
+    // Set the currently active step to the first step that is active.
+    await _setCurrentStep();
 
     // Notify the route that the project data has been assembled.
     setState(() {
@@ -87,6 +91,48 @@ class ProjectController extends State<ProjectRoute> {
       debugPrint('Failed to save project to user account: $e');
 
       // TODO(Toglefritz): Handle error. Perhaps show a SnackBar to the user. How does the user try to save again?
+    }
+  }
+
+  /// Sets the currently active step in the project based on the first step that is marked active in the project data.
+  ///
+  /// This route will attempt to resume the project from where the user may have left off in a previous session. This
+  /// route assumes that only one step within a project will be active at a time. It finds the first active step in the
+  /// project data and sets it as the currently active step.
+  ///
+  /// However, if no steps are active, which should only be the case on the first time the user accesses the project
+  /// after its creation, the first step in the project is set as the active step. Additionally, in this case, the app
+  /// will set the first step as active in the Firestore database.
+  Future<void> _setCurrentStep() async {
+    // Find the first step that is active.
+    final HowToStep? activeStep = augmentedProject?.steps.where((HowToStep step) => step.active ?? false).firstOrNull;
+
+    // If no steps are active, set the first step as active.
+    if (activeStep == null) {
+      augmentedProject?.steps.first.active = true;
+
+      // Get an App Check token to use for setting the active step.
+      final String? appCheckToken = await FirebaseAppCheck.instance.getToken();
+      if (appCheckToken == null || appCheckToken.isEmpty) {
+        // TODO(Toglefritz): How to handle this error?
+      } else {
+        // Set the first step as active in the project data.
+        await augmentedProject?.steps.first.setActive(
+          user: FirebaseAuth.instance.currentUser!,
+          appCheckToken: appCheckToken,
+          projectId: augmentedProject!.id!,
+        );
+      }
+    }
+    // If there is an active step from a previous session, set the active page in the PageView widget to that step.
+    else {
+      final int activeStepIndex = augmentedProject!.steps.indexOf(activeStep);
+      debugPrint('Setting current page to $activeStepIndex');
+      currentPage = activeStepIndex;
+      // After the build phase is complete, jump to the active step.
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => pageController.jumpToPage(activeStepIndex),
+      );
     }
   }
 
@@ -135,15 +181,90 @@ class ProjectController extends State<ProjectRoute> {
   /// 1. The direction is visually marked as complete.
   /// 2. The direction is marked as complete in the project data.
   /// 3. An API call is made to the Firebase backend to mark the direction as complete.
-  /// 4. If all directions in the current step are now complete, the step itself is considered to be complete. WHen a
+  /// 4. If all directions in the current step are now complete, the step itself is considered to be complete. When a
   ///    step is completed for which there is a linked achievement, a dialog is displayed to the user to inform them of
   ///    the achievement.
   /// 5. When an achievement is awarded, an API call is made to the Firebase backend to mark the achievement as awarded.
+  /// 6. When the final direction in a step is completed, the app also sets the next step as the currently active step,
+  ///    assuming the current step is not the last one.
   Future<void> onDirectionCompleted(HowToDirection direction) async {
     setState(() {
       direction.isComplete = !direction.isComplete;
     });
 
+    try {
+      await _setDirectionComplete(direction);
+    } catch (e) {
+      debugPrint('Failed to mark direction as complete: $e');
+
+      // Show a SnackBar to the user to inform them of the error.
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.directionCompletionError),
+        ),
+      );
+
+      // Revert the direction to its previous state.
+      setState(() {
+        direction.isComplete = !direction.isComplete;
+      });
+
+      return;
+    }
+
+    // Check if all directions are now complete.
+    final HowToStep currentStep = augmentedProject!.steps[currentPage - 1];
+    final bool allStepsComplete = currentStep.directions.every((direction) => direction.isComplete);
+
+    // If there are still steps remaining to be completed, there is nothing left to do in this method.
+    if(!allStepsComplete) {
+      return;
+    }
+
+    // Get the achievement for completing the step. If there is no achievement, the value will be null.
+    final Achievement? achievement =
+        augmentedProject?.achievements.where((achievement) => achievement.id == currentStep.id).firstOrNull;
+
+    // If no achievement is available, or if the achievement is already completed simply move to the next step.
+    if (achievement == null || achievement.isComplete) {
+      // Proceed to the next step if all directions are complete.
+      onNextPage();
+    }
+    // Otherwise, if the user is due an achievement, present the achievement dialog.
+    else {
+      try {
+        await _presentAchievementDialog(achievement);
+      } catch (e) {
+        debugPrint('Failed to present achievement dialog: $e');
+
+        // No-op
+        // The user can continue with the project, but they unfortunately will not be informed of the achievement.
+      }
+
+      // After the dialog is closed, navigate to the next step in the project.
+      onNextPage();
+    }
+
+    // If the current is not the last step, set the next step as active.
+    if (currentPage < augmentedProject!.steps.length) {
+      final HowToStep nextStep = augmentedProject!.steps[currentPage + 1];
+      final String? appCheckToken = await FirebaseAppCheck.instance.getToken();
+      if (appCheckToken == null || appCheckToken.isEmpty) {
+        // TODO(Toglefritz): Handle error.
+        return;
+      }
+
+      await nextStep.setActive(
+        user: FirebaseAuth.instance.currentUser!,
+        appCheckToken: appCheckToken,
+        projectId: augmentedProject!.id!,
+      );
+    }
+  }
+
+  /// Sets the provided [HowToDirection] as complete in the Firestore backend.
+  Future<void> _setDirectionComplete(HowToDirection direction) async {
     // Get an App Check token to use for marking the direction as complete.
     final String? appCheckToken = await FirebaseAppCheck.instance.getToken();
     if (appCheckToken == null || appCheckToken.isEmpty) {
@@ -157,44 +278,37 @@ class ProjectController extends State<ProjectRoute> {
         projectId: augmentedProject!.id!,
       );
     }
+  }
 
-    // Check if all directions are now complete.
-    final HowToStep currentStep = augmentedProject!.steps[currentPage - 1];
-    final bool allStepsComplete = currentStep.directions.every((direction) => direction.isComplete);
-
-    // Get the achievement for completing the step. If there is no achievement, the value will be null.
-    final Achievement? achievement =
-        augmentedProject?.achievements.where((achievement) => achievement.id == currentStep.id).firstOrNull;
-
-    // If no achievement is available, of if the achievement is already completed there is nothing left to do in this
-    // method.
-    if (achievement == null || achievement.isComplete) {
+  /// Presents a dialog when the user completes a step in the project and earns an achievement.
+  Future<void> _presentAchievementDialog(Achievement achievement) async {
+    // Get an App Check token to use for deleting the project.
+    final String? appCheckToken = await FirebaseAppCheck.instance.getToken();
+    if (appCheckToken == null || appCheckToken.isEmpty) {
+      // TODO(Toglefritz): Handle error.
       return;
-    } else {
-      // If an achievement is available, show a dialog to the user.
-      if (allStepsComplete && mounted) {
-        achievement.isComplete = true;
-
-        await showDialog<void>(
-          context: context,
-          builder: (BuildContext context) {
-            return AchievementDialog(
-              achievement: achievement,
-            );
-          },
-        );
-
-        // Mark the achievement as complete in the project data.
-        await achievement.markAsComplete(
-          user: FirebaseAuth.instance.currentUser!,
-          appCheckToken: appCheckToken,
-          projectId: augmentedProject!.id!,
-        );
-
-        // After the dialog is closed, navigate to the next step in the project.
-        onNextPage();
-      }
     }
+
+    // If an achievement is available, show a dialog to the user.
+    achievement.isComplete = true;
+
+    // Show the achievement dialog.
+    if (!mounted) return;
+    await showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AchievementDialog(
+          achievement: achievement,
+        );
+      },
+    );
+
+    // Mark the achievement as complete in the project data.
+    await achievement.markAsComplete(
+      user: FirebaseAuth.instance.currentUser!,
+      appCheckToken: appCheckToken,
+      projectId: augmentedProject!.id!,
+    );
   }
 
   /// Handles requests by the user to delete the current project.
@@ -235,13 +349,14 @@ class ProjectController extends State<ProjectRoute> {
         final String? appCheckToken = await FirebaseAppCheck.instance.getToken();
         if (appCheckToken == null || appCheckToken.isEmpty) {
           // TODO(Toglefritz): Handle error.
+          return;
         }
 
         // Delete the project from the user's account.
         final ProjectService projectService = ProjectService(FirebaseAuth.instance.currentUser!);
         await projectService.deleteProject(
           projectId: augmentedProject!.id!,
-          appCheckToken: appCheckToken!,
+          appCheckToken: appCheckToken,
         );
 
         // Navigate back to the home route.

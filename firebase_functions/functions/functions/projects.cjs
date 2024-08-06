@@ -197,3 +197,54 @@ exports.deleteProject = async (req, res) => {
         res.status(500).send('Error deleting project');
     }
 };
+
+/**
+ * @brief Sets the step with the provided ID as the current step for the
+ * project and sets all other steps to inactive.
+ *
+ * This function updates the project document in Firestore to set the step with
+ * the provided ID as the current step for the project. It also sets all other
+ * steps to inactive. This allows the app to track the user's progress through
+ * the project steps. It is able to resume a project from the last completed
+ * step.
+ * 
+ * @param {Object} req - The HTTP request object containing the project ID in
+ * params and the step ID in body.
+ * @param {Object} res - The HTTP response object.
+ */
+exports.setCurrentStep = async (req, res) => {
+    try {
+        // Extract the project ID and step ID from the request.
+        const { projectId } = req.query;
+        const { stepId } = req.query;
+
+        // Retrieve the project document from Firestore.
+        const projectRef = db.collection('projects').doc(projectId);
+        const projectDoc = await projectRef.get();
+
+        if (!projectDoc.exists) {
+            res.status(404).send('Project not found');
+            return;
+        }
+
+        // Get the project data.
+        const projectData = projectDoc.data();
+
+        // Update the steps to set the current step and deactivate all other
+        // steps.
+        projectData.step.forEach(step => {
+            step.active = step.id === stepId;
+        });
+
+        // Update the project document with the modified steps.
+        await projectRef.update({ step: projectData.step });
+
+        // Send a success response.
+        res.status(200).send('Current step updated successfully');
+    } catch (error) {
+        console.error('Error setting current step:', error);
+
+        // Send an error response if the step update fails.
+        res.status(500).send('Error setting current step');
+    }
+}

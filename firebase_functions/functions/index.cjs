@@ -31,7 +31,7 @@ const functions = require('firebase-functions');
 const performSearch = require('./functions/performSearch.cjs');
 const createUserDocument = require('./functions/createUserDocument.cjs');
 const { generateImage, getImage } = require('./functions/generateImage.cjs');
-const { createProject, readProject, updateProject, deleteProject } = require('./functions/projects.cjs');
+const { createProject, readProject, updateProject, deleteProject, setCurrentStep } = require('./functions/projects.cjs');
 const { getCurrentProjects } = require('./functions/users.cjs');
 const { toggleDirectionComplete, toggleAchievementComplete } = require('./functions/toggleCompletion.cjs');
 const { getProfilePicture, setProfilePicture } = require('./functions/profilePicture.cjs');
@@ -186,6 +186,24 @@ exports.deleteProject = functions.https.onRequest((req, res) => {
   verifyAppCheck(req, res, async () => {
     authenticate(req, res, async () => {
       await deleteProject(req, res);
+    });
+  });
+});
+
+/**
+ * @brief Endpoint for setting the current step of a project.
+ * 
+ * This endpoint handles HTTP requests for setting the current step of a project.
+ * It calls the `setCurrentStep` function defined in a separate file, which
+ * encapsulates the business logic for setting the current step of a project.
+ * 
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ */
+exports.setCurrentStep = functions.https.onRequest((req, res) => {
+  verifyAppCheck(req, res, async () => {
+    authenticate(req, res, async () => {
+      await setCurrentStep(req, res);
     });
   });
 });

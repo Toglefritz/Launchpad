@@ -87,6 +87,10 @@
   "@deleteProjectDialogTitle": {
     "description": "Title for the dialog that asks the user if they want to delete a project."
   },
+  "directionCompletionError": "The step could not be marked as complete. Please try again.",
+  "@directionCompletionError": {
+    "description": "Error message for when the app fails to mark a step as complete."
+  },
   "directions": "Directions",
   "@directions": {
     "description": "Text for the directions sections of the project guides"

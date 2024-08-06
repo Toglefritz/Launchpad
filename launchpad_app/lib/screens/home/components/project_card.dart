@@ -55,7 +55,7 @@ class ProjectCard extends StatelessWidget {
                           child = const WaveLoadingIndicator();
                         } else if (snapshot.data != null) {
                           child = ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
+                            borderRadius: BorderRadius.circular(Insets.medium),
                             child: Image.network(
                               snapshot.data!,
                               fit: BoxFit.cover,
