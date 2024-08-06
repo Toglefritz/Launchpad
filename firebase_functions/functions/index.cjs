@@ -7,18 +7,8 @@
  * business logic for that endpoint. The separate function files are used to
  * modularize and organize the code, making it easier to manage and maintain.
  *
- * The following endpoint is defined in this file:
- * - performSearch: Calls the `performSearch` function to handle search 
- *   requests.
- * - createUserDocument: Firebase Function trigger for creating a user document.
- *   This function is triggered when a new user is created via Firebase and is
- *   not intended to be called directly via HTTP.
- * - generateImage: Uses generative AI technology to create an image based on a
- *   text prompt.
- *
- * @note The function files (like `performSearch.cjs`) contain the actual
- * implementation of the logic, keeping this file clean and focused on
- * defining the endpoints.
+ * @note The function files contain the actual implementation of the logic, 
+ * keeping this file clean and focused on defining the endpoints.
  */
 
 // Import the Firebase configuration and initialize the Firebase Admin SDK.
@@ -28,7 +18,6 @@ require('./config/firebaseConfig.cjs');
 const functions = require('firebase-functions');
 
 // Import the functions that handle the business logic for each endpoint.
-const performSearch = require('./functions/performSearch.cjs');
 const createUserDocument = require('./functions/createUserDocument.cjs');
 const { generateImage, getImage } = require('./functions/generateImage.cjs');
 const { createProject, readProject, updateProject, deleteProject, setCurrentStep } = require('./functions/projects.cjs');
@@ -39,27 +28,6 @@ const { getProfilePicture, setProfilePicture } = require('./functions/profilePic
 // Import the authentication middleware.
 const authenticate = require('./middleware/authMiddleware.cjs');
 const verifyAppCheck = require('./middleware/verifyAppCheck.cjs');
-
-/**
- * @brief Endpoint calling the performSearch function.
- *
- * This endpoint handles HTTP requests for performing a search. It delegates
- * the actual search logic to the `performSearch` function defined in a separate
- * file, which encapsulates the business logic for handling search operations.
- *
- * @param {Object} req - The HTTP request object.
- * @param {Object} res - The HTTP response object.
- */
-exports.performSearch = functions.https.onRequest(async (req, res) => {
-  // Use verifyAppCheck for authentication.
-  verifyAppCheck(req, res, async () => {
-    // Verify the Bearer token.
-    authenticate(req, res, async () => {
-      // Call the performSearch function to handle the search request.
-      await performSearch(req, res);
-    });
-  });
-});
 
 /**
  * @brief Firebase Function trigger for creating a user document.
