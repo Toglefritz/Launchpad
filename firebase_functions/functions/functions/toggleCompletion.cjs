@@ -72,7 +72,9 @@ exports.toggleDirectionComplete = async (req, res) => {
  * 
  * This function toggles the "complete" status of an achievement in a project.
  * This field is used to track which achievements have been completed by the
- * user. The updated project document is saved back to Firestore.
+ * user. Additionally, the function adds a timestamp to the document that
+ * indicates when the user completed the achievement. The updated project 
+ * document is saved back to Firestore.
  *
  * @param {string} projectId - The ID of the project.
  * @param {string} achievementId - The ID of the achievement to toggle.
@@ -108,13 +110,24 @@ exports.toggleAchievementComplete = async (req, res) => {
         for (let achievement of projectData.achievement) {
             if (achievement.id === achievementId) {
                 // Toggle the "complete" status.
-                achievement.complete = !achievement.complete;
+                const newStatus = !achievement.complete;
 
-                // Update the Firestore document.
-                await projectRef.update({ achievement: projectData.achievement });
+                // Update the Firestore document with the new status and 
+                // completion timestamp.
+                if (newStatus) {
+                    await projectRef.update({
+                        [`achievement.${projectData.achievement.indexOf(achievement)}.complete`]: newStatus,
+                        [`achievement.${projectData.achievement.indexOf(achievement)}.completedAt`]: admin.firestore.FieldValue.serverTimestamp()
+                    });
+                } else {
+                    await projectRef.update({
+                        [`achievement.${projectData.achievement.indexOf(achievement)}.complete`]: newStatus,
+                        [`achievement.${projectData.achievement.indexOf(achievement)}.completedAt`]: null
+                    });
+                }
 
                 // Send a success response.
-                res.status(200).send({ 'complete': achievement.complete });
+                res.status(200).send({ 'complete': newStatus });
                 return;
             }
         }
