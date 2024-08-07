@@ -1,14 +1,18 @@
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_vertexai/firebase_vertexai.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:launchpad_app/components/custom_barrier/custom_modal_barrier.dart';
 import 'package:launchpad_app/screens/home/home_route.dart';
 import 'package:launchpad_app/screens/navigation_wrapper/navigation_wrapper_route.dart';
 import 'package:launchpad_app/screens/project/components/achievement_dialog.dart';
+import 'package:launchpad_app/screens/project/extensions/step_explore_extension.dart';
+import 'package:launchpad_app/screens/project/model/query_response_pair.dart';
 import 'package:launchpad_app/screens/project/project_loading_view.dart';
 import 'package:launchpad_app/screens/project/project_route.dart';
 import 'package:launchpad_app/screens/project/project_view.dart';
+import 'package:launchpad_app/services/firebase_gemini/gemini_service.dart';
 import 'package:launchpad_app/services/project/augmented_project.dart';
 import 'package:launchpad_app/services/project/models/achievement.dart';
 import 'package:launchpad_app/services/project/models/how_to_direction.dart';
@@ -28,8 +32,21 @@ class ProjectController extends State<ProjectRoute> {
   /// The index of the currently active page.
   int currentPage = 0;
 
+  /// A getter for the [HowToStep] instance that is currently active. Since the first page is a cover page, the first
+  /// step is at index `currentPage - 1`.
+  HowToStep? get currentStep => currentPage == 0 ? null : augmentedProject!.steps[currentPage - 1];
+
   /// A controller for the text input field used by users to describe their project as a method of searching.
   final TextEditingController queryController = TextEditingController();
+
+  /// A Gemini chat session used to offer the ability for the user to ask questions about the project. This chat
+  /// session maintains the history of the conversation between the user and the Gemini system. It is created when the
+  /// user submits their first query about the project, and then persists as long as the user is engaged with the
+  /// project.
+  ChatSession? _chatSession;
+
+  /// Determines if the app is currently awaiting a response from the Gemini system.
+  bool isChatLoading = false;
 
   @override
   void initState() {
@@ -171,8 +188,91 @@ class ProjectController extends State<ProjectRoute> {
 
   /// Handles submission of a query about the project.
   ///
-  // TODO(Toglefritz): Implement this method and expand documentation.
-  Future<void> onQuery() async {}
+  /// When the user submits a query about the project, the query is sent to the Gemini system for processing. The user
+  /// can ask questions about the project, and receive answers and guidance from Gemini.
+  Future<void> onQuery(String? query) async {
+    // Set the boolean flag to indicate that the app is currently awaiting a response from the Gemini system.
+    setState(() {
+      isChatLoading = true;
+
+      // Clear the text field after the query has been submitted.
+      queryController.clear();
+    });
+
+    // First, if the chat session does not already exist, start a new chat session.
+    if (_chatSession == null) {
+      try {
+        _chatSession = await GeminiService.startProjectQueryChat(augmentedProject!.toJson());
+      } catch (e) {
+        debugPrint('Failed to start chat with Gemini: $e');
+
+        // Show a SnackBar to the user to inform them of the error.
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.errorChatStart),
+          ),
+        );
+
+        return;
+      }
+    }
+
+    // Send the user's query to the Gemini system, as part of the ongoing (or just-started) chat session.
+    final Content content = Content.text(query ?? queryController.text);
+
+    try {
+      // Send the user's query to the Gemini system.
+      final GenerateContentResponse response = await GeminiService.sendChatMessage(
+        chat: _chatSession!,
+        content: content,
+      );
+
+      // Get the text content of the response from Gemini.
+      final String? responseText = response.text;
+
+      // If the response is null, something has gone ary with the response from Gemini. Display a SnackBar to the user.
+      if (responseText == null) {
+        debugPrint('Received null response from Gemini');
+
+        // Show a SnackBar to the user to inform them of the error.
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.errorChatResponse),
+          ),
+        );
+
+        // Return as there is nothing more to do.
+        return;
+      }
+      // Otherwise, if a response was received, add the query/response pair to the list of query/response pairs.
+      else {
+        final QueryResponsePair queryResponsePair = QueryResponsePair(
+          query: query ?? queryController.text,
+          response: responseText,
+        );
+
+        // Add the query/response pair to the list of query/response pairs for the current step.
+        currentStep?.conversation.add(queryResponsePair);
+      }
+    } catch (e) {
+      debugPrint('Failed to send chat message to Gemini: $e');
+
+      // Show a SnackBar to the user to inform them of the error.
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.errorChatMessage),
+        ),
+      );
+    }
+
+    // Clear the loading state after the response has been received.
+    setState(() {
+      isChatLoading = false;
+    });
+  }
 
   /// Handles taps on the individual checkboxes for directions within the project steps.
   ///
@@ -218,7 +318,7 @@ class ProjectController extends State<ProjectRoute> {
     final bool allStepsComplete = currentStep.directions.every((direction) => direction.isComplete);
 
     // If there are still steps remaining to be completed, there is nothing left to do in this method.
-    if(!allStepsComplete) {
+    if (!allStepsComplete) {
       return;
     }
 

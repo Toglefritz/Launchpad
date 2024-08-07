@@ -4,6 +4,8 @@ import 'package:launchpad_app/components/app_bar/app_bar_button.dart';
 import 'package:launchpad_app/components/app_bar/app_bar_popup_menu.dart';
 import 'package:launchpad_app/screens/project/components/dot_indicator.dart';
 import 'package:launchpad_app/screens/project/components/project_cover_page.dart';
+import 'package:launchpad_app/screens/project/components/project_query_field.dart';
+import 'package:launchpad_app/screens/project/extensions/step_explore_extension.dart';
 import 'package:launchpad_app/screens/project/project_controller.dart';
 import 'package:launchpad_app/services/project/augmented_project.dart';
 import 'package:launchpad_app/services/project/models/how_to_step.dart';
@@ -114,6 +116,59 @@ class ProjectView extends StatelessWidget {
                     ),
                   ),
                 ),
+                if (state.currentStep?.reversedConversation.isNotEmpty ?? false)
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.all(Insets.medium),
+                      child: Text(
+                        AppLocalizations.of(context)!.conversationTitle,
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                    ),
+                  ),
+                if (state.currentStep?.reversedConversation.isNotEmpty ?? false)
+                  SliverPadding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: Insets.medium,
+                    ),
+                    sliver: SliverList.builder(
+                      itemCount: state.currentStep!.reversedConversation.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ExpansionTile(
+                          title: Text(
+                            state.currentStep!.reversedConversation[index].query,
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                          children: <Widget>[
+                            Text(
+                              state.currentStep!.reversedConversation[index].response,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: Insets.small,
+                      horizontal: Insets.medium,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 500),
+                          child: state.currentPage != 0 ? ProjectQueryField(state: state) : const SizedBox.shrink(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
         ],
@@ -130,6 +185,7 @@ class ProjectView extends StatelessWidget {
           ),
         ),
       ),
+      // Show a FAB for all but the first step
     );
   }
 }

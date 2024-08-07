@@ -48,30 +48,28 @@ class _WaveLoadingIndicatorState extends State<WaveLoadingIndicator> with Single
   @override
   Widget build(BuildContext context) {
     final List<double> bars = _animationDelay(itemCount);
-    return Center(
-      child: SizedBox.fromSize(
-        size: Size(widget.size * 1.25, widget.size),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: List.generate(bars.length, (i) {
-            return ScaleY(
-              scaleY: DelayTween(
-                begin: .4,
-                end: 1.0,
-                delay: bars[i],
-              ).animate(_controller),
-              child: SizedBox.fromSize(
-                size: Size(widget.size / itemCount, widget.size),
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColorDark,
-                    borderRadius: BorderRadius.circular(4.0),
-                  ),
+    return SizedBox.fromSize(
+      size: Size(widget.size * 1.25, widget.size),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: List.generate(bars.length, (i) {
+          return ScaleY(
+            scaleY: DelayTween(
+              begin: .4,
+              end: 1.0,
+              delay: bars[i],
+            ).animate(_controller),
+            child: SizedBox.fromSize(
+              size: Size(widget.size / itemCount, widget.size),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColorDark,
+                  borderRadius: BorderRadius.circular(4.0),
                 ),
               ),
-            );
-          }),
-        ),
+            ),
+          );
+        }),
       ),
     );
   }

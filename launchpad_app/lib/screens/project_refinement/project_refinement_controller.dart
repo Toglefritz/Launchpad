@@ -50,7 +50,7 @@ class ProjectRefinementController extends State<ProjectRefinementRoute> {
   Future<void> _startChatSession() async {
     try {
       // Start a chat session with the Gemini model.
-      final ChatSession chatSession = await GeminiService.startChat();
+      final ChatSession chatSession = await GeminiService.startProjectCreationChat();
       chat = chatSession;
     } catch (e) {
       debugPrint('Starting chat with Gemini failed with exception, $e');

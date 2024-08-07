@@ -52,6 +52,11 @@ class LaunchpadAppTheme {
           foregroundColor: Colors.grey.shade900,
           scrolledUnderElevation: 0.0,
         ),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: Colors.grey.shade900,
+          foregroundColor: Colors.grey.shade100,
+          elevation: 0,
+        ),
         inputDecorationTheme: InputDecorationTheme(
           border: DashedInputBorder(
             color: Colors.grey.shade900,

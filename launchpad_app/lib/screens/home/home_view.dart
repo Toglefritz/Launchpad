@@ -48,7 +48,9 @@ class HomeView extends StatelessWidget {
               const SliverPadding(
                 padding: EdgeInsets.all(Insets.small),
                 sliver: SliverToBoxAdapter(
-                  child: WaveLoadingIndicator(),
+                  child: Center(
+                    child: WaveLoadingIndicator(),
+                  ),
                 ),
               ),
 
@@ -82,7 +84,7 @@ class HomeView extends StatelessWidget {
             if (state.projects != null && state.projects!.isNotEmpty)
               SliverToBoxAdapter(
                 child: SizedBox(
-                  height: 131.0 + MediaQuery.textScalerOf(context).scale(16) * 4 + Insets.small * 5,
+                  height: 131.0 + MediaQuery.textScalerOf(context).scale(16) * 6 + Insets.small * 5,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal, // Set the scroll direction to horizontal
                     itemCount: state.projects!.length,

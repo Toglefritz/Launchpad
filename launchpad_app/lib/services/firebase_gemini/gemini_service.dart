@@ -23,24 +23,51 @@ class GeminiService {
   /// is used to fetch these values.
   static final RemoteConfigService _remoteConfigService = RemoteConfigService();
 
-  /// Define configuration options for the Gemini model.
+  /// Define configuration options for the Gemini model used for project creation.
   ///
   /// The configuration options for the Gemini model instantiated by this services are stored in Firebase Remote
   /// Config.
-  static final GenerationConfig _generationConfig = GenerationConfig(
-    temperature: _remoteConfigService.getTemperature(),
+  static final GenerationConfig _projectCreationGenerationConfig = GenerationConfig(
+    temperature: _remoteConfigService.getProjectCreationTemperature(),
+  );
+
+  /// Define configuration options for the Gemini model used for project exploration.
+  ///
+  /// The configuration options for the Gemini model instantiated by this services are stored in Firebase Remote
+  /// Config.
+  static final GenerationConfig _projectExploreGenerationConfig = GenerationConfig(
+    temperature: _remoteConfigService.getProjectExploreTemperature(),
   );
 
   /// Get a Gemini model to use for generative responses used when creating a project.
   ///
-  /// Initialization of the model consists of selecting a model with system instructions and providing "tools" for
-  /// function calling. The system instructions are fetched from Firebase Remote Config.
+  /// Initialization of the model consists of selecting a model with system instructions. The system instructions are
+  /// fetched from Firebase Remote Config.
   // TODO(Toglefritz): specify MIME type as JSON when the feature is supported
   static GenerativeModel get _projectCreationModel => FirebaseVertexAI.instance.generativeModel(
         model: GeminiModel.gemini15Flash.modelIdentifier,
-        generationConfig: _generationConfig,
+        generationConfig: _projectCreationGenerationConfig,
         systemInstruction: Content.system(_remoteConfigService.getProjectCreationSystemInstructions()),
       );
+
+  /// Get a Gemini model to use for generative responses to user queries about a project.
+  ///
+  /// The chat model is initialized with a system instruction that is fetched from Firebase Remote Config. These system
+  /// instructions act as a preamble to the chat session and provide context for the user. A JSON object describing the
+  /// project is appended to the system instructions to provide the Gemini model with context about the project.
+  static GenerativeModel _getProjectChatModel(JSONObject project) {
+    // Get the initial part of the system instructions from Firebase Remote Config.
+    final String systemInstructionsPreamble = _remoteConfigService.getProjectChatSystemInstructions();
+
+    // Append a String representation of the project data to the system instructions.
+    final String systemInstructions = '$systemInstructionsPreamble \'\'\'json $project\'\'\'';
+
+    return FirebaseVertexAI.instance.generativeModel(
+      model: GeminiModel.gemini15Flash.modelIdentifier,
+      generationConfig: _projectExploreGenerationConfig,
+      systemInstruction: Content.system(systemInstructions),
+    );
+  }
 
   /// Get a Gemini model to use for building achievements for a project.
   ///
@@ -49,17 +76,16 @@ class GeminiService {
   // TODO(Toglefritz): specify MIME type as JSON when the feature is supported
   static GenerativeModel get _achievementModel => FirebaseVertexAI.instance.generativeModel(
         model: GeminiModel.gemini15Flash.modelIdentifier,
-        generationConfig: _generationConfig,
-        // TODO(Toglefritz): determine if system instructions are needed for achievements
+        generationConfig: _projectCreationGenerationConfig,
       );
 
   /// Starts a chat session with the Gemini [_projectCreationModel].
   ///
   /// A chat session is a multi-turn conversation with the Gemini model. This method starts a new chat session with the
-  /// [_projectCreationModel] and returns the chat session object. This object handles management of the chat history internally.
-  /// The [sendChatMessage] method is used to send messages from the user to the Gemini system to continue the chat
-  /// session.
-  static Future<ChatSession> startChat() async {
+  /// [_projectCreationModel] and returns the chat session object. This object handles management of the chat history
+  /// internally. The [sendChatMessage] method is used to send messages from the user to the Gemini system to continue
+  /// the chat session.
+  static Future<ChatSession> startProjectCreationChat() async {
     try {
       final ChatSession chat = _projectCreationModel.startChat();
 
@@ -72,7 +98,23 @@ class GeminiService {
     }
   }
 
-  /// Uses the [_projectCreationModel] to generate a response to the prompt as part of a [ChatSession] ([chat]).
+  /// Starts a chat session with the Gemini model for a project query.
+  ///
+  /// A chat session is a multi-turn conversation with the Gemini model. This method starts a new chat session with the
+  /// Gemini model and returns the chat session object.
+  static Future<ChatSession> startProjectQueryChat(JSONObject project) async {
+    try {
+      final ChatSession chat = _getProjectChatModel(project).startChat();
+
+      return chat;
+    } catch (e) {
+      debugPrint('Starting chat with Gemini failed with exception, $e');
+
+      rethrow;
+    }
+  }
+
+  /// Uses the provided [ChatSession] to generate a response to the prompt as part of a [ChatSession] ([chat]).
   ///
   /// The [content] argument can take several forms. The most common is a query from the user, as a string, or the
   /// results from function calls invoked from responses received from the model. The Gemini model is pre-configured

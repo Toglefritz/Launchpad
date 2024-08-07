@@ -35,7 +35,7 @@ class RemoteConfigService {
     await _remoteConfig.setConfigSettings(
       RemoteConfigSettings(
         fetchTimeout: const Duration(seconds: 10),
-        minimumFetchInterval: const Duration(hours: 1),
+        minimumFetchInterval: const Duration(minutes: 10),
       ),
     );
     try {
@@ -49,25 +49,48 @@ class RemoteConfigService {
     }
   }
 
-  /// Returns the temperature parameter used by the AI model.
+  /// Returns the temperature parameter used by the AI model used for project creation.
   ///
   /// The temperature parameter controls the randomness of the AI model's responses. A higher temperature value results
   /// in more random responses, while a lower value results in more deterministic responses. This value is fetched from
   /// the remote configuration under the key `temperature`.
   ///
   /// Returns a [double] containing the temperature parameter.
-  double getTemperature() {
-    return _remoteConfig.getDouble(RemoteConfigKey.temperature.key);
+  double getProjectCreationTemperature() {
+    return _remoteConfig.getDouble(RemoteConfigKey.projectCreationTemperature.key);
   }
 
-  /// Returns the system instructions used by the AI model.
+  /// Returns the temperature parameter used by the AI model used for asking questions about the project.
+  ///
+  /// The temperature parameter controls the randomness of the AI model's responses. A higher temperature value results
+  /// in more random responses, while a lower value results in more deterministic responses. This value is fetched from
+  /// the remote configuration under the key `temperature`.
+  ///
+  /// Returns a [double] containing the temperature parameter.
+  double getProjectExploreTemperature() {
+    return _remoteConfig.getDouble(RemoteConfigKey.projectCreationTemperature.key);
+  }
+
+  /// Returns the system instructions used by the AI model while creating a project.
   ///
   /// The system instructions guide the behavior of the AI model by providing specific directives. This value is
-  /// fetched from the remote configuration under the key `system_instructions`.
+  /// fetched from the remote configuration under the key `project_creation_system_instructions`.
   ///
   /// Returns a [String] containing the system instructions.
   String getProjectCreationSystemInstructions() {
     final String systemInstructions = _remoteConfig.getString(RemoteConfigKey.projectCreationSystemInstructions.key);
+
+    return systemInstructions;
+  }
+
+  /// Returns the system instructions used by the AI model used to enable users to ask questions about a project.
+  ///
+  /// The system instructions guide the behavior of the AI model by providing specific directives. This value is
+  /// fetched from the remote configuration under the key `project_chat_system_instructions`.
+  ///
+  /// Returns a [String] containing the system instructions.
+  String getProjectChatSystemInstructions() {
+    final String systemInstructions = _remoteConfig.getString(RemoteConfigKey.projectChatSystemInstructions.key);
 
     return systemInstructions;
   }

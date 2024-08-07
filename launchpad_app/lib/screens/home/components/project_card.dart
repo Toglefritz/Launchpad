@@ -26,7 +26,7 @@ class ProjectCard extends StatelessWidget {
         // Create a shadow with a hard edge to create a brutalist design.
         Container(
           width: 150.0 - Insets.small,
-          height: (130.0 + MediaQuery.textScalerOf(context).scale(16) * 4 + Insets.small * 5) - Insets.large,
+          height: 130.0 + MediaQuery.textScalerOf(context).scale(16) * 4 + Insets.small * 6,
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
@@ -44,6 +44,7 @@ class ProjectCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                // Show the project image
                 if (project.projectImage != null)
                   Padding(
                     padding: const EdgeInsets.all(Insets.small),
