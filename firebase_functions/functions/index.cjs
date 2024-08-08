@@ -21,7 +21,7 @@ const functions = require('firebase-functions');
 const createUserDocument = require('./functions/createUserDocument.cjs');
 const { generateImage, getImage } = require('./functions/generateImage.cjs');
 const { createProject, readProject, updateProject, deleteProject, setCurrentStep } = require('./functions/projects.cjs');
-const { getCurrentProjects } = require('./functions/users.cjs');
+const { getCurrentProjects, getAchievements } = require('./functions/users.cjs');
 const { toggleDirectionComplete, toggleAchievementComplete } = require('./functions/toggleCompletion.cjs');
 const { getProfilePicture, setProfilePicture } = require('./functions/profilePicture.cjs');
 
@@ -267,6 +267,25 @@ exports.toggleAchievementComplete = functions.https.onRequest((req, res) => {
   verifyAppCheck(req, res, async () => {
     authenticate(req, res, async () => {
       await toggleAchievementComplete(req, res);
+    });
+  });
+});
+
+/**
+ * @brief Endpoint for retrieving the list of achievements earned by the user.
+ * 
+ * This endpoint handles HTTP requests for retrieving the list of achievements
+ * earned by the user. It calls the `getAchievements` function defined in a
+ * separate file, which encapsulates the business logic for retrieving the list
+ * of achievements earned by the user.
+ * 
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ */
+exports.getAchievements = functions.https.onRequest((req, res) => {
+  verifyAppCheck(req, res, async () => {
+    authenticate(req, res, async () => {
+      await getAchievements(req, res);
     });
   });
 });
