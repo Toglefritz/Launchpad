@@ -6,6 +6,11 @@
  * the Firebase ID token sent in the request headers. This middleware is used
  * to protect Firebase Functions endpoints, ensuring that only authenticated
  * users can access them.
+ * 
+ * For endpoints that require a value for the `userId` parameter, this 
+ * middleware also checks that the `userId` in the request matches the `uid`
+ * in the decoded token. This check helps prevent users from accessing data
+ * that does not belong to them, even if they posess a valid ID token.
  *
  * @details
  * This file performs the following tasks:
@@ -55,6 +60,13 @@ const authenticate = async (req, res, next) => {
   try {
     const decodedToken = await getAuth().verifyIdToken(idToken);
     req.user = decodedToken;
+
+    // Check if the userId is provided in the request and matches the one in the token
+    const userId = req.body.userId || req.query.userId;
+    if (userId && userId !== decodedToken.uid) {
+      return res.status(403).json({ message: 'Forbidden (userId mismatch)' });
+    }
+
     next();
   } catch (error) {
     return res.status(401).json({ message: 'Unauthorized (token verification failed)' });
