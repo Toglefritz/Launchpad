@@ -143,7 +143,9 @@ class ProjectController extends State<ProjectRoute> {
     }
     // If there is an active step from a previous session, set the active page in the PageView widget to that step.
     else {
-      final int activeStepIndex = augmentedProject!.steps.indexOf(activeStep);
+      // Get the index of the active step. Because a cover page is displayed first, the active step index is one more
+      // than the index of the active step in the project data.
+      final int activeStepIndex = augmentedProject!.steps.indexOf(activeStep) + 1;
       debugPrint('Setting current page to $activeStepIndex');
       currentPage = activeStepIndex;
       // After the build phase is complete, jump to the active step.
@@ -180,10 +182,24 @@ class ProjectController extends State<ProjectRoute> {
   }
 
   /// Handles changes in the active page of the [PageView] widget.
+  ///
+  /// Each time the page is changed, this method will set the active step to the first one with incomplete directions.
+  /// This way, if the user leaves the project at any point, they will return to the first step they have not yet
+  /// completed.
   void onPageChanged(int page) {
     setState(() {
       currentPage = page;
     });
+
+    // Find the first step for which at least one direction is incomplete. If all directions are complete, the first
+    // step will be set as active.
+    final HowToStep incompleteStep = augmentedProject!.steps.firstWhere(
+      (HowToStep step) => step.directions.any((HowToDirection direction) => !direction.isComplete),
+      orElse: () => augmentedProject!.steps.first,
+    );
+
+    // Set the first incomplete step as active.
+    _setActiveStep(incompleteStep);
   }
 
   /// Handles submission of a query about the project.
@@ -345,22 +361,27 @@ class ProjectController extends State<ProjectRoute> {
       // After the dialog is closed, navigate to the next step in the project.
       onNextPage();
     }
+  }
 
-    // If the current is not the last step, set the next step as active.
-    if (currentPage < augmentedProject!.steps.length) {
-      final HowToStep nextStep = augmentedProject!.steps[currentPage + 1];
-      final String? appCheckToken = await FirebaseAppCheck.instance.getToken();
-      if (appCheckToken == null || appCheckToken.isEmpty) {
-        // TODO(Toglefritz): Handle error.
-        return;
-      }
-
-      await nextStep.setActive(
-        user: FirebaseAuth.instance.currentUser!,
-        appCheckToken: appCheckToken,
-        projectId: augmentedProject!.id!,
-      );
+  /// Sets the provided [HowToStep] as active in the Firestore backend.
+  ///
+  /// This method is called when the user navigates to a new step in the project. The step is set as active in the
+  /// Firestore backend so that the user can resume the project from where they left off in a previous session. The
+  /// active step is always the first one with at least one incomplete direction.
+  Future<void> _setActiveStep(HowToStep activeStep) async {
+    // Get an App Check token to use for setting the active step.
+    final String? appCheckToken = await FirebaseAppCheck.instance.getToken();
+    if (appCheckToken == null || appCheckToken.isEmpty) {
+      // TODO(Toglefritz): Handle error.
+      return;
     }
+
+    // Set the current step as active in the Firestore backend.
+    await activeStep.setActive(
+      user: FirebaseAuth.instance.currentUser!,
+      appCheckToken: appCheckToken,
+      projectId: augmentedProject!.id!,
+    );
   }
 
   /// Sets the provided [HowToDirection] as complete in the Firestore backend.
