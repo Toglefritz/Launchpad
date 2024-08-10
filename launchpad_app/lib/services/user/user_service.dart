@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:launchpad_app/extensions/json_typedef.dart';
 import 'package:launchpad_app/services/firebase_core/firebase_emulators_ip.dart';
+import 'package:launchpad_app/services/project/models/earned_achievement.dart';
 
 /// [UserService] handles the network requests related to information about the current user, represented in the
 /// contents of a Firestore document for the user.
@@ -77,6 +78,77 @@ class UserService {
       );
 
       throw Exception('Failed to read project with status code, ${response.statusCode}');
+    }
+  }
+
+  /// Gets a list of achievements the user has earned.
+  ///
+  /// Each user in the Launchpad app has a file in a Firestore backend that contains, among other information, a list
+  /// of achievements that the user has earned. This list consists of a series of JSON objects containing information
+  /// about the achievements the user has earned. Each achievement has a name, description, and the timestamp at which
+  /// the achievement was earned. This function retrieves the list of achievements for the current user and returns the
+  /// list.
+  Future<List<EarnedAchievement>> getEarnedAchievements({required String appCheckToken}) async {
+    // Get the use_emulator boolean from the `flutter run` command to determine if the Firebase Emulator Suite should
+    // be used. The `fromEnvironment` method returns false by default if the argument is not passed.
+    const bool useFirebaseEmulator = bool.fromEnvironment('USE_FIREBASE_EMULATOR');
+
+    // Define the URL for the Firebase Functions endpoint, depending upon whether or not the Firebase Emulator Suite
+    // should be used.
+    const String functionUrl = useFirebaseEmulator
+        ? 'http://$firebaseEmulatorsIp:5001/launchpad-d344d/us-central1/getAchievements'
+        : 'https://us-central1-launchpad-d344d.cloudfunctions.net/getAchievements';
+
+    // Get the user's ID token.
+    final String? idToken = await user.getIdToken();
+    if (idToken == null || idToken.isEmpty) {
+      throw Exception('ID token is null');
+    }
+
+    // Send the GET request to the Firebase Functions endpoint.
+    final Response response;
+    try {
+      response = await get(
+        Uri.parse('$functionUrl?userId=${user.uid}'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $idToken',
+          'x-appcheck-token': appCheckToken,
+        },
+      );
+    } catch (e) {
+      debugPrint('Failed to get current projects with exception, $e');
+
+      throw Exception('Failed to read project with exception, $e');
+    }
+
+    // A 200 status code indicates that the user has achievements and that they were successfully retrieved.
+    if (response.statusCode == 200) {
+      // Get a list of achievements from the response.
+      final JSONArray responseBody = jsonDecode(response.body) as JSONArray;
+
+      // Convert the JSON array to a list of [EarnedAchievement] objects.
+      final List<EarnedAchievement> achievements = responseBody.map((dynamic achievement) {
+        final JSONObject achievementMap = achievement as JSONObject;
+
+        return EarnedAchievement.fromJson(achievementMap);
+      }).toList();
+
+      return achievements;
+    }
+    // A 204 status code indicates that the request was successful, but the user has no achievements.
+    else if (response.statusCode == 204) {
+      debugPrint('User has no achievements');
+
+      return [];
+    }
+    // Any other status code indicates an error.
+    else {
+      debugPrint(
+        'Failed to read achievements with status code, ${response.statusCode}, and error message, ${response.body}',
+      );
+
+      throw Exception('Failed to read achievements with status code, ${response.statusCode}');
     }
   }
 }

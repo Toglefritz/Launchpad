@@ -7,6 +7,10 @@
   "@achievementCloseButton": {
     "description": "Text for the button that allows the user to close the achievement dialog"
   },
+  "achievementsTitle": "Achievements",
+  "@achievementsTitle": {
+    "description": "Title for the achievements section of the home page"
+  },
   "and": " and ",
   "@and": {
     "description": "Text used to separate two items in a list."
@@ -36,9 +40,9 @@
     "description": "Text for the Google authentication button per Google identity guidelines"
   },
   "conversationTitle": "Exploration",
-    "@conversationTitle": {
-        "description": "Title for the FAQ-style chat interface"
-    },
+  "@conversationTitle": {
+    "description": "Title for the FAQ-style chat interface"
+  },
   "createAccount": "Create account",
   "@createAccount": {
     "description": "Text for the ChoiceChip used by the user to indicate that they want to create an account"
@@ -217,6 +221,10 @@
   "@projectRefinementTitle": {
     "description": "Title for the project refinement page"
   },
+  "projectsTitle": "Projects",
+  "@projectsTitle": {
+    "description": "Title for the projects section of the home page"
+  },
   "projectSearchFieldTitle": "What would you like to learn?",
   "@projectSearchFieldTitle": {
     "description": "Title for the field used to start the project creation flow."
@@ -260,9 +268,5 @@
   "usernameLabel": "Username",
   "@usernameLabel": {
     "description": "Label for the username field"
-  },
-  "yourProjectsTitle": "Your Projects",
-  "@yourProjectsTitle": {
-    "description": "Title for the home page section displaying the user's projects."
   }
 }

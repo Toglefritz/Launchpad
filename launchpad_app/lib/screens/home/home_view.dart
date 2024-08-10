@@ -5,6 +5,7 @@ import 'package:launchpad_app/components/loader/wave_loading_indicator.dart';
 import 'package:launchpad_app/screens/home/components/project_card.dart';
 import 'package:launchpad_app/screens/home/home_controller.dart';
 import 'package:launchpad_app/services/project/augmented_project.dart';
+import 'package:launchpad_app/services/project/models/earned_achievement.dart';
 import 'package:launchpad_app/theme/insets.dart';
 
 /// A view for the [HomeController] widget.
@@ -34,10 +35,15 @@ class HomeView extends StatelessWidget {
         child: CustomScrollView(
           slivers: <Widget>[
             SliverPadding(
-              padding: const EdgeInsets.all(Insets.medium),
+              padding: const EdgeInsets.fromLTRB(
+                Insets.medium,
+                Insets.medium,
+                Insets.medium,
+                0.0,
+              ),
               sliver: SliverToBoxAdapter(
                 child: Text(
-                  AppLocalizations.of(context)!.yourProjectsTitle,
+                  AppLocalizations.of(context)!.projectsTitle,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
               ),
@@ -111,6 +117,51 @@ class HomeView extends StatelessWidget {
                   icon: const Icon(Icons.add),
                   label: Text(AppLocalizations.of(context)!.newProject),
                 ),
+              ),
+            ),
+
+            // A heading for the list of achievements.
+            if (state.earnedAchievements != null && state.earnedAchievements!.isNotEmpty)
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(
+                  Insets.medium,
+                  Insets.medium,
+                  Insets.medium,
+                  Insets.small,
+                ),
+                sliver: SliverToBoxAdapter(
+                  child: Text(
+                    AppLocalizations.of(context)!.achievementsTitle,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                ),
+              ),
+
+            SliverToBoxAdapter(
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                child: state.earnedAchievements == null || state.earnedAchievements!.isEmpty
+                    ? const SizedBox.shrink()
+                    : Column(
+                        children: state.earnedAchievements!.map<Widget>((EarnedAchievement achievement) {
+                          return Container(
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: Insets.medium,
+                              vertical: Insets.tiny,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12.0),
+                              color: Theme.of(context).primaryColorLight,
+                            ),
+                            child: ListTile(
+                              leading: state.getAchievementIcon(),
+                              title: Text(achievement.title),
+                              subtitle: Text(achievement.formattedDate),
+                              dense: true,
+                            ),
+                          );
+                        }).toList(),
+                      ),
               ),
             ),
           ],
