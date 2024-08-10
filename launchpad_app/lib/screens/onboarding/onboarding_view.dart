@@ -101,7 +101,10 @@ class OnboardingView extends StatelessWidget {
               // Terms and conditions and privacy policy buttons
               const SliverSafeArea(
                 sliver: SliverPadding(
-                  padding: EdgeInsets.symmetric(horizontal: Insets.medium),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: Insets.medium,
+                    vertical: Insets.small,
+                  ),
                   sliver: SliverFillRemaining(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,

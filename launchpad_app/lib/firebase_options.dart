@@ -52,7 +52,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDode7rPqUaXqckzRO5PvQrTmSw0aO9F-s',
-    appId: '1:1060418886631:android:f795f61f1a4fb08b69fb42',
+    appId: '1:1060418886631:android:ee22f41e5e28a61369fb42',
     messagingSenderId: '1060418886631',
     projectId: 'launchpad-d344d',
     storageBucket: 'launchpad-d344d.appspot.com',
@@ -85,4 +85,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'launchpad-d344d.appspot.com',
     measurementId: 'G-PDEGP2GY3F',
   );
+
 }

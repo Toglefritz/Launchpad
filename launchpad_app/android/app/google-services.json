@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1060418886631:android:f795f61f1a4fb08b69fb42",
+        "mobilesdk_app_id": "1:1060418886631:android:ee22f41e5e28a61369fb42",
         "android_client_info": {
-          "package_name": "com.splendidendeavors.launchpad"
+          "package_name": "com.splendidendeavors.launchpad.launchpad_app"
         }
       },
       "oauth_client": [],
