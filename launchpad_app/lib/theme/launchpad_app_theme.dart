@@ -352,13 +352,16 @@ class LaunchpadAppTheme {
           disabledColor: Colors.grey.shade500,
           selectedColor: Colors.grey.shade900,
           secondarySelectedColor: Colors.grey.shade900,
+          checkmarkColor: Colors.grey.shade100,
           labelStyle: ThemeData.light().textTheme.bodyMedium?.copyWith(
                 color: Colors.grey.shade100,
               ),
           secondaryLabelStyle: ThemeData.light().textTheme.bodyMedium?.copyWith(
                 color: Colors.grey.shade100,
               ),
-          side: BorderSide.none,
+          side: BorderSide(
+            color: Colors.grey.shade100,
+          ),
         ),
         cardTheme: CardTheme(
           color: Colors.grey.shade800,

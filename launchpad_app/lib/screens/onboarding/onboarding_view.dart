@@ -71,10 +71,12 @@ class OnboardingView extends StatelessWidget {
                 child: BasicAuthForm(state: state),
               ),
               if (state.canAuthenticateWithGoogle)
-                const SliverPadding(
-                  padding: EdgeInsets.all(Insets.medium),
+                SliverPadding(
+                  padding: const EdgeInsets.all(Insets.medium),
                   sliver: SliverToBoxAdapter(
-                    child: DashedDivider(),
+                    child: DashedDivider(
+                      color: Theme.of(context).primaryColorDark,
+                    ),
                   ),
                 ),
 
