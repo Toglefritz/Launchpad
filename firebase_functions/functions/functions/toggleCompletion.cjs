@@ -140,6 +140,7 @@ exports.toggleAchievementComplete = async (req, res) => {
                     // Add the new achievement to the list.
                     achievements.push({
                         id: achievementId,
+                        name: achievement.name,
                         date: now
                     });
 
