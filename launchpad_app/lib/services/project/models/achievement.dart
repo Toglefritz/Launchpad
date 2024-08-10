@@ -84,7 +84,7 @@ class Achievement {
     final Response response;
     try {
       response = await patch(
-        Uri.parse('$functionUrl?projectId=$projectId&achievementId=$id'),
+        Uri.parse('$functionUrl?userId=${user.uid}&projectId=$projectId&achievementId=$id'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $idToken',
