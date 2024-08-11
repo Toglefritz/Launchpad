@@ -15,7 +15,26 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDode7rPqUaXqckzRO5PvQrTmSw0aO9F-s"
+          "current_key": "AIzaSyASY10BbHs9mr7ZzS4fvdblTT8MggODm9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1060418886631:android:9287d82d1924d3a369fb42",
+        "android_client_info": {
+          "package_name": "com.splendidendeavors.launchpad.presentation"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASY10BbHs9mr7ZzS4fvdblTT8MggODm9g"
         }
       ],
       "services": {
