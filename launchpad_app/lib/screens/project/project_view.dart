@@ -1,11 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:launchpad_app/components/app_bar/app_bar_button.dart';
 import 'package:launchpad_app/components/app_bar/app_bar_popup_menu.dart';
 import 'package:launchpad_app/screens/project/components/dot_indicator.dart';
 import 'package:launchpad_app/screens/project/components/project_cover_page.dart';
-import 'package:launchpad_app/screens/project/components/project_query_field.dart';
-import 'package:launchpad_app/screens/project/extensions/step_explore_extension.dart';
+import 'package:launchpad_app/screens/project/components/project_step_page.dart';
 import 'package:launchpad_app/screens/project/project_controller.dart';
 import 'package:launchpad_app/services/project/augmented_project.dart';
 import 'package:launchpad_app/services/project/models/how_to_step.dart';
@@ -57,125 +58,13 @@ class ProjectView extends StatelessWidget {
 
           // Project steps
           for (final HowToStep step in project.steps)
-            CustomScrollView(
-              physics: const ClampingScrollPhysics(),
-              slivers: <Widget>[
-                // Project steps
-                SliverToBoxAdapter(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Step name
-                      Padding(
-                        padding: const EdgeInsets.all(Insets.medium),
-                        child: Text(
-                          step.name,
-                          style: Theme.of(context).textTheme.headlineMedium,
-                        ),
-                      ),
-
-                      // Step description
-                      if (step.description != null)
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(
-                            Insets.medium,
-                            0.0,
-                            Insets.medium,
-                            Insets.medium,
-                          ),
-                          child: Text(
-                            step.description!,
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-                SliverList.builder(
-                  itemCount: step.directions.length,
-                  itemBuilder: (BuildContext context, int index) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: Insets.small),
-                    child: CheckboxListTile(
-                      title: RichText(
-                        textScaler: MediaQuery.textScalerOf(context),
-                        text: TextSpan(
-                          text: '${index + 1}. ',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                          children: [
-                            TextSpan(
-                              text: step.directions[index].text,
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ],
-                        ),
-                      ),
-                      value: step.directions[index].isComplete,
-                      onChanged: (_) => state.onDirectionCompleted(step.directions[index]),
-                    ),
-                  ),
-                ),
-                if (state.currentStep?.reversedConversation.isNotEmpty ?? false)
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.all(Insets.medium),
-                      child: Text(
-                        AppLocalizations.of(context)!.conversationTitle,
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
-                    ),
-                  ),
-                if (state.currentStep?.reversedConversation.isNotEmpty ?? false)
-                  SliverPadding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: Insets.medium,
-                    ),
-                    sliver: SliverList.builder(
-                      itemCount: state.currentStep!.reversedConversation.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ExpansionTile(
-                          title: Text(
-                            state.currentStep!.reversedConversation[index].query,
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                          ),
-                          children: <Widget>[
-                            Text(
-                              state.currentStep!.reversedConversation[index].response,
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: Insets.small,
-                      horizontal: Insets.medium,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 500),
-                          child: state.currentPage != 0 ? ProjectQueryField(state: state) : const SizedBox.shrink(),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            ProjectStepPage(step: step, state: state),
         ],
       ),
       bottomNavigationBar: ColoredBox(
         color: Theme.of(context).scaffoldBackgroundColor,
         child: SafeArea(
+          minimum: Platform.isAndroid ? const EdgeInsets.all(Insets.medium) : EdgeInsets.zero,
           child: Padding(
             padding: const EdgeInsets.only(top: Insets.medium),
             child: DotIndicator(

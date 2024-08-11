@@ -237,7 +237,7 @@
   "@searchButton": {
     "description": "Text for the search button"
   },
-  "selectAnImage": "Select an image",
+  "selectAnImage": "Select an Image",
   "@selectAnImage": {
     "description": "A title for the profile image selection screen"
   },
