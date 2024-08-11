@@ -66,11 +66,9 @@ Launchpad/
 │   └── README.md
 │
 ├── demo/
-│   ├── videos/
-│   │   ├── introduction.mp4
-│   │   ├── setup_guide.mp4
-│   │   └── feature_walkthrough.mp4
+│   ├── video/
 │   ├── screenshots/
+│   ├── app_icon/
 │   └── README.md
 |
 ├── experiments/
@@ -78,9 +76,6 @@ Launchpad/
 ├── githooks/
 │   ├── pre-commit
 │   ├── pre-push
-|
-├── scripts/
-│   └── README.md
 │
 |── setup-hooks.sh
 └── README.md
@@ -110,10 +105,6 @@ Tracks investigations into experiments conducted with the goal of improving the 
 ### githooks/
 
 Includes Git hooks that help maintain high code quality and prevent accidental API key leaks.
-
-### scripts/
-
-Contains scripts for deployment, testing, and other automation tasks.
 
 ## Git Hooks
 
