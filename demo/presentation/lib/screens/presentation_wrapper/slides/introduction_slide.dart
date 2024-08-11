@@ -94,7 +94,7 @@ class _IntroductionSlideState extends State<IntroductionSlide> {
                       ),
                     ),
                     Container(
-                      width: 350,
+                      width: 375,
                       height: Theme.of(context).textTheme.headlineMedium!.fontSize! * 1.5,
                       decoration: const BoxDecoration(
                         border: DashedBoxBorder(),

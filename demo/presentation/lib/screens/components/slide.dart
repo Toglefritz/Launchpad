@@ -51,7 +51,7 @@ class Slide extends StatelessWidget {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(
-              Insets.medium,
+              Insets.large,
             ),
             child: Stack(
               alignment: Alignment.center,
