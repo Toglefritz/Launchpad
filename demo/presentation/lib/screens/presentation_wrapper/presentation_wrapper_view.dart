@@ -6,6 +6,7 @@ import 'package:presentation/screens/presentation_wrapper/slides/concept_introdu
 import 'package:presentation/screens/presentation_wrapper/slides/features_introduction_slide.dart';
 import 'package:presentation/screens/presentation_wrapper/slides/introduction_slide.dart';
 import 'package:presentation/screens/presentation_wrapper/slides/new_project_demo_slide.dart';
+import 'package:presentation/screens/presentation_wrapper/slides/project_demo_slide.dart';
 
 /// A view for the [NavigationWrapperController] widget.
 class PresentationWrapperView extends StatelessWidget {
@@ -43,6 +44,14 @@ class PresentationWrapperView extends StatelessWidget {
           NewProjectDemoSlide(
             launchpadApp: launchpadApp,
           ),
+
+          // A demonstration of working on a project in the Launchpad app.
+          ProjectDemoSlide(
+            launchpadApp: launchpadApp,
+          ),
+
+          // A conclusion to the presentation.
+          // TODO(Toglefritz): Add a conclusion slide.
         ],
       ),
     );

@@ -59,7 +59,7 @@ class Slide extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(Insets.large),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16.0),
+                    borderRadius: BorderRadius.circular(20.0),
                     child: launchpadApp,
                   ),
                 ),
