@@ -56,9 +56,12 @@ class Slide extends StatelessWidget {
             child: Stack(
               alignment: Alignment.center,
               children: [
+                Padding(
+                  padding: const EdgeInsets.all(Insets.small),
+                  child: launchpadApp,
+                ),
                 // Frame around the Launchpad app
                 Image.asset('assets/pixel_8_pro.png'),
-                launchpadApp,
               ],
             ),
           ),
