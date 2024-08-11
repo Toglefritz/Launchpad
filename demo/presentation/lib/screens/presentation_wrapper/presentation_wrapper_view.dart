@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:launchpad_app/launchpad_app.dart';
 import 'package:launchpad_app/screens/navigation_wrapper/navigation_wrapper_controller.dart';
 import 'package:presentation/screens/presentation_wrapper/presentation_wrapper_controller.dart';
-import 'package:presentation/screens/presentation_wrapper/slides/concept_introduction_slide.dart';
+import 'package:presentation/screens/presentation_wrapper/slides/conclusion_slide.dart';
 import 'package:presentation/screens/presentation_wrapper/slides/features_introduction_slide.dart';
 import 'package:presentation/screens/presentation_wrapper/slides/introduction_slide.dart';
 import 'package:presentation/screens/presentation_wrapper/slides/new_project_demo_slide.dart';
@@ -30,11 +30,6 @@ class PresentationWrapperView extends StatelessWidget {
           // An introduction to the presentation.
           IntroductionSlide(),
 
-          // A secondary introduction illustrating the core concept of the Launchpad app.
-          ConceptIntroductionSlide(
-            launchpadApp: launchpadApp,
-          ),
-
           // A list of the app's main features.
           FeaturesIntroductionSlide(
             launchpadApp: launchpadApp,
@@ -51,7 +46,9 @@ class PresentationWrapperView extends StatelessWidget {
           ),
 
           // A conclusion to the presentation.
-          // TODO(Toglefritz): Add a conclusion slide.
+          ConclusionSlide(
+            launchpadApp: launchpadApp,
+          ),
         ],
       ),
     );
