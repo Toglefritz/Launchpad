@@ -25,97 +25,105 @@ class OnboardingView extends StatelessWidget {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         body: SafeArea(
-          child: CustomScrollView(
-            slivers: <Widget>[
-              SliverPadding(
-                padding: const EdgeInsets.fromLTRB(
-                  Insets.medium,
-                  Insets.medium,
-                  Insets.medium,
-                  Insets.tiny,
-                ),
-                sliver: SliverToBoxAdapter(
-                  child: Text(
-                    AppLocalizations.of(context)!.onboardingTitle,
-                    style: Theme.of(context).textTheme.headlineSmall,
-                    textAlign: TextAlign.center,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(
+              Insets.medium,
+              Insets.large,
+              Insets.medium,
+              Insets.medium,
+            ),
+            child: CustomScrollView(
+              slivers: <Widget>[
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(
+                    Insets.medium,
+                    Insets.medium,
+                    Insets.medium,
+                    Insets.tiny,
+                  ),
+                  sliver: SliverToBoxAdapter(
+                    child: Text(
+                      AppLocalizations.of(context)!.onboardingTitle,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
-              ),
-              SliverPadding(
-                padding: const EdgeInsets.fromLTRB(
-                  Insets.medium,
-                  Insets.tiny,
-                  Insets.medium,
-                  Insets.medium,
-                ),
-                sliver: SliverToBoxAdapter(
-                  child: Text(
-                    AppLocalizations.of(context)!.appName,
-                    style: Theme.of(context).textTheme.headlineLarge,
-                    textAlign: TextAlign.center,
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(
+                    Insets.medium,
+                    Insets.tiny,
+                    Insets.medium,
+                    Insets.medium,
+                  ),
+                  sliver: SliverToBoxAdapter(
+                    child: Text(
+                      AppLocalizations.of(context)!.appName,
+                      style: Theme.of(context).textTheme.headlineLarge,
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
-              ),
-              SliverPadding(
-                padding: const EdgeInsets.all(Insets.medium),
-                sliver: SliverToBoxAdapter(
-                  child: Text(
-                    AppLocalizations.of(context)!.onboardingDescription,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: BasicAuthForm(state: state),
-              ),
-              if (state.canAuthenticateWithGoogle)
                 SliverPadding(
                   padding: const EdgeInsets.all(Insets.medium),
                   sliver: SliverToBoxAdapter(
-                    child: DashedDivider(
-                      color: Theme.of(context).primaryColorDark,
+                    child: Text(
+                      AppLocalizations.of(context)!.onboardingDescription,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),
-
-              // Google authentication button
-              if (state.canAuthenticateWithGoogle)
-                SliverPadding(
-                  padding: const EdgeInsets.all(Insets.medium),
-                  sliver: SliverToBoxAdapter(
-                    child: SecondaryCTAButton(
-                      onPressed: state.onAuthenticateWithGoogle,
-                      icon: Image.asset(
-                        'assets/g-logo.png',
-                        height: 32,
-                      ),
-                      label: Text(
-                        AppLocalizations.of(context)!.continueWithGoogle,
+                SliverToBoxAdapter(
+                  child: BasicAuthForm(state: state),
+                ),
+                if (state.canAuthenticateWithGoogle)
+                  SliverPadding(
+                    padding: const EdgeInsets.all(Insets.medium),
+                    sliver: SliverToBoxAdapter(
+                      child: DashedDivider(
+                        color: Theme.of(context).primaryColorDark,
                       ),
                     ),
                   ),
-                ),
 
-              // Terms and conditions and privacy policy buttons
-              const SliverSafeArea(
-                sliver: SliverPadding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: Insets.medium,
-                    vertical: Insets.small,
+                // Google authentication button
+                if (state.canAuthenticateWithGoogle)
+                  SliverPadding(
+                    padding: const EdgeInsets.all(Insets.medium),
+                    sliver: SliverToBoxAdapter(
+                      child: SecondaryCTAButton(
+                        onPressed: state.onAuthenticateWithGoogle,
+                        icon: Image.asset(
+                          'assets/g-logo.png',
+                          height: 32,
+                        ),
+                        label: Text(
+                          AppLocalizations.of(context)!.continueWithGoogle,
+                        ),
+                      ),
+                    ),
                   ),
-                  sliver: SliverFillRemaining(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        OnboardingLegalPrompt(),
-                      ],
+
+                // Terms and conditions and privacy policy buttons
+                const SliverSafeArea(
+                  sliver: SliverPadding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: Insets.medium,
+                      vertical: Insets.small,
+                    ),
+                    sliver: SliverFillRemaining(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          OnboardingLegalPrompt(),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
