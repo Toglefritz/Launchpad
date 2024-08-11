@@ -1,0 +1,27 @@
+name: presentation
+description: "A presentation and demonstration of the Launchpad app"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # The Launchpad app, allowing the app itself to be embedded in this presentation.
+  launchpad_app:
+    path: ../../launchpad_app
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  # Lint rules for Dart and Flutter.
+  very_good_analysis: ^6.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/
