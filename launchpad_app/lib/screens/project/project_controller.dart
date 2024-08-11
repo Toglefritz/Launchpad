@@ -9,6 +9,7 @@ import 'package:launchpad_app/screens/navigation_wrapper/navigation_wrapper_rout
 import 'package:launchpad_app/screens/project/components/achievement_dialog.dart';
 import 'package:launchpad_app/screens/project/extensions/step_explore_extension.dart';
 import 'package:launchpad_app/screens/project/model/query_response_pair.dart';
+import 'package:launchpad_app/screens/project/model/view_mode.dart';
 import 'package:launchpad_app/screens/project/project_loading_view.dart';
 import 'package:launchpad_app/screens/project/project_route.dart';
 import 'package:launchpad_app/screens/project/project_view.dart';
@@ -38,6 +39,10 @@ class ProjectController extends State<ProjectRoute> {
 
   /// A controller for the text input field used by users to describe their project as a method of searching.
   final TextEditingController queryController = TextEditingController();
+
+  /// Determines what content is displayed for steps in a project. The user can select which content to display using
+  /// buttons presented in each step.
+  ViewMode viewMode = ViewMode.directions;
 
   /// A Gemini chat session used to offer the ability for the user to ask questions about the project. This chat
   /// session maintains the history of the conversation between the user and the Gemini system. It is created when the
@@ -188,6 +193,10 @@ class ProjectController extends State<ProjectRoute> {
   /// completed.
   void onPageChanged(int page) {
     setState(() {
+      // Set the view mode back to displaying directions when the user navigates to a new step.
+      viewMode = ViewMode.directions;
+
+      // Set the current page to the new page.
       currentPage = page;
     });
 
@@ -200,6 +209,27 @@ class ProjectController extends State<ProjectRoute> {
 
     // Set the first incomplete step as active.
     _setActiveStep(incompleteStep);
+  }
+
+  /// Handles taps on the button used to switch the view mode to displaying a list of directions for the project steps.
+  void onDirectionsPressed() {
+    setState(() {
+      viewMode = ViewMode.directions;
+    });
+  }
+
+  /// Handles taps on the button used to switch the view mode to displaying a list of tools for the project steps.
+  void onToolsPressed() {
+    setState(() {
+      viewMode = ViewMode.tools;
+    });
+  }
+
+  /// Handles taps on the button used to switch the view mode to displaying a list of supplies for the project steps.
+  void onSuppliesPressed() {
+    setState(() {
+      viewMode = ViewMode.supplies;
+    });
   }
 
   /// Handles submission of a query about the project.

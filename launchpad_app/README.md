@@ -28,11 +28,8 @@ demonstrable expertise through the power of hands-on projects.
   support you throughout your learning journey.
 - **AI-Powered Assistance**: A virtual mentor available 24/7 to provide hints, answer questions, and
   offer encouragement.
-- **Community Collaboration**: Join groups, share ideas, and get feedback from peers and experts.
 - **Progress Tracking**: Visual indicators and detailed analytics to monitor your progress and
   achievements.
-- **Resource Library**: Access a vast collection of articles, videos, and tutorials to supplement
-  your learning.
 - **Achievements and Rewards**: Earn badges, certificates, and rewards as you complete projects and
   reach milestones.
 
