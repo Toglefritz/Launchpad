@@ -10,6 +10,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  # Provides localization support.
+  flutter_localizations:
+    sdk: flutter
+  # Handles internationalized/localized messages and other data types.
+  intl: any
   # The Launchpad app, allowing the app itself to be embedded in this presentation.
   launchpad_app:
     path: ../../launchpad_app
@@ -22,6 +27,12 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  generate: true
 
   assets:
     - assets/
+
+  fonts:
+    - family: KodeMono
+      fonts:
+        - asset: assets/fonts/KodeMono-VariableFont_wght.ttf
