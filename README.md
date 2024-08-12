@@ -44,7 +44,7 @@ You can easily test the Launchpad app without needing to build the project from 
 1. Install TestFlight:
   - If you haven’t already, download and install the TestFlight app from the App Store on your iOS device.
 2.	Join the Launchpad App Beta via Public Link:
-  - Click on the following public TestFlight link to join the beta: [LINK PENDING APPLE APPROVAL](https://github.com/Toglefritz/Launchpad). This link will take you directly to the TestFlight app, where you can opt-in to the beta testing program for the Launchpad app.
+  - Click on the following public TestFlight link to join the beta: [https://testflight.apple.com/join/4xh6A2RQ](https://testflight.apple.com/join/4xh6A2RQ). This link will take you directly to the TestFlight app, where you can opt-in to the beta testing program for the Launchpad app.
 3.	Install and Test the App:
   - After joining, the Launchpad app will appear in your TestFlight app under “Available Apps.” Tap “Install” to download the beta version of the app to your device.
   - Once installed, you can open the app and start testing. You can also provide feedback directly within the TestFlight app by taking screenshots or submitting any issues you encounter.
@@ -181,7 +181,7 @@ It is to be understood that this plugin, like all software, is subject to evolut
 
 
 [testflight_badge]: https://img.shields.io/badge/Test_on_iOS-TestFlight-blue
-[testflight_link]: https://github.com/Toglefritz/Launchpad
+[testflight_link]: https://testflight.apple.com/join/4xh6A2RQ
 
 [android_test_badge]: https://img.shields.io/badge/Test_on_Android-Play_Store-green
 [android_test_link]: https://github.com/Toglefritz/Launchpad
