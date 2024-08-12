@@ -52,7 +52,7 @@ You can easily test the Launchpad app without needing to build the project from 
 ## Android (Google Play Store Open Beta)
 
 1.	Join the Beta Program:
- - Access the Launchpad app’s Google Play Store page via the following link: [LINK PENDING GOOGLE APPROVAL](https://github.com/Toglefritz/Launchpad).
+ - Access the Launchpad app’s Google Play Store page via the following link: [https://play.google.com/store/apps/details?id=com.splendidendeavors.launchpad.launchpad_app](https://play.google.com/store/apps/details?id=com.splendidendeavors.launchpad.launchpad_app).
  - Scroll down to the “Join the beta” section and opt-in to the beta testing program.
 2.	Install the Beta App:
  - After joining the beta program, the Launchpad app will be available for installation as an update if you already have it installed, or as a new install.
@@ -184,4 +184,4 @@ It is to be understood that this plugin, like all software, is subject to evolut
 [testflight_link]: https://testflight.apple.com/join/4xh6A2RQ
 
 [android_test_badge]: https://img.shields.io/badge/Test_on_Android-Play_Store-green
-[android_test_link]: https://github.com/Toglefritz/Launchpad
+[android_test_link]: https://play.google.com/store/apps/details?id=com.splendidendeavors.launchpad.launchpad_app
