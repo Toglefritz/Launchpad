@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:launchpad_app/components/buttons/secondary_cta_button.dart';
@@ -26,12 +28,12 @@ class OnboardingView extends StatelessWidget {
       child: Scaffold(
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(
+            padding: Platform.isAndroid ? const EdgeInsets.fromLTRB(
               Insets.medium,
               Insets.large,
               Insets.medium,
               Insets.medium,
-            ),
+            ) : EdgeInsets.zero,
             child: CustomScrollView(
               slivers: <Widget>[
                 SliverPadding(
