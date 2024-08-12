@@ -1,0 +1,39 @@
+# Gemini AI Integration
+
+The Launchpad app integrates with Google’s Gemini AI models to enhance the user experience through advanced generative AI capabilities. This document outlines how the app utilizes the “Build with Gemini” features from Firebase to interact with Gemini AI models, enabling features like project generation, dynamic achievement creation, and real-time assistance.
+
+## Integration with Gemini AI
+
+### Build with Gemini
+
+The “Build with Gemini” feature from Firebase allows the Launchpad app to interact directly with Gemini AI models through Firebase. This integration leverages the powerful capabilities of the Gemini APIs to generate content, provide user assistance, and create dynamic achievements based on user interactions.
+
+#### Key Features:
+
+- **Project Generation**: When a user defines a learning goal, the app uses Gemini AI to generate a structured project based on that goal. The Gemini model interprets the user’s input and outputs a JSON object that conforms to the HowTo schema from schema.org. This project is then presented to the user, who can interact with it, request modifications, and eventually start working on it.
+- **Achievement Creation**: The app uses Gemini AI to create achievements linked to specific project steps. The AI determines which steps are most critical or challenging and generates achievements accordingly. These achievements are then presented to the user as they progress through the project.
+- **Real-Time Assistance**: Users can ask questions related to their projects, and the app sends these queries to a Gemini model configured to provide relevant answers. The model’s responses are integrated into the project interface, helping users overcome challenges as they arise.
+
+
+## System Instructions and Prompt Management
+
+To ensure flexibility and the ability to adapt to user needs, system instructions and partial prompts used by Gemini AI models are stored within Firebase Remote Configs. This approach offers several benefits:
+
+### Flexibility in Updates
+
+- **Dynamic Updates**: By storing system instructions and prompt templates in Firebase Remote Configs, the app can update the AI’s behavior and responses without requiring a new app release. This means that as new insights are gained or as user needs evolve, the AI’s performance can be fine-tuned and improved instantly.
+- **A/B Testing**: Firebase Remote Configs support A/B testing, allowing the development team to experiment with different sets of instructions or prompt structures. This capability is extremely important for fine-tuning the AI’s performance, as it enables the team to compare outcomes and select the best-performing configurations.
+
+### Example Workflow
+
+1.	**User Input**: A user specifies a learning goal, such as “I want to learn how to use a 3D printer.”
+2.	**Remote Config Retrieval**: The app retrieves the appropriate system instructions and prompt templates from Firebase Remote Configs.
+3.	**AI Interaction**: The app sends the user input and the retrieved instructions to a Gemini AI model via a Firebase Function.
+4.	**AI Response**: The Gemini AI model generates a structured project plan, which is returned as a JSON object.
+5.	**Dynamic Updates**: If the system instructions are modified in Firebase Remote Configs, future interactions with the Gemini AI model will automatically use the updated instructions without requiring any changes to the app code.
+
+### Benefits of This Integration
+
+- **Improved User Experience**: By leveraging AI to generate content and assist users dynamically, the Launchpad app provides a more engaging and personalized learning experience.
+- **Reduced App Maintenance**: Storing system instructions and prompt templates in Firebase Remote Configs reduces the need for frequent app updates, streamlining the maintenance process.
+- **Enhanced AI Performance**: The ability to A/B test different configurations allows for continuous improvement of the AI models’ performance, ensuring that users receive the best possible experience.
