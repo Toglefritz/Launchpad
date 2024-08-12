@@ -2,6 +2,9 @@
 
 Welcome to Launchpad, the ultimate platform for learning new skills through immersive, real-world projects. Launchpad is designed to help you dive into the exciting world of project-based learning, where the best way to master a new skill is by tackling the challenges that come with creating a tangible project from start to finish.
 
+[![Test on iOS][testflight_badge]][testflight_link]
+[![Test on Android][android_test_badge]][android_test_link]
+
 ## What is Launchpad?
 
 Learning a new skill effectively requires more than just reading books or watching tutorial videos. Real growth comes from immersing yourself in the challenges of building a real project. By working on a project, you encounter obstacles and solve problems for which theoretical learning alone cannot prepare you.
@@ -31,6 +34,32 @@ By completing projects with Launchpad, you not only acquire new skills but also 
   your learning.
 - **Achievements and Rewards**: Earn badges, certificates, and rewards as you complete projects and
   reach milestones.
+
+## Testing the App
+
+You can easily test the Launchpad app without needing to build the project from scratch or set up your own Firebase resources. The app is available for testing on both iOS and Android platforms through TestFlight and Google Play Store’s open beta channel, respectively. Below are the instructions for accessing and testing the app on each platform:
+
+### iOS (TestFlight)
+
+1. Install TestFlight:
+  - If you haven’t already, download and install the TestFlight app from the App Store on your iOS device.
+2.	Join the Launchpad App Beta via Public Link:
+  - Click on the following public TestFlight link to join the beta: [LINK PENDING APPLE APPROVAL](https://github.com/Toglefritz/Launchpad). This link will take you directly to the TestFlight app, where you can opt-in to the beta testing program for the Launchpad app.
+3.	Install and Test the App:
+  - After joining, the Launchpad app will appear in your TestFlight app under “Available Apps.” Tap “Install” to download the beta version of the app to your device.
+  - Once installed, you can open the app and start testing. You can also provide feedback directly within the TestFlight app by taking screenshots or submitting any issues you encounter.
+
+## Android (Google Play Store Open Beta)
+
+1.	Join the Beta Program:
+ - Access the Launchpad app’s Google Play Store page via the following link: [LINK PENDING GOOGLE APPROVAL](https://github.com/Toglefritz/Launchpad).
+ - Scroll down to the “Join the beta” section and opt-in to the beta testing program.
+2.	Install the Beta App:
+ - After joining the beta program, the Launchpad app will be available for installation as an update if you already have it installed, or as a new install.
+ - Tap “Install” to download the beta version of the app on your Android device.
+3.	Start Testing:
+ - Once installed, open the Launchpad app from your app drawer and begin testing.
+ - Any feedback or issues can be reported through the Google Play Store’s beta feedback feature.
 
 ## Feedback and Support
 
@@ -149,3 +178,10 @@ Rigorous testing has been applied to all AI-suggested outputs, encompassing a wi
 Commitment to the plugin's accuracy and functionality is paramount, and feedback or issue reports from users are invited to facilitate continuous improvement.
 
 It is to be understood that this plugin, like all software, is subject to evolution over time. The developer is dedicated to its progressive refinement and is actively working to surpass the expectations of the community.
+
+
+[testflight_badge]: https://img.shields.io/badge/Test_on_iOS-TestFlight-blue
+[testflight_link]: https://github.com/Toglefritz/Launchpad
+
+[android_test_badge]: https://img.shields.io/badge/Test_on_Android-Play_Store-green
+[android_test_link]: https://github.com/Toglefritz/Launchpad
