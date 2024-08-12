@@ -19,17 +19,12 @@ async function createUserDocument(user) {
   // Extract user information from the user record.
   const uid = user.uid;
 
-  // Get the current timestamp as the joined date.
-  var joinedDate = '';
-  if (process.env.FUNCTIONS_EMULATOR === 'true') {
-    joinedDate = new Date();
-  } else {
-    const joinedDate = admin.firestore.FieldValue.serverTimestamp();
-  }
+  // Get the current date and time.
+  const joinedDate = new Date();
 
-      // Generate a random number betweeen 1 and 9 (inclusive) to assign a profile 
-    // picture to the user.
-    const imageId = Math.floor(Math.random() * 9) + 1;
+  // Generate a random number betweeen 1 and 9 (inclusive) to assign a profile 
+  // picture to the user.
+  const imageId = Math.floor(Math.random() * 9) + 1;
 
   // Create the user document object.
   const userDoc = {
