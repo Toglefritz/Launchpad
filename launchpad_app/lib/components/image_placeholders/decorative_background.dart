@@ -66,7 +66,7 @@ class _DecorativeBackgroundPainter extends CustomPainter {
   /// * [size] - The size of the area within which to draw the circle.
   void _drawRandomCircle(Canvas canvas, Size size) {
     final Paint paint = Paint()
-      ..color = Colors.grey.shade100.withOpacity(0.5)
+      ..color = Colors.grey.shade100.withValues(alpha: 0.5)
       ..style = PaintingStyle.fill;
 
     final Offset center = Offset(
@@ -88,7 +88,7 @@ class _DecorativeBackgroundPainter extends CustomPainter {
   /// * [size] - The size of the area within which to draw the square.
   void _drawRandomSquare(Canvas canvas, Size size) {
     final Paint paint = Paint()
-      ..color = Colors.grey.shade100.withOpacity(0.1)
+      ..color = Colors.grey.shade100.withValues(alpha: 0.1)
       ..style = PaintingStyle.fill;
 
     final Offset topLeft = Offset(

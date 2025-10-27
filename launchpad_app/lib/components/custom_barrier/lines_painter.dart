@@ -4,12 +4,12 @@ import 'package:launchpad_app/components/custom_barrier/custom_modal_barrier.dar
 /// A custom painter that draws diagonal lines on a canvas.
 ///
 /// This painter is used to create a decorative effect for the [CustomModalBarrier] widget. The lines are drawn at a
-/// 30-degree angle, with a width of 2px and spaced 10px apart. The color of the lines is [Colors.grey.shade900].
+/// 30-degree angle, with a width of 2px and spaced 10px apart. The color of the lines is `Colors.grey.shade900`.
 class LinesPainter extends CustomPainter {
   /// Paints the diagonal lines on the canvas.
   ///
   /// The [canvas] is the area on which the lines are drawn, and the [size] parameter specifies the size of the canvas.
-  /// The lines are drawn using a [Paint] object with the color set to [Colors.grey.shade900] and a stroke width of
+  /// The lines are drawn using a [Paint] object with the color set to `Colors.grey.shade900` and a stroke width of
   /// 2px. The lines are angled at 30 degrees and spaced 10px apart.
   @override
   @override

@@ -27,7 +27,7 @@ class ScaleY extends AnimatedWidget {
   @override
   Widget build(BuildContext context) {
     return Transform(
-      transform: Matrix4.identity()..scale(1.0, scale.value, 1.0),
+      transform: Matrix4.identity()..scaleByDouble(1.0, scale.value, 1.0, 1.0),
       alignment: alignment,
       child: child,
     );

@@ -14,7 +14,7 @@ class LaunchpadAppTheme {
         primaryColorLight: Colors.grey.shade100,
         primaryColorDark: Colors.grey.shade900,
         scaffoldBackgroundColor: const Color(0xFFD6D6D6),
-        dividerColor: Colors.grey.shade900.withOpacity(0.2),
+        dividerColor: Colors.grey.shade900.withValues(alpha: 0.2),
         // Set "KodeMono" as the default font for heads in the app.
         textTheme: ThemeData.light().textTheme.copyWith(
               displayLarge: ThemeData.light().textTheme.displayLarge?.copyWith(
@@ -44,7 +44,7 @@ class LaunchpadAppTheme {
             ),
         textSelectionTheme: TextSelectionThemeData(
           cursorColor: Colors.grey.shade900,
-          selectionColor: Colors.grey.shade900.withOpacity(0.5),
+          selectionColor: Colors.grey.shade900.withValues(alpha: 0.5),
           selectionHandleColor: Colors.grey.shade900,
         ),
         appBarTheme: AppBarTheme(
@@ -240,7 +240,7 @@ class LaunchpadAppTheme {
             ),
         textSelectionTheme: TextSelectionThemeData(
           cursorColor: Colors.grey.shade100,
-          selectionColor: Colors.grey.shade100.withOpacity(0.5),
+          selectionColor: Colors.grey.shade100.withValues(alpha: 0.5),
           selectionHandleColor: Colors.grey.shade100,
         ),
         appBarTheme: AppBarTheme(
@@ -409,7 +409,7 @@ class LaunchpadAppTheme {
             ),
         textSelectionTheme: TextSelectionThemeData(
           cursorColor: Colors.black,
-          selectionColor: Colors.black.withOpacity(0.5),
+          selectionColor: Colors.black.withValues(alpha: 0.5),
           selectionHandleColor: Colors.black,
         ),
         appBarTheme: const AppBarTheme(
@@ -530,7 +530,7 @@ class LaunchpadAppTheme {
             ),
         textSelectionTheme: TextSelectionThemeData(
           cursorColor: Colors.white,
-          selectionColor: Colors.white.withOpacity(0.5),
+          selectionColor: Colors.white.withValues(alpha: 0.5),
           selectionHandleColor: Colors.white,
         ),
         appBarTheme: const AppBarTheme(
