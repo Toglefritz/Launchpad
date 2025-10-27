@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:launchpad_app/components/app_bar/app_bar_button.dart';
 import 'package:launchpad_app/components/app_bar/app_bar_popup_menu.dart';
+import 'package:launchpad_app/l10n/app_localizations.dart';
 import 'package:launchpad_app/screens/project/components/dot_indicator.dart';
 import 'package:launchpad_app/screens/project/components/project_cover_page.dart';
 import 'package:launchpad_app/screens/project/components/project_step_page.dart';

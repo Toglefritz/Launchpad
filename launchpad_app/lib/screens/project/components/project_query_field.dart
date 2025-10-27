@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:launchpad_app/components/loader/wave_loading_indicator.dart';
+import 'package:launchpad_app/l10n/app_localizations.dart';
 import 'package:launchpad_app/screens/project/project_controller.dart';
 
 /// A widget providing a text input for the user to submit queries about a project.

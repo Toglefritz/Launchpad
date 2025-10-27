@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:launchpad_app/components/loader/wave_loading_indicator.dart';
+import 'package:launchpad_app/l10n/app_localizations.dart';
 import 'package:launchpad_app/screens/project_refinement/project_refinement_controller.dart';
 import 'package:launchpad_app/screens/project_refinement/project_refinement_route.dart';
 import 'package:launchpad_app/theme/insets.dart';

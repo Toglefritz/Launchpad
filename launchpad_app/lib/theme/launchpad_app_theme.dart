@@ -171,7 +171,7 @@ class LaunchpadAppTheme {
             },
           ),
         ),
-        cardTheme: CardTheme(
+        cardTheme: CardThemeData(
           color: Colors.grey.shade100,
           elevation: 0.0,
           shape: RoundedRectangleBorder(
@@ -363,7 +363,7 @@ class LaunchpadAppTheme {
             color: Colors.grey.shade100,
           ),
         ),
-        cardTheme: CardTheme(
+        cardTheme: CardThemeData(
           color: Colors.grey.shade800,
           elevation: 0.0,
           shape: RoundedRectangleBorder(

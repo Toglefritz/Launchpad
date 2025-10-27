@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:launchpad_app/components/app_bar/app_bar_button.dart';
+import 'package:launchpad_app/l10n/app_localizations.dart';
 import 'package:launchpad_app/screens/account/account_route.dart';
 import 'package:launchpad_app/screens/profile_picture/profile_picture_controller.dart';
 import 'package:launchpad_app/services/firebase_auth/models/profile_picture.dart';

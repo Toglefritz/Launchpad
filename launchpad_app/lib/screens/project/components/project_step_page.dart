@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:launchpad_app/l10n/app_localizations.dart';
 import 'package:launchpad_app/screens/project/components/project_query_field.dart';
 import 'package:launchpad_app/screens/project/extensions/step_explore_extension.dart';
 import 'package:launchpad_app/screens/project/model/view_mode.dart';

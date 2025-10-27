@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:launchpad_app/components/buttons/secondary_cta_button.dart';
 import 'package:launchpad_app/components/confetti/confetti_cannon.dart';
+import 'package:launchpad_app/l10n/app_localizations.dart';
 import 'package:launchpad_app/services/project/models/achievement.dart';
 import 'package:launchpad_app/theme/insets.dart';
 import 'package:vector_math/vector_math_64.dart';
