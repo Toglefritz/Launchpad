@@ -1,6 +1,6 @@
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_vertexai/firebase_vertexai.dart';
+import 'package:firebase_ai/firebase_ai.dart';
 import 'package:flutter/material.dart';
 import 'package:launchpad_app/components/custom_barrier/custom_modal_barrier.dart';
 import 'package:launchpad_app/l10n/app_localizations.dart';
@@ -35,7 +35,8 @@ class ProjectController extends State<ProjectRoute> {
 
   /// A getter for the [HowToStep] instance that is currently active. Since the first page is a cover page, the first
   /// step is at index `currentPage - 1`.
-  HowToStep? get currentStep => currentPage == 0 ? null : augmentedProject!.steps[currentPage - 1];
+  HowToStep? get currentStep =>
+      currentPage == 0 ? null : augmentedProject!.steps[currentPage - 1];
 
   /// A controller for the text input field used by users to describe their project as a method of searching.
   final TextEditingController queryController = TextEditingController();
@@ -83,7 +84,9 @@ class ProjectController extends State<ProjectRoute> {
     }
 
     // The project is not already augmented the project data with additional information.
-    final AugmentedProject project = await AugmentedProject.fromProject(widget.project);
+    final AugmentedProject project = await AugmentedProject.fromProject(
+      widget.project,
+    );
 
     // Set the currently active step to the first step that is active.
     await _setCurrentStep();
@@ -104,7 +107,9 @@ class ProjectController extends State<ProjectRoute> {
       }
 
       // Save the project to the user's account.
-      final ProjectService projectService = ProjectService(FirebaseAuth.instance.currentUser!);
+      final ProjectService projectService = ProjectService(
+        FirebaseAuth.instance.currentUser!,
+      );
       await projectService.createProject(
         augmentedProject: augmentedProject!,
         appCheckToken: appCheckToken!,
@@ -127,7 +132,9 @@ class ProjectController extends State<ProjectRoute> {
   /// will set the first step as active in the Firestore database.
   Future<void> _setCurrentStep() async {
     // Find the first step that is active.
-    final HowToStep? activeStep = augmentedProject?.steps.where((HowToStep step) => step.active ?? false).firstOrNull;
+    final HowToStep? activeStep = augmentedProject?.steps
+        .where((HowToStep step) => step.active ?? false)
+        .firstOrNull;
 
     // If no steps are active, set the first step as active.
     if (activeStep == null) {
@@ -150,7 +157,8 @@ class ProjectController extends State<ProjectRoute> {
     else {
       // Get the index of the active step. Because a cover page is displayed first, the active step index is one more
       // than the index of the active step in the project data.
-      final int activeStepIndex = augmentedProject!.steps.indexOf(activeStep) + 1;
+      final int activeStepIndex =
+          augmentedProject!.steps.indexOf(activeStep) + 1;
       debugPrint('Setting current page to $activeStepIndex');
       currentPage = activeStepIndex;
       // After the build phase is complete, jump to the active step.
@@ -168,7 +176,9 @@ class ProjectController extends State<ProjectRoute> {
   /// and removing all other routes from the navigation stack, including the original version of the [HomeRoute].
   void onBack() {
     Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute<void>(builder: (context) => const NavigationWrapperRoute()),
+      MaterialPageRoute<void>(
+        builder: (context) => const NavigationWrapperRoute(),
+      ),
       (route) => false,
     );
   }
@@ -203,7 +213,9 @@ class ProjectController extends State<ProjectRoute> {
     // Find the first step for which at least one direction is incomplete. If all directions are complete, the first
     // step will be set as active.
     final HowToStep incompleteStep = augmentedProject!.steps.firstWhere(
-      (HowToStep step) => step.directions.any((HowToDirection direction) => !direction.isComplete),
+      (HowToStep step) => step.directions.any(
+        (HowToDirection direction) => !direction.isComplete,
+      ),
       orElse: () => augmentedProject!.steps.first,
     );
 
@@ -248,16 +260,16 @@ class ProjectController extends State<ProjectRoute> {
     // First, if the chat session does not already exist, start a new chat session.
     if (_chatSession == null) {
       try {
-        _chatSession = await GeminiService.startProjectQueryChat(augmentedProject!.toJson());
+        _chatSession = await GeminiService.startProjectQueryChat(
+          augmentedProject!.toJson(),
+        );
       } catch (e) {
         debugPrint('Failed to start chat with Gemini: $e');
 
         // Show a SnackBar to the user to inform them of the error.
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.errorChatStart),
-          ),
+          SnackBar(content: Text(AppLocalizations.of(context)!.errorChatStart)),
         );
 
         return;
@@ -269,10 +281,11 @@ class ProjectController extends State<ProjectRoute> {
 
     try {
       // Send the user's query to the Gemini system.
-      final GenerateContentResponse response = await GeminiService.sendChatMessage(
-        chat: _chatSession!,
-        content: content,
-      );
+      final GenerateContentResponse response =
+          await GeminiService.sendChatMessage(
+            chat: _chatSession!,
+            content: content,
+          );
 
       // Get the text content of the response from Gemini.
       final String? responseText = response.text;
@@ -308,9 +321,7 @@ class ProjectController extends State<ProjectRoute> {
       // Show a SnackBar to the user to inform them of the error.
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.errorChatMessage),
-        ),
+        SnackBar(content: Text(AppLocalizations.of(context)!.errorChatMessage)),
       );
     }
 
@@ -361,7 +372,9 @@ class ProjectController extends State<ProjectRoute> {
 
     // Check if all directions are now complete.
     final HowToStep currentStep = augmentedProject!.steps[currentPage - 1];
-    final bool allStepsComplete = currentStep.directions.every((direction) => direction.isComplete);
+    final bool allStepsComplete = currentStep.directions.every(
+      (direction) => direction.isComplete,
+    );
 
     // If there are still steps remaining to be completed, there is nothing left to do in this method.
     if (!allStepsComplete) {
@@ -369,8 +382,9 @@ class ProjectController extends State<ProjectRoute> {
     }
 
     // Get the achievement for completing the step. If there is no achievement, the value will be null.
-    final Achievement? achievement =
-        augmentedProject?.achievements.where((achievement) => achievement.id == currentStep.id).firstOrNull;
+    final Achievement? achievement = augmentedProject?.achievements
+        .where((achievement) => achievement.id == currentStep.id)
+        .firstOrNull;
 
     // If no achievement is available, or if the achievement is already completed simply move to the next step.
     if (achievement == null || achievement.isComplete) {
@@ -448,9 +462,7 @@ class ProjectController extends State<ProjectRoute> {
     await showDialog<void>(
       context: context,
       builder: (BuildContext context) {
-        return AchievementDialog(
-          achievement: achievement,
-        );
+        return AchievementDialog(achievement: achievement);
       },
     );
 
@@ -477,7 +489,9 @@ class ProjectController extends State<ProjectRoute> {
         return CustomModalBarrier(
           child: AlertDialog(
             title: Text(AppLocalizations.of(context)!.deleteProjectDialogTitle),
-            content: Text(AppLocalizations.of(context)!.deleteProjectDialogConfirmation),
+            content: Text(
+              AppLocalizations.of(context)!.deleteProjectDialogConfirmation,
+            ),
             actions: <Widget>[
               TextButton(
                 onPressed: () => Navigator.of(context).pop(false),
@@ -497,14 +511,17 @@ class ProjectController extends State<ProjectRoute> {
     if (deleteConfirmed ?? false) {
       try {
         // Get an App Check token to use for deleting the project.
-        final String? appCheckToken = await FirebaseAppCheck.instance.getToken();
+        final String? appCheckToken = await FirebaseAppCheck.instance
+            .getToken();
         if (appCheckToken == null || appCheckToken.isEmpty) {
           // TODO(Toglefritz): Handle error.
           return;
         }
 
         // Delete the project from the user's account.
-        final ProjectService projectService = ProjectService(FirebaseAuth.instance.currentUser!);
+        final ProjectService projectService = ProjectService(
+          FirebaseAuth.instance.currentUser!,
+        );
         await projectService.deleteProject(
           projectId: augmentedProject!.id!,
           appCheckToken: appCheckToken,
@@ -519,5 +536,6 @@ class ProjectController extends State<ProjectRoute> {
   }
 
   @override
-  Widget build(BuildContext context) => augmentedProject == null ? ProjectLoadingView(this) : ProjectView(this);
+  Widget build(BuildContext context) =>
+      augmentedProject == null ? ProjectLoadingView(this) : ProjectView(this);
 }

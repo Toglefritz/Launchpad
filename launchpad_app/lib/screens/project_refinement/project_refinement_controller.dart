@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:firebase_vertexai/firebase_vertexai.dart';
+import 'package:firebase_ai/firebase_ai.dart';
 import 'package:flutter/material.dart';
 import 'package:launchpad_app/screens/project/project_route.dart';
 import 'package:launchpad_app/screens/project_refinement/project_refinement_loading_view.dart';
@@ -50,7 +50,8 @@ class ProjectRefinementController extends State<ProjectRefinementRoute> {
   Future<void> _startChatSession() async {
     try {
       // Start a chat session with the Gemini model.
-      final ChatSession chatSession = await GeminiService.startProjectCreationChat();
+      final ChatSession chatSession =
+          await GeminiService.startProjectCreationChat();
       chat = chatSession;
     } catch (e) {
       debugPrint('Starting chat with Gemini failed with exception, $e');
@@ -73,10 +74,11 @@ class ProjectRefinementController extends State<ProjectRefinementRoute> {
     final Content projectDescriptionContent = Content.text(projectDescription);
 
     // Submit the project description to the Gemini model to obtain a response.
-    final GenerateContentResponse response = await GeminiService.sendChatMessage(
-      chat: chat!,
-      content: projectDescriptionContent,
-    );
+    final GenerateContentResponse response =
+        await GeminiService.sendChatMessage(
+          chat: chat!,
+          content: projectDescriptionContent,
+        );
 
     debugPrint('Received response from Gemini: ${response.text}');
 
@@ -100,7 +102,10 @@ class ProjectRefinementController extends State<ProjectRefinementRoute> {
     // around the JSON object. This extra content or code block is removed before the JSON object is parsed.
     final int jsonStartIndex = responseText.indexOf('{');
     final int jsonEndIndex = responseText.lastIndexOf('}');
-    final String projectDraft = responseText.substring(jsonStartIndex, jsonEndIndex + 1);
+    final String projectDraft = responseText.substring(
+      jsonStartIndex,
+      jsonEndIndex + 1,
+    );
 
     // Try to parse the project draft as a JSON object.
     final Map<String, dynamic> projectDraftJson;
@@ -150,7 +155,8 @@ class ProjectRefinementController extends State<ProjectRefinementRoute> {
     final Content queryContent = Content.text(query);
 
     // Submit the new query to the Gemini model.
-    final GenerateContentResponse response = await GeminiService.sendChatMessage(chat: chat!, content: queryContent);
+    final GenerateContentResponse response =
+        await GeminiService.sendChatMessage(chat: chat!, content: queryContent);
 
     debugPrint('Received response from Gemini: ${response.text}');
 
@@ -164,10 +170,12 @@ class ProjectRefinementController extends State<ProjectRefinementRoute> {
     final List<Part> parts = chatMessage.parts;
 
     // Get the first part of the chat message that has the type, TextPart.
-    final TextPart textPart = parts.firstWhere(
-      (Part part) => part is TextPart,
-      orElse: () => parts.first,
-    ) as TextPart;
+    final TextPart textPart =
+        parts.firstWhere(
+              (Part part) => part is TextPart,
+              orElse: () => parts.first,
+            )
+            as TextPart;
 
     return textPart.text;
   }
@@ -193,10 +201,8 @@ class ProjectRefinementController extends State<ProjectRefinementRoute> {
     await Navigator.pushReplacement(
       context,
       MaterialPageRoute<void>(
-        builder: (context) => ProjectRoute(
-          project: project!,
-          isNewProject: true,
-        ),
+        builder: (context) =>
+            ProjectRoute(project: project!, isNewProject: true),
       ),
     );
   }

@@ -1,4 +1,4 @@
-import 'package:firebase_vertexai/firebase_vertexai.dart';
+import 'package:firebase_ai/firebase_ai.dart';
 import 'package:launchpad_app/services/firebase_gemini/gemini_service.dart';
 
 /// An enumeration of Google Gemini LLM models that can be used in the [GeminiService] to return responses to prompts.
@@ -20,7 +20,7 @@ enum GeminiModel {
   /// prompts for a text or code response. Also, it supports long-context understanding with up to 1 million tokens.
   gemini15Pro('gemini-1.5-pro');
 
-  /// An identifier for the model passed to the [FirebaseVertexAI] instance to get the model.
+  /// An identifier for the model passed to the [FirebaseAI] instance to get the model.
   final String modelIdentifier;
 
   /// Creates an instance of [GeminiModel].
